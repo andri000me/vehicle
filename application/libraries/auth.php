@@ -36,7 +36,6 @@ class Auth
 	  {
 	     $userdata = $result->row();
 		 //$userdata = $result->row();
-		 
 	  	 $this->CI->db->from('TIPE_USER');
 		 $this->CI->db->where('ID_TIPE_USER', $userdata->ID_TIPE_USER);
 		 
@@ -131,7 +130,7 @@ class Auth
 		 $hasil= $this->CI->db->get();
 		 $subdata = $hasil->row();
 		 
-		 /*
+		 
 		 if($subdata->JABATAN_ID == 5 || $subdata->JABATAN_ID == 6 || $subdata->JABATAN_ID == 3 || $subdata->JABATAN_ID == 14)
 		   $level_user = 2;
 		 //Mengambil informasi user dari database
@@ -143,8 +142,8 @@ class Auth
 		   $level_user = 5;
 		 if($userdata->USERNAME == 'ADMINJKT' || $userdata->USERNAME == '6712580KR')
 		   $level_user = 6;
-		  */ 
-		 //$username = $userdata->USERNAME;
+		  
+		 $username = $userdata->USERNAME;
 		   
 		 $this->CI->db->from('PAYROLL_PJBS2.COMP_DIREKTORAT_SUB');
 	     $this->CI->db->where('ID', $subdata->DIREKTORAT_SUB_ID); 
@@ -176,8 +175,9 @@ class Auth
    //Untuk mengecek apakah user sudah login/belum
    function is_logged_in()
    {
-      if($this->CI->session->userdata('user_id') == '')
-	    return false;
+      //if($this->CI->session->userdata('user_id') == '')
+		if($this->CI->session->userdata('id_user') == '')
+			return false;
 		
 	  return true;
    }

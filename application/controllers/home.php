@@ -25,8 +25,10 @@
 		 
 		 //$data['dataslider'] = $this->slidermodel->get_all_slider();
 	     
-	     if($this->auth->is_logged_in() == false)
+	     if($this->auth->is_logged_in() == false){
+			//echo "Test";
 		   $this->login();
+		 }
 		 else
 		 {
 		    //Load model 'usermodel'
@@ -34,9 +36,10 @@
 			//Level untuk user ini
 			$level = $this->session->userdata('level');
 			$id_subdit = $this->session->userdata('subdit_id');
+			//echo $this->session->userdata('level');
 			//Ambil menu dari database sesuai dengan level
 			$data['menu'] = $this->usermodel->get_menu_for_level($level);
-			$data['subdit'] = $this->usermodel->get_user_subdit($id_subdit);
+			//$data['subdit'] = $this->usermodel->get_user_subdit($id_subdit);
 			
 			$this->load->model('appr_admin_model');
 			if($level==6)
@@ -113,9 +116,9 @@
 	      if($this->auth->is_logged_in() == true)
 		  {
 		  /* DESTROY ALL SESSION */
-		  $wsdl = 'http://portal.pjbservices.com/index.php/portal_login?wsdl';
-		  $cl = new SoapClient($wsdl);
-		  $rv = $cl->destroyToken($this->session->userdata('nid'));	
+		  //$wsdl = 'http://portal.pjbservices.com/index.php/portal_login?wsdl';
+		  //$cl = new SoapClient($wsdl);
+		  //$rv = $cl->destroyToken($this->session->userdata('nid'));	
 		  
 		  $this->auth->do_logout();  //Jika sedang login, destroy session
 		  }	
