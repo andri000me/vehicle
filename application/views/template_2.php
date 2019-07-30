@@ -42,40 +42,6 @@
 	 <div class="container">
 		<div id="content"> <?php echo $contents; ?> </div>
 	 </div>
-	
-	 <!--<div class="container">
-	  <div class="row"> 
-		<div class=" col-md-4 ml-auto mr-auto">
-          <div class="card card-login">
-              <div class="card-header card-header-primary text-center">
-                <h4 class="card-title">Login Form</h4>
-              </div>
-              <div class="card-body">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <i class="material-icons">face</i>
-                    </span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="User Name...">
-                </div>
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <i class="material-icons">lock_outline</i>
-                    </span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="Password...">
-                </div>
-				<div class="card-footer text-center">
-					<a href="#pablo" class="btn btn-outline-primary btn-round btn-lg btn-block">Get Started</a>
-				</div>
-				
-              </div>
-            </form>
-          </div>
-        </div>
-	  </div>-->
 	 </div>
 	<footer class="footer">
       <div class="container">

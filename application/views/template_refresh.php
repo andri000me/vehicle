@@ -7,215 +7,373 @@
 <html>
    <head>
    <title> <?php echo $title; ?> </title>
-   
    <!-- refresh page every 30s -->
-   <meta http-equiv="refresh" content="30;" />
+   <meta charset="utf-8" http-equiv="refresh" content="120;" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-   <link rel="shortcut icon" href="<?php echo base_url();?>asset/images/ico.png"/>
-   
-   <link href="<?php echo base_url();?>asset/css/style.css" rel="stylesheet" media="screen">
-   <link href="<?php echo base_url();?>asset/css/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
-   <link href="<?php echo base_url();?>asset/css/DT_bootstrap.css" rel="stylesheet" media="screen">
-   <link href="<?php echo base_url();?>asset/css/btnx.css" rel="stylesheet" media="screen">
-   <link href="<?php echo base_url();?>asset/css/moris.css" rel="stylesheet" media="screen">
-   <link href="<?php echo base_url();?>asset/css/bootstrap.min.css" rel="stylesheet" media="screen">
-   
-   <!--datepicker-->
-   <link href="<?php echo base_url();?>asset/css/datepicker.css" rel="stylesheet" type="text/css" />
-
-   
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/jquery.min.js"></script>
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/jquery.easing.min.js"></script>
-   <script type="text/javascript" src='<?php echo base_url();?>asset/js/active_menu.js'></script>
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/jquery.bxSlider.js"></script>
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/bootstrap.js"></script>
-   
-   <!--datepicker-->
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/datepicker.js"></script>
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/eye.js"></script>
-   <script type="text/javascript" src="<?php echo base_url();?>asset/js/layout.js?ver=1.0.2"></script>
-
-   <!--Timepicker-->
-    <link href="<?php echo base_url();?>asset/css/bootstrap-timepicker.css" type="text/css" rel="stylesheet">
-    <script type="text/javascript" src="<?php echo base_url();?>asset/js/bootstrap-2.2.2.min.js"></script>
-	<script type="text/javascript" src="<?php echo base_url();?>asset/js/bootstrap-timepicker.js"></script>
-   
-   <!-- ini buat slider-->
-   <script type='text/javascript'>
-       (function($){	
-             $(function(){
-               $('#slider1').bxSlider({
-                 easing: 'easeOutBounce',
-                 mode: 'fade',	
-                 pager: false,		  
-                 speed : 1000,
-                 controls: true,
-                 autoHover: true,
-                 auto : true,
-                 pause : 5000
-               });
-             });
-           }(jQuery))
-   </script>
-   
+   <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url();?>asset/images/apple-icon.png">
+   <link rel="icon" type="image/png" href="<?php echo base_url();?>asset/images/favicon.png">
+   <link href="<?php echo base_url();?>asset/demo/demo.css" rel="stylesheet" />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/css/css.css" />
+  <link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
+  
+  
    </head>
    
    <body>
-      <center>
-      	 
-          <!-- header-->
-         <div id="header_pjbs">
-             <div class="header_pjbs">
-        
-        	     <div class="panel50kr">
-            	     <div class="logo_pjbs">
-                	     <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" />
-                     </div>
-                 </div>
-            
-                 <div class="panel50kn">
-                     <div class="menu_pjbs">
-                         <ul>
-                    	     <?php 
-                                  foreach($menu->result() as $row)
-								  {
-	                                echo'<li>'.anchor($row->MENU_URI, $row->MENU_NAMA).'</li>' ;
-								  }
-									echo anchor('home/logout','Logout', array('class' => 'btn lgt')); 
-                             ?>
-                         </ul>
-                     </div>
-                 </div>
-            
-             </div>
-         </div>
-         <!-- end header-->
-		 
-		  <div id="header_pjbs" style="margin-top:35px;max-height:18px;position:fixed;z-index:8;overflow:hidden;color:#fff;background:#333;">
-             <div class="header_pjbs" style="z-index:8;color:#fff;background:#333">
-        
-        	     <table class="table-condensed" style="color:#fff;float:right;font-size:11px;">
-				  <tr >
-			      <td style="text-align:left;font-size:10px;"><b>Username</b></td>
-				  <td style="text-align:left;font-size:10px;"><?php echo $this->session->userdata('nama');?> </td>
-				  
-				  <td style="text-align:left;font-size:10px;"><b>Subdit</b></td>
-				  <td style="text-align:left;font-size:10px;">
-					      <?php  
-						       echo $this->session->userdata('subdit');
-						  ?>
-				  </td>
-			   </tr>
-			 </table>
-            
-             </div>
-         </div>
-         
-		 <!-- slider-->
-	     <div id="slider_pjbs">
-    	     <div class="slider_pjbs">
-        	     <div class="exampleDiv">
-            
-                 <!-- slider asli-->
-            	     <div id="container" >
-                     <img src="<?php echo base_url();?>asset/images/slider.PNG" style="max-width:997px;max-height:370px;min-width:997px;min-height:360px;">
-                         <!--<div id="slider">
-                             <div class="demo-wrap build-pager">
-                                 <ul id="slider1">
-                                   <li>                                                
-                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                       <tr>
-                                         <td valign="middle" height="330">
-                                         <span class='embossed'></span>
-                                         <div class="desk">
-                                             <p> </p>
-                                         </div>
-                                         </td>
-                                         <td valign="middle"></td>
-                                       </tr>
-                                     </table>					
-                                   </li>
-                                   
-                                 </ul>
-                             </div>
-                         </div>-->
-        		    </div>
-                <!-- slider asli selesai-->
-            
-        	     </div>
-             </div>
-         </div>
-    	 <!-- end slider-->
-
-         <!-------------------------------------------------------------------------------------------------------------->
-		 
-         <!-- Content -->
-		 
-	     <div id="content">
-		 	<?php echo $contents; ?>
-         </div>  
-         <!-- End div Content -->
-         
-         <!-------------------------------------------------------------------------------------------------------------->
-
-		 <!-- Footer -->
-	     <div id="footer_pjbs"> 
-		     <div class="footer_pjbs">&copy; IT PJBS</div>
-		 </div>  
-         <!-- End div footer_pjbs -->
-		 
-	  </center>
+    <!--<div class="wrapper ">-->
+	 <div class="sidebar" data-color="purple" data-background-color="white" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
+		 <div class="logo">
+			<a href="" class="simple-text logo-normal">
+			  <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" /><?php echo $this->session->userdata('nama');?>
+			</a>
+		  </div>
+		  <div class="sidebar-wrapper">
+			<ul class="nav">
+			 <?php
+				foreach($menu->result() as $row){
+				 echo"<li class='nav-item'>";
+				 echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'";
+				 echo"<i class='material-icons'></i>";
+				 echo"<p>".strtoupper($row->MENU_NAMA);
+				 echo"</p>";
+				 echo"</a>";
+				 echo"</li>";
+				}
+			 ?>
+			  <li class="nav-item ">
+				<a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'home/logout'?>">
+				  <i class="material-icons">reply_all</i>
+				  <p>LOGOUT</p>
+				</a>
+			  </li>
+			</ul>
+		  </div>
+	 </div>
+	<!--</div>-->
+	
+	
+	<div class="main-panel">
+	  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+        <div class="container-fluid">
+          <div class="navbar-wrapper">
+            <a class="navbar-brand" href="#pablo">Table List</a>
+          </div>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+            <span class="navbar-toggler-icon icon-bar"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end">
+            <form class="navbar-form">
+              <div class="input-group no-border">
+                <input type="text" value="" class="form-control" placeholder="Search...">
+                <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                  <i class="material-icons">search</i>
+                  <div class="ripple-container"></div>
+                </button>
+              </div>
+            </form>
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="#pablo">
+                  <i class="material-icons">widgets</i>
+                  <p class="d-lg-none d-md-block">
+                    Stats
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">notifications</i>
+                  <span class="notification">5</span>
+                  <p class="d-lg-none d-md-block">
+                    Some Actions
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                  <a class="dropdown-item" href="#">Mike John responded to your email</a>
+                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
+                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
+                  <a class="dropdown-item" href="#">Another Notification</a>
+                  <a class="dropdown-item" href="#">Another One</a>
+                </div>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link" href="#pablo" id="navbarDropdownProfile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="material-icons">person</i>
+                  <p class="d-lg-none d-md-block">
+                    Account
+                  </p>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Log out</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+	 <!-- Navbar -->
+      <?php echo $contents; ?>
+	</div>
+	<!-- End Navbar -->
+	<!--<div class="content">
+		
+	</div>-->
+	<!-- Footer -->
+	<footer class="footer">
+	 <div class="container-fluid">
+		<div class="copyright float-center">
+			&copy;
+			<script>document.write(new Date().getFullYear())</script>, made with Slamet Fajar Suryadi
+		</div>
+	 </div>
+	</footer>  
+    <!-- End Footer -->
 	  
-	  <!--Timepicker-->
-	  <script type="text/javascript">
-        $(document).ready(function () { 
-            $('#timepicker1').timepicker();
+	  <!--   Core JS Files   -->
+  <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/js/core/popper.min.js" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="<?php echo base_url();?>asset/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="<?php echo base_url();?>asset/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="<?php echo base_url();?>asset/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="<?php echo base_url();?>asset/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="<?php echo base_url();?>asset/js/plugins/jquery.dataTables.min.js"></script>
+  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="<?php echo base_url();?>asset/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="<?php echo base_url();?>asset/js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="<?php echo base_url();?>asset/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="<?php echo base_url();?>asset/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="<?php echo base_url();?>asset/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="<?php echo base_url();?>asset/js/plugins/arrive.min.js"></script>
+  <!-- Maps Plugin    -->
+  <!-- Chartist JS -->
+  <script src="<?php echo base_url();?>asset/js/plugins/chartist.min.js"></script>
+  <!--  Notifications Plugin    -->
+  <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="<?php echo base_url();?>asset/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/demo/demo.js"></script>
+  <script>
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
 
-            $('#timepicker2').timepicker({
-                minuteStep: 1,
-                template: 'modal',
-                appendWidgetTo: 'body',
-                showSeconds: true,
-                showMeridian: false,
-                defaultTime: false
-            });
+        $sidebar_img_container = $sidebar.find('.sidebar-background');
 
-            $('#timepicker4').timepicker({
-                minuteStep: 1,
-                secondStep: 5,
-                showInputs: false,
-                modalBackdrop: true,
-                showSeconds: true,
-                showMeridian: false
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+
+        window_width = $(window).width();
+
+        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            $('.fixed-plugin .dropdown').addClass('open');
+          }
+
+        }
+
+        $('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .active-color span').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-color', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .background-color .badge').click(function() {
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('background-color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-background-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .img-holder').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).parent('li').siblings().removeClass('active');
+          $(this).parent('li').addClass('active');
+
+
+          var new_image = $(this).find("img").attr('src');
+
+          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            $sidebar_img_container.fadeOut('fast', function() {
+              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+              $sidebar_img_container.fadeIn('fast');
             });
-			
-			$('#timepicker5').timepicker({
-                minuteStep: 1,
-                secondStep: 5,
-                showInputs: false,
-                modalBackdrop: true,
-                showSeconds: true,
-                showMeridian: false
+          }
+
+          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $full_page_background.fadeOut('fast', function() {
+              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+              $full_page_background.fadeIn('fast');
             });
+          }
+
+          if ($('.switch-sidebar-image input:checked').length == 0) {
+            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+          }
+        });
+
+        $('.switch-sidebar-image input').change(function() {
+          $full_page_background = $('.full-page-background');
+
+          $input = $(this);
+
+          if ($input.is(':checked')) {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar_img_container.fadeIn('fast');
+              $sidebar.attr('data-image', '#');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page_background.fadeIn('fast');
+              $full_page.attr('data-image', '#');
+            }
+
+            background_image = true;
+          } else {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar.removeAttr('data-image');
+              $sidebar_img_container.fadeOut('fast');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page.removeAttr('data-image', '#');
+              $full_page_background.fadeOut('fast');
+            }
+
+            background_image = false;
+          }
+        });
+
+        $('.switch-sidebar-mini input').change(function() {
+          $body = $('body');
+
+          $input = $(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
 
             setTimeout(function() {
-              $('#timeDisplay').text($('#timepicker1').val());
-            }, 100);
+              $('body').addClass('sidebar-mini');
 
-            $('#timepicker1').on('changeTime.timepicker', function(e) {
-              $('#timeDisplay').text(e.time.value);
-            });
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
+
         });
-    </script>
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      // Javascript method's body can be found in assets/js/demos.js
+      md.initDashboardPageCharts();
+
+    });
+  </script>
+  <script>
+	new Chartist.Pie('#cobaChart', {
+  series: [20, 10, 30, 40]
+}, {
+  donut: true,
+  donutWidth: 60,
+  donutSolid: true,
+  startAngle: 270,
+  total: 200,
+  showLabel: true
+});
+	
+  </script>
 	  
    </body>
    
    
 </html>
-
-<script src="<?php echo base_url();?>asset/js/jquery.dataTables.min.js"></script>
-<script src="<?php echo base_url();?>asset/js/DT_bootstrap.js"></script>
-<script src="<?php echo base_url();?>asset/js/jquery.easy-pie-chart.js"></script>
-<script src="<?php echo base_url();?>asset/js/moris-min.js"></script>
-<script src="<?php echo base_url();?>asset/js/raphael-min.js"></script>
 

@@ -16,8 +16,8 @@
 		public function index()
 		{
 		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		   //$this->load->model('slidermodel');
+		   //$data['dataslider'] = $this->slidermodel->get_all_slider();
 		 
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
@@ -52,7 +52,8 @@
 			  $level = $this->session->userdata('level');
 		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 			  $this->template->set('title','Input Form C | eFormC');
-		   	  $this->template->load('template','user/request/insert_request',$data);  
+		   	  //$this->template->load('template','user/request/insert_request',$data);  
+			  $this->template->load('template_refresh','user/request/insert_request',$data);  
 			  
 		   }
 		   else
@@ -99,8 +100,8 @@
 		public function success()
 		{
 		  //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		   //$this->load->model('slidermodel');
+		   //$data['dataslider'] = $this->slidermodel->get_all_slider();
 		 
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');

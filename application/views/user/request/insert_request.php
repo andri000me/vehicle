@@ -1,20 +1,44 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-
-
- 
  <!---------------------------------------------------------------------------------------------------- -->
- 
- <div>
-    <div id="content_pjbs">
-        <div class="content_pjbs">	
-            	
-          <div class="sprtr_1"></div>
-
-                    <div class="clear"></div>
-
-             <div class="clear"></div>
-			 
-			 <div class="fleft" style="margin-left:10px;">
+	<div class="content">
+        <div class="container-fluid">
+          <div class="row">
+			<div class="col-md-12">
+			  <div class="card card-nav-tabs">
+				<div class="card-header card-header-primary">
+				 <div class="nav-tabs-navigation">
+                    <div class="nav-tabs-wrapper">
+                      <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li class="nav-item">
+                          <a class="nav-link active" href="#form" data-toggle="tab">
+                            <i class="material-icons">assignment</i> Form C
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#request" data-toggle="tab">
+                            <i class="material-icons">verified_user</i> Request
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#ops" data-toggle="tab">
+                            <i class="material-icons">train</i> Operasional
+                          </a>
+                        </li>
+						<li class="nav-item">
+                          <a class="nav-link" href="#voucher" data-toggle="tab">
+                            <i class="material-icons">local_atm</i> Voucher
+                          </a>
+                        </li>
+						<li class="nav-item">
+                          <a class="nav-link" href="#reimburse" data-toggle="tab">
+                            <i class="material-icons">screen_share</i> Reimburse
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+			 <!--<div class="fleft" style="margin-left:10px;">
                         <table>
                               <tr>
                               	  <td><?php echo anchor('request/', 'Input Form C', array('class' => 'btn2 btn2-small btn2-warning' )); ?></td>
@@ -25,31 +49,15 @@
 								  <td><?php echo anchor('request/daftar_reimburse', 'Reimburse', array('class' => 'btn2 btn2-small btn2-inverse' )); ?></td>
                               </tr>
                           </table>
-                    </div>  <!-- End of div class fleft -->
-					
-					<hr />
-					 
-          <div class="clear"></div>
+                    </div> -->
 					    
 			 <!-- isi dengan table atau tampilan -->
-			 <div class="panel90">
-                	<div class="judul_pjbs">
-                      <h3>Input Form C</h3>
-                    </div>
-                    <hr>
- 					<div class="fleft" style="margin-left:10px;">
-                            <?php echo form_open('request/index');?>
-                            <table class="table-condensed">
-                                <?php /*<tr>
-                                	<td class=""><span  class="inp_panel">Atas Nama</span></td>
-                                    <td>
-                                    	<input type="text" placeholder="Nama Pemohon" name="nama"/>
-                                         echo form_error('nama');
-                                    </td>
-                                </tr>*/?>                               
+				<div class="card-body">
+					<?php echo form_open('request/index');?>
+					 <div class="row">
+						<table class="table">                             
                                 <tr>
-                                	<td class=""><span  class="inp_panel">Tanggal Berangkat</span></td>
-                                 
+                                	<td>Tanggal Berangkat</td>
 									<td>
 										   <?php
 											  $date = date('d-m-Y');
@@ -69,7 +77,7 @@
                                 </tr>
 								
 								<tr>
-                                	<td class=""><span  class="inp_panel">Jam Berangkat</span></td>
+                                	<td>Jam Berangkat</td>
                                     <td>
                                        <div class="input-append bootstrap-timepicker">
                                          <input id="timepicker4" type="text" class="input-small" name="jam_out">
@@ -82,10 +90,7 @@
                                 </tr>
 								
                                 <tr>
-                                	<td class=""><span  class="inp_panel">Tanggal Kembali</span></td>
-										<?php
-											//echo date('d-m-Y');
-										?>
+                                	<td>Tanggal Kembali</td>
 									<td>
 										   <?php
 											  $date = date('d-m-Y');
@@ -105,7 +110,7 @@
                                 </tr>
 								
 								<tr>
-                                	<td class=""><span  class="inp_panel">Jam Kembali</span></td>
+                                	<td>Jam Kembali</td>
                                     <td>
                                        <div class="input-append bootstrap-timepicker">
                                          <input id="timepicker5" type="text" class="input-small" name="jam_in" value="16:00:00" >
@@ -119,7 +124,7 @@
 								
 								
                                 <tr>
-                                	<td class=""><span  class="inp_panel">Jumlah Penumpang</span></td>
+                                	<td>Jumlah Penumpang</td>
                                     <td>
                                     	<input type="text" placeholder="max 9" name="jml_penumpang" class="span1" maxlength="1" value="1" required/>
                                         <?php echo form_error('jml_penumpang');?>
@@ -157,18 +162,12 @@
                                         <input type="reset" class="btn2 btn2-danger btn2-small" value="Reset"/>
                                     </td>
                                </tr>
-                            </table>
-                            <?php echo form_close();?>
-                     </div>
-         
-                
+                        </table>
+					 </div>
+					<?php echo form_close();?>
                 </div>
-             <!-- End of div class panel90 -->
-		 
-		 <div class="clear"></div>
-                
-		 <br><br><br><br>
-		 
-        </div> <!-- End of div id content_pjbs -->
-    </div> <!-- End of div  class content_pjbs -->
- </div>  
+			</div>
+		</div>
+	  </div>
+	</div>
+</div>
