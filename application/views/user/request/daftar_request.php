@@ -1,39 +1,17 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-
- 
- 
  <!---------------------------------------------------------------------------------------------------- -->
- <div id="content_pjbs">	
-        <div class="content_pjbs">	
-					    
-			 <!-- isi dengan table atau tampilan -->
-			 <div class="panel90">
-             		
-                    <div class="sprtr_1"></div>
-                    
-                    <div class="fleft">
-                        <table>
-                              <tr>
-                              	  <td><?php echo anchor('request/', 'Input Form C', array('class' => 'btn2 btn2-small btn2-warning' )); ?></td>
-								  <td><?php echo anchor('request/daftar_request', 'Request', array('class' => 'btn2 btn2-small btn2-primary' )); ?> </td>
-								  <td><?php echo anchor('request/daftar_operasional', 'Operasional', array('class' => 'btn2 btn2-small btn2-inverse' )); ?></td>
-								  <td><?php echo anchor('request/daftar_sewa', 'Sewa', array('class' => 'btn2 btn2-small btn2-inverse' )); ?></td>
-								  <td><?php echo anchor('request/daftar_voucher', 'Voucher', array('class' => 'btn2 btn2-small btn2-inverse' )); ?></td>
-								  <td><?php echo anchor('request/daftar_reimburse', 'Reimburse', array('class' => 'btn2 btn2-small btn2-inverse' )); ?></td>
-                              </tr>
-                          </table>
-                    </div>
-                    
-                    <div class="clear"></div>
-                    
-                    <hr />
-                    <div class="clear"></div>
-                    
-                	<div class="row-fluid">
-                        <div class="span12" style="font-size:11px;">
-                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
-                                <thead>
-                                    <tr>
+ <div class="content">	
+ 	<div class="container-fluid">
+ 		<div class="row">
+ 			<div class="col-md-12">
+			  <div class="card card-nav-tabs">
+				<!-- Header -->
+			  	<?php include "header.php";?>					    
+				<!-- isi dengan table atau tampilan -->
+				<div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover" id="example">
+                                <thead class=" text-primary">
                                         <th>NO</th>
                                         <th>TGL BERANGKAT</th>
                                         <th>TGL KEMBALI</th>
@@ -42,7 +20,6 @@
 										<th>TUJUAN</th>
 										<th>KEPERLUAN</th>
 										<th>STATUS</th>
-                                    </tr>
                                 </thead>
                                 <tbody>
                                 <?php
@@ -89,18 +66,12 @@
 								?>
                                 </tbody>
                             </table>
-                       </div>
-                       </div>
-                </div>
-             <!-- End of div class panel90 -->
-		 
-		 <div class="clear"></div>
-                
-		 <br><br><br><br>
-          
-        </div> <!-- End of div id content_pjbs -->
-    </div> <!-- End of div  class content_pjbs -->
- </div>  
+				</div>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>  
  
  
  

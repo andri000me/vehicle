@@ -30,17 +30,17 @@
 		   $this->load->library('form_validation');
 		   //$this->form_validation->set_rules('nama', 'nama', 'trim|required');
 		   $this->form_validation->set_rules('date', 'date', 'trim|required');
-		   $this->form_validation->set_rules('jam_out', 'jam_out', 'trim|required');
+		   //$this->form_validation->set_rules('jam_out', 'jam_out', 'trim|required');
 		   $this->form_validation->set_rules('date1', 'date1', 'trim|required');
-		   $this->form_validation->set_rules('jam_in', 'jam_in', 'trim|required');
+		   //$this->form_validation->set_rules('jam_in', 'jam_in', 'trim|required');
    		   $this->form_validation->set_rules('id_tipe_spj', 'id_tipe_spj', 'trim|required');
 		   $this->form_validation->set_rules('ket_tujuan', 'ket_tujuan', 'trim|required');
 		   $this->form_validation->set_rules('jml_penumpang', 'jml_penumpang', 'trim|required');
 		   $this->form_validation->set_rules('keperluan', 'keperluan', 'trim|required');
 		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
 		   
-		   $waktu_berangkat = $this->input->post('date')." ".$this->input->post('jam_out');
-		   $waktu_kembali = $this->input->post('date1')." ".$this->input->post('jam_in');
+		   $waktu_berangkat = $this->input->post('date');//." ".$this->input->post('jam_out');
+		   $waktu_kembali = $this->input->post('date1');//." ".$this->input->post('jam_in');
 		   
 		   /*if(strtotime($waktu_berangkat) > strtotime($waktu_kembali))
 		      echo $waktu_berangkat." > ".$waktu_kembali."&nbsp; Tidak boleh!!<br/>";
@@ -51,7 +51,7 @@
 		   {
 			  $level = $this->session->userdata('level');
 		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			  $this->template->set('title','Input Form C | eFormC');
+			  $this->template->set('title','Input Form C');
 		   	  //$this->template->load('template','user/request/insert_request',$data);  
 			  $this->template->load('template_refresh','user/request/insert_request',$data);  
 			  
@@ -82,8 +82,8 @@
 				 'ATAS_NAMA' =>$subdit,
 				 'TGL_BERANGKAT'   =>$tgl_berangkat,
 				 'TGL_KEMBALI'   =>$tgl_kembali,
-				 'JAM_KELUAR'   =>$this->input->post('jam_out'),
-				 'JAM_KEMBALI'   =>$this->input->post('jam_in'),
+				 //'JAM_KELUAR'   =>$this->input->post('jam_out'),
+				 //'JAM_KEMBALI'   =>$this->input->post('jam_in'),
 				 'KETERANGAN_TUJUAN'   =>$ket_tujuan,
 				 'JML_PENUMPANG'   =>$this->input->post('jml_penumpang'),
 				 'KEPERLUAN'   =>$keperluan,
@@ -113,7 +113,8 @@
 		   $this->auth->check_menu(3);
 
 		   $this->template->set('title','Request Sukses | eFormC');
-		   $this->template->load('template','user/request/request_success',$data);  		   
+		   //$this->template->load('template','user/request/request_success',$data);
+		   $this->template->load('template_refresh','user/request/request_success',$data);
 		
 		}
 		//End of function success
@@ -136,8 +137,9 @@
 		   $id = $this->session->userdata('user_id');
 		   $data['request'] = $this->requestmodel->get_request($id);
 		   
-		   $this->template->set('title','Daftar Request | eFormC');
-		   $this->template->load('template','user/request/daftar_request',$data);
+		   $this->template->set('title','List Request');
+		   //$this->template->load('template','user/request/daftar_request',$data);
+		   $this->template->load('template_refresh','user/request/daftar_request',$data);
 		}
 		//End of function daftar_request
 		
@@ -156,8 +158,9 @@
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','user/request/daftar_operasional',$data);
+		   $this->template->set('title','List Operasional');
+		   //$this->template->load('template','user/request/daftar_operasional',$data);
+		   $this->template->load('template_refresh','user/request/daftar_operasional',$data);
 		}
 		//End of function daftar_operasional
 		
@@ -197,8 +200,9 @@
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','user/request/daftar_voucher',$data);
+		   $this->template->set('title','List Voucher');
+		   //$this->template->load('template','user/request/daftar_voucher',$data);
+		   $this->template->load('template_refresh','user/request/daftar_voucher',$data);
 		}
 		//End of function daftar_voucher
 		
@@ -217,8 +221,9 @@
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','user/request/daftar_reimburse',$data);
+		   $this->template->set('title','List Reimburse');
+		   //$this->template->load('template','user/request/daftar_reimburse',$data);
+		   $this->template->load('template_refresh','user/request/daftar_reimburse',$data);
 		}
 	    //End of function daftar_reimburse
 	}
