@@ -56,7 +56,7 @@
           &copy;
           <script>
             document.write(new Date().getFullYear())
-          </script>, made with by Slamet Fajar Suryadi
+          </script>, made with by Slamet Fajar Suryadi, A.Md
         </div>
       </div>
     </footer>
