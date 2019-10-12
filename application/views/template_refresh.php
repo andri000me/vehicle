@@ -19,23 +19,44 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/css/css.css" />
   <link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">
   <!-- CSS Files -->
+  <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.5" rel="stylesheet" />
   <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
   
   
    </head>
    
    <body>
-    <!--<div class="wrapper ">-->
-	 <div class="sidebar" data-color="purple" data-background-color="white" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
+	 <div class="navbar-default sidebar" data-color="azure" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
 		 <div class="logo">
 			<a href="" class="simple-text logo-normal">
-			  <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" /><?php echo $this->session->userdata('nama');?>
+			  <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" />
+			  <?php //echo $this->session->userdata('nama');?>
 			</a>
 		  </div>
-		  <div class="sidebar-wrapper">
+		  <div class="sidebar-wrapper navbar-collapse treeview">
 			<ul class="nav">
 			 <?php
 				foreach($menu->result() as $row){
+				 echo"<li class=''>";
+				  echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'";
+				  echo"<i class='material-icons'></i>";
+					echo"<p>".strtoupper($row->MENU_NAMA);
+					echo"</p>";
+				  echo"</a>";
+				  echo"<span class='fa arrow'></span>";
+				  echo"<ul class='nested'>";
+					echo "<li class='nav-item'>";
+					echo "</li>";
+				  echo"</ul>";
+				 echo"</li>";
+				}
+			 ?>
+			</ul>
+			
+			<!-- Backup Navbar -->
+			<!--<ul class="nav"> -->
+			 <?php
+				/**foreach($menu->result() as $row){
 				 echo"<li class='nav-item'>";
 				 echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'";
 				 echo"<i class='material-icons'></i>";
@@ -43,25 +64,20 @@
 				 echo"</p>";
 				 echo"</a>";
 				 echo"</li>";
-				}
+				}**/
 			 ?>
-			  <!-- <li class="nav-item ">
-				<a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'home/logout'?>">
-				  <i class="material-icons">reply_all</i>
-				  <p>LOGOUT</p>
-				</a>
-			  </li> -->
-			</ul>
+			<!-- </ul>
+			End Navbar -->
 		  </div>
 	 </div>
 	<!--</div>-->
 	
 	
 	<div class="main-panel">
-	  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+	  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="#pablo"><?php echo $title; ?></a>
+            <h4 class="navbar-brand"><?php echo $title; ?></h4>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -70,24 +86,7 @@
             <span class="navbar-toggler-icon icon-bar"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end">
-            <form class="navbar-form">
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <button type="submit" class="btn btn-white btn-round btn-just-icon">
-                  <i class="material-icons">search</i>
-                  <div class="ripple-container"></div>
-                </button>
-              </div>
-            </form>
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#pablo">
-                  <i class="material-icons">widgets</i>
-                  <p class="d-lg-none d-md-block">
-                    Stats
-                  </p>
-                </a>
-              </li>
               <li class="nav-item dropdown">
                 <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="material-icons">notifications</i>
@@ -98,10 +97,6 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="#">Mike John responded to your email</a>
-                  <a class="dropdown-item" href="#">You have 5 new tasks</a>
-                  <a class="dropdown-item" href="#">You're now friend with Andrew</a>
-                  <a class="dropdown-item" href="#">Another Notification</a>
-                  <a class="dropdown-item" href="#">Another One</a>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -133,7 +128,7 @@
 	 <div class="container-fluid">
 		<div class="copyright float-center">
 			&copy;
-			<script>document.write(new Date().getFullYear())</script>, made with Slamet Fajar Suryadi
+			<script>document.write(new Date().getFullYear())</script>, by Slamet Fajar Suryadi
 		</div>
 	 </div>
 	</footer>  
@@ -179,6 +174,7 @@
   <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="<?php echo base_url();?>asset/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
   <script src="<?php echo base_url();?>asset/demo/demo.js"></script>
   <script>	
     $(document).ready(function() {
@@ -360,6 +356,23 @@
   </script>
   
   <!--Date Picker-->
+  <!-- <script>
+    $(document).ready(function() {
+      //init DateTimePickers
+      materialKit.initFormExtendedDatetimepickers();
+
+      // Sliders Init
+      materialKit.initSliders();
+    });
+
+  </script> -->
+  <script>
+    $(document).ready(function() {
+        $('#dataTables-id').DataTable({
+                responsive: true
+        });
+    });
+    </script>
   <script>
     $('.berangkatpicker').datetimepicker({
         icons: {
@@ -401,7 +414,7 @@
 });
 	
   </script>
-	  
+	
    </body>
    
    

@@ -30,16 +30,6 @@
   <script src="<?php echo base_url();?>asset/js/plugins/nouislider.min.js" type="text/javascript"></script>
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
   <script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
-  <script>
-    $(document).ready(function() {
-      //init DateTimePickers
-      materialKit.initFormExtendedDatetimepickers();
-
-      // Sliders Init
-      materialKit.initSliders();
-    });
-
-  </script>
    
    </head>
    

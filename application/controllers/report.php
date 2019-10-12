@@ -5,8 +5,8 @@ class Report extends CI_Controller {
 	public function index()
 	{
 	   //slider-------------
-	   $this->load->model('slidermodel');
-	   $data['dataslider'] = $this->slidermodel->get_all_slider();
+	//    $this->load->model('slidermodel');
+	//    $data['dataslider'] = $this->slidermodel->get_all_slider();
 		 
 	   $this->load->model('usermodel');
 	   $level = $this->session->userdata('level');
@@ -15,8 +15,9 @@ class Report extends CI_Controller {
 	   $this->auth->restrict();
 	   $this->auth->check_menu(1);
 		 
-	   $this->template->set('title','Report | eFormC');
-	   $this->template->load('template', 'admin/report/report_index', $data);
+	   $this->template->set('title','Report');
+	//    $this->template->load('template', 'admin/report/report_index', $data);
+		$this->template->load('template_refresh', 'admin/report/report_index', $data);
 	 }
 	 //End of function index  
 	 

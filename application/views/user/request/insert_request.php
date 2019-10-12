@@ -1,20 +1,19 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
  <!---------------------------------------------------------------------------------------------------- -->
-	<div class="content">
-    <div class="container-fluid">
+<div class="content">
+	<div class="container-fluid">
     <div class="row">
-			<div class="col-md-12">
-			  <div class="card card-nav-tabs">
-        <?php include "header.php";?>
-				<!-- isi dengan table atau tampilan -->
-				<div class="card-body">
-					<?php echo form_open('request/index');?>
+		<div class="col-md-12">
+		 <div class="card card-nav-tabs">
+         <?php include "header.php";?>
+		  <div class="card-body">
+		  <?php echo form_open('request/index');?>
            <div class="row">&nbsp;</div>
-					 <div class="row">
+		    <div class="row">
             <div class="col-md-4">
               <div class="form-group">
                 <label class="bmd-label-floating">Tanggal Berangkat</label>
-                <input type="text" class="form-control datetimepicker" value="<?php echo date('d-m-Y');?>" name="date">
+                <input type="text" class="form-control berangkatpicker" value="<?php echo date('d-m-Y');?>" name="date">
               </div>
             </div>
             <div class="col-md-4">

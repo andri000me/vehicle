@@ -8,7 +8,7 @@
 					    
 						<div class="panel90">
                 	       <div class="judul_pjbs">
-                    	      <h3> Manajemen Master Data </h3>
+                    	      <h3></h3>
                            </div> <!--- End of div class judul_pjbs --->
 						   
 						   <div class="row-fluid">
@@ -25,23 +25,6 @@
 								   </thead>
 								   
 								   <tbody>
-								      <tr>
-										 <td> 
-										    <?php 
-											   $img = img(base_url().'/asset/images/icon/suppliers.gif');
-											   echo anchor('master/supplier', $img); 
-											 ?> 
-										 </td>
-										 <td><br/><h4>Supplier<h4>&nbsp;</td>
-										 
-										 <td> 
-										     <?php 
-											    $img = img(base_url().'/asset/images/icon/cp_supplier.jpg');
-											    echo anchor('master/detail_contact_person', $img); 
-											  ?> 
-										</td>
-										 <td><br/><h4>Contact Person Supplier<h4>&nbsp;</td>
-									  </tr>
 									  
 									   <tr>
 										 <td> 
@@ -76,25 +59,6 @@
 											</td>
 										 <td><br/><h4>Jenis Kendaraan<h4>&nbsp;</td>
 									  </tr>
-									  
-									   <tr>
-										 <td> 
-										    <?php 
-											    $img = img(base_url().'/asset/images/icon/kontrak.png');
-											    echo anchor('master/kontrak', $img); 
-											?> 
-										 </td>
-										 <td><br/><h4>Kontrak<h4>&nbsp;</td>
-										 
-										  <td> 
-										    <?php 
-											   $img = img(base_url().'/asset/images/icon/detail_kontrak.jpg');
-											   echo anchor('master/detail_kontrak', $img); 
-											?> 
-										</td>
-										 <td><br/><h4>Detail Kontrak<h4>&nbsp;</td>
-									 </tr>
-									  
 									  <tr>
 										 <td> 
 										   <?php 
@@ -102,7 +66,7 @@
 										       echo anchor('master/lokasi', $img); 
 										   ?> 
 										  </td>
-										 <td><br/><h4>Lokasi<h4>&nbsp;<td>
+										 <td><br/><h4>Environemt Site<h4>&nbsp;<td>
 										 
 										 <td>&nbsp;</td>
 										 <td>&nbsp;</td>
