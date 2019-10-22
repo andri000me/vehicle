@@ -32,7 +32,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="status">Status Dinas</label>
-                <select class="form-control" data-style="btn btn-link" id="status" name="id_tipe_spj">
+                <select class="selectpicker" data-style="select-with-transition" id="status" name="id_tipe_spj">
                   <option value="1">1.Dalam kota tugas operasional</option>
                   <option value="2">2.Luar kota</option>  
                 </select><?php echo form_error('id_tipe_spj');?>

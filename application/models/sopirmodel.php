@@ -15,7 +15,8 @@
 	 public function get_all_sopir()
 	 {
 		//select db dengan views dari sqlyog
-	    $this->db->from('VIEW_STATUS_SOPIR');
+	    //$this->db->from('VIEW_STATUS_SOPIR');
+		$this->db->from('SOPIR');
 	    return $this->db->get();
 	 }	 
 	 //End of function get_all_sopir

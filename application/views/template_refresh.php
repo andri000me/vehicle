@@ -8,7 +8,7 @@
    <head>
    <title> <?php echo $title; ?> </title>
    <!-- refresh page every 30s -->
-   <meta charset="utf-8" http-equiv="refresh" content="120;" />
+   <!--<meta charset="utf-8" http-equiv="refresh" content="120;" />-->
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
@@ -17,74 +17,66 @@
    <link href="<?php echo base_url();?>asset/demo/demo.css" rel="stylesheet" />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/css/css.css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!--<link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">-->
   <!-- CSS Files -->
-  <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.5" rel="stylesheet" />
+  <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.6" rel="stylesheet" />
   <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
   
   
    </head>
    
-   <body>
-	 <div class="navbar-default sidebar" data-color="azure" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
+   <body class="index-page sidebar-collapse">
+	 <div class="navbar-default sidebar" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
 		 <div class="logo">
 			<a href="" class="simple-text logo-normal">
 			  <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" />
 			  <?php //echo $this->session->userdata('nama');?>
 			</a>
 		  </div>
-		  <div class="sidebar-wrapper navbar-collapse treeview">
-			<ul class="nav">
+		  <div class="sidebar-wrapper navbar-collapse">
+			<ul class="nav navbar-nav">
 			 <?php
-				foreach($menu->result() as $row){
-				 echo"<li class=''>";
-				  echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'";
-				  echo"<i class='material-icons'></i>";
-					echo"<p>".strtoupper($row->MENU_NAMA);
-					echo"</p>";
-				  echo"</a>";
-				  echo"<span class='fa arrow'></span>";
-				  echo"<ul class='nested'>";
-					echo "<li class='nav-item'>";
-					echo "</li>";
-				  echo"</ul>";
+				$level = $this->session->userdata('level');
+				$check_menu = $this->usermodel->get_menu_for_level($level);
+				foreach($check_menu->result() as $row){
+				 echo"<li class='nav-item dropdown'>";
+				 if($row->HAVECHILD == 0){
+					echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'>";
+					echo"<i class='material-icons'>".$row->ICON."</i>";
+					echo"<p>".strtoupper($row->MENU_NAMA)."</p>";
+					echo"</a>";
+				 }else{
+					$level2 = $this->usermodel->get_second_level($row->MENU_ID);
+					echo"<a class='nav-link dropdown-toggle' aria-haspopup='true' aria-expanded='false' role='button' data-toggle='dropdown' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'>";
+					echo"<i class='material-icons'>".$row->ICON."</i>";
+					echo"<p>".strtoupper($row->MENU_NAMA)."</p>";
+					echo"</a>";
+					foreach($level2->result() as $row2){
+					 echo"<div class='dropdown-menu'>";
+					 //echo "<li class='dropdown-menu'>";
+						echo"<a class='dropdown-item' href='".base_url()."".$this->uri->segment(0)."".$row2->MENU_URI."'>";
+						echo"<p>".strtoupper($row2->MENU_NAMA)."</p>";
+						echo"</a>";
+					 //echo "</li>";
+					 echo"</div>";  
+					}
+				 }
 				 echo"</li>";
 				}
 			 ?>
 			</ul>
-			
-			<!-- Backup Navbar -->
-			<!--<ul class="nav"> -->
-			 <?php
-				/**foreach($menu->result() as $row){
-				 echo"<li class='nav-item'>";
-				 echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'";
-				 echo"<i class='material-icons'></i>";
-				 echo"<p>".strtoupper($row->MENU_NAMA);
-				 echo"</p>";
-				 echo"</a>";
-				 echo"</li>";
-				}**/
-			 ?>
-			<!-- </ul>
-			End Navbar -->
 		  </div>
 	 </div>
 	<!--</div>-->
 	
 	
 	<div class="main-panel">
-	  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info">
+	  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info navbar-color-on-scroll" color-on-scroll="100">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <h4 class="navbar-brand"><?php echo $title; ?></h4>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-            <span class="navbar-toggler-icon icon-bar"></span>
-          </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
               <li class="nav-item dropdown">
@@ -354,25 +346,13 @@
 
     });
   </script>
-  
-  <!--Date Picker-->
-  <!-- <script>
-    $(document).ready(function() {
-      //init DateTimePickers
-      materialKit.initFormExtendedDatetimepickers();
-
-      // Sliders Init
-      materialKit.initSliders();
-    });
-
-  </script> -->
   <script>
     $(document).ready(function() {
         $('#dataTables-id').DataTable({
                 responsive: true
         });
     });
-    </script>
+  </script>
   <script>
     $('.berangkatpicker').datetimepicker({
         icons: {
@@ -403,15 +383,15 @@
   </script>
   <script>
 	new Chartist.Pie('#cobaChart', {
-  series: [20, 10, 30, 40]
-}, {
-  donut: true,
-  donutWidth: 60,
-  donutSolid: true,
-  startAngle: 270,
-  total: 200,
-  showLabel: true
-});
+	  series: [20, 10, 30, 40]
+	}, {
+	  donut: true,
+	  donutWidth: 60,
+	  donutSolid: true,
+	  startAngle: 270,
+	  total: 200,
+	  showLabel: true
+	});
 	
   </script>
 	

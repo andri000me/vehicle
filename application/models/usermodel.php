@@ -13,7 +13,18 @@
      public function get_menu_for_level($user_level)
 	 {
 	   $this->db->from('MENU');
+	   $this->db->where('HAVECHILD is NOT NULL',null,false);
 	   $this->db->like('MENU_AKSES','+'.$user_level.'+');
+	   $this->db->order_by('MENU_ID');
+	   $result = $this->db->get();
+	   
+	   return $result;
+	 }
+	 
+	 public function get_second_level($user_level)
+	 {
+	   $this->db->from('MENU');
+	   $this->db->like('PARENT',$user_level);
 	   $this->db->order_by('MENU_ID');
 	   $result = $this->db->get();
 	   

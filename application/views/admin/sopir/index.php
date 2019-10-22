@@ -1,3 +1,42 @@
+<script src="<?php echo base_url();?>asset/js/1.8.2.min.js"></script>
+<script type="text/javascript">
+//Mengambil data dari row
+$(document).ready(function(){
+	$('.zedit').click(function(){
+		var edit=$(this).closest('td').children('span').attr('id');
+		var a=edit.split("^");
+		document.getElementById('nid').value = a[0];
+		document.getElementById('nama').value = a[1];
+		document.getElementById('telegram').value = a[2];
+		document.getElementById('status').value = a[3];
+		//hideAdd();
+	});
+});
+$(document).ready(function(){
+	$('.zdelete').click(function(){
+		var del=$(this).closest('td').children('span').attr('id');
+		var base_url = "<?php echo base_url();?>";
+		var a=del.split("^");
+		console.log(a[1]);
+		document.getElementById('delId').href = base_url+'master/delete_sopir/'+a[0];
+		document.getElementById('hnama').innerHTML = "Apakah Anda yakin akan menghapus data "+a[1]+" ?";
+	});
+});
+</script>
+<script type="text/javascript">
+
+</script>
+<script type="text/javascript">
+function hideAdd(){
+	$('#add').hide();
+	$('#edit').show(500);
+	//viewEdit();
+}
+function hideEdit(){
+	$('#add').show(500);
+	$('#edit').hide();
+}
+</script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
  <div class="content">
     <div class="container-fluid">
@@ -10,9 +49,11 @@
 				<div class="card-body">
 					<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
-						<thead class=" text-primary">
+						<thead class="text-primary">
 							<tr>
+								<th>No</th>
 								<th>Nama</th>
+								<th>Telegram</th>
                                 <th>Status</th>
                                 <th>Opsi</th>
                             </tr>
@@ -21,38 +62,32 @@
 						<?php foreach($datasopir->result() as $row)
 						{ ?>
 							<tr>
-								<td><?php echo $row->NAMA;?></td>
-								<?php
-								$a = $row->STATUS_SOPIR;
-								switch ($a) { 
-									case 'Non-aktif': 
-										$badge = "label";
-									break; 
-									case 'Aktif(tersedia)': 
-										$badge = "label label-success";
-									break; 
-									case 'Sedang bertugas(Tidak tersedia)': 
-										$badge = "label label-info";
-									break;
-									case 'Sopir direksi': 
-										$badge = "label label-warning";									
-									break; 
-									case 'Absen(Tidak hadir)': 
-										$badge = "label label-important";
-									break;
-									case 'Dipesan(booked)': 
-										$badge = "label label-info";
-									break;
-								}?>
 								<td>
-									<span class="<?php echo $badge;?>"><?php echo $row->STATUS_SOPIR;?></span>
+								<span class="zedit" id="<?php echo $row->NID;?>^<?php echo $row->NAMA;?>^<?php echo $row->TELEGRAM;?>^<?php echo sopirStat($row->ID_STATUS_SOPIR);?>">
+								<?php
+									echo "<a href='' onclick='hideAdd(); return false;'>".$row->NID."</a>";
+									//echo anchor('master/edit_sopir/'.$row->ID_SOPIR,$row->NID,
+									// echo anchor('#',$row->NID,
+									// array(
+										// 'id'=>'id_sopir',
+										// 'onclick'=>'hideAdd(); return false;'
+										// ));
+								?>
+								</span>
 								</td>
 								<td>
-								<?php 
-									echo anchor('master/edit_sopir/'.$row->ID_SOPIR, 'Edit', 'class="btn2 btn2-info btn2-mini"');
-									echo '  ';
-									echo anchor('master/delete_sopir/'.$row->ID_SOPIR, 'Hapus','class="btn2 btn2-danger btn2-mini"');
-								?>
+								<?php echo $row->NAMA;?>
+								</td>
+								<td><?php echo $row->TELEGRAM;?></td>
+								<td>
+									<?php echo sopirStat($row->ID_STATUS_SOPIR);?>
+								</td>
+								<td>
+									<span class="zdelete" id="<?php echo $row->ID_SOPIR;?>^<?php echo $row->NID;?>">
+									<button class="btn btn-primary btn-fab btn-round btn-sm" data-toggle="modal" data-target="#delete">
+									<i class="material-icons">clear</i>
+									</button>
+									</span>
 								</td>
 							</tr>
 							<?php } ?>
@@ -62,20 +97,121 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		
+		<!-- Add Form -->
+		<div class="col-md-4" id="add">
 			<div class="card card-profile">
 				<div class="card-header card-header-rose">
                   <h4 class="card-title">Tambah Data</h4>
                 </div>
                 <div class="card-body">
 				<?php echo form_open('master/insert_sopir');?>
-				  <input type="text" class="form-control" placeholder="NID" name="nid" required/>
-				  <input type="text" class="form-control" placeholder="Nama" name="nama" required/>
-				  <input type="text" class="form-control" value="Aktif (tersedia)" name="status" disabled/>
-                  <button type="submit" class="btn btn-rose btn-round">Submit</a>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">vpn_key</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" placeholder="NID" name="nid" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">face</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" placeholder="Nama" name="nama" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">near_me</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" placeholder="Telegram" name="telegram" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">check</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" value="<?php echo sopirStat(1);?>" name="status" disabled/>
+				  </div>
+                  <button type="submit" class="btn btn-outline-primary btn-round">Submit</a>
                 </div>
 				<?php echo form_close();?>
 			</div>
 		</div>
+		<!-- End Add Form -->
+		<!-- Edit Form -->
+		<div class="col-md-4" id="edit" style="display:none">
+			<div class="card card-profile">
+				<div class="card-header card-header-warning">
+                  <h4 class="card-title">Update Data</h4>
+                </div>
+                <div class="card-body">
+				<?php echo form_open('master/edit_sopir');?>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">vpn_key</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" name="nid" id="nid" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">face</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" value="" name="nama" id="nama" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">near_me</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" value="" name="telegram" id="telegram" required/>
+				  </div>
+				  <div class="input-group">
+					<div class="input-group-prepend">
+					  <span class="input-group-text">
+						<i class="material-icons">check</i>
+					  </span>
+					</div>
+					<input type="text" class="form-control" name="status" id="status" required/>
+				  </div>
+                  <button type="submit" class="btn btn-outline-warning btn-round">Update</button>
+				  <button type="button" class="btn btn-outline-primary btn-round" onclick="hideEdit(); return false;">Cancel</button>
+                </div>
+				<?php echo form_close();?>
+			</div>
+		</div>
+		<!-- End Edit Form -->
 	</div>
+	<!-- Classic Modal -->
+	  <div class="modal fade" id="delete" tabindex="-1" role="">
+		<div class="modal-dialog modal-login" role="document">
+		  <div class="modal-content">
+		  <div class="card card-signup card-plain">
+			<div class="modal-header">
+			  <div class="card-header card-header-danger text-center">
+			    <i class="material-icons">clear</i>
+			  </div>
+			</div>
+			<div class="modal-body">
+			  <h4 class="text-center" id="hnama"></h4>
+			</div>
+			<div class="modal-footer">
+			  <a class="btn btn-outline-primary btn-round" id="delId">Ya</a>
+			  <button type="button" class="btn btn-outline-danger btn-round" data-dismiss="modal">Tidak</button>
+			</div>
+		  </div>
+		</div>
+		</div>
+	  </div>
+	  <!--  End Modal -->
 	</div>

@@ -19,14 +19,15 @@
 	   {
 		 
 		 $this->load->model('usermodel');
-		 $level = $this->session->userdata('level');
-		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		 // $level = $this->session->userdata('level');
+		 // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		 
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
 		 
 		 $this->template->set('title','Master Data');
-		 $this->template->load('template_refresh', 'admin/master', $data);
+		 // $this->template->load('template_refresh', 'admin/master', $data);
+		 $this->template->load('template_refresh', 'admin/master');
 	   }
 	   //End of function index
 
@@ -36,8 +37,8 @@
 		  $this->load->model('usermodel');
 		  $this->load->model('sopirmodel');
 		  
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		  //$level = $this->session->userdata('level');
+		  //$data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  
 		  $data['datasopir'] = $this->sopirmodel->get_all_sopir();
 	 
@@ -92,11 +93,7 @@
 		}
 		
 		function delete_sopir($id)
-		{
-		   //slider-------------
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
+		{			
 		  $this->load->model('sopirmodel');
 		  $this->auth->restrict();
 		  $this->auth->check_menu(1);  
@@ -108,10 +105,6 @@
 		
 		function edit_sopir()
 		{
-		   //slider-------------
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('usermodel');
 		   $this->load->model('sopirmodel');
 		   
@@ -136,7 +129,7 @@
       		  $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
 			  $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
 			  
-			  $this->template->set('title','Form Edit Sopir | eFormC');
+			  $this->template->set('title','Edit Driver Kendaraan');
 			  $this->template->load('template','admin/sopir/edit_sopir_form',$data);
 		   }
 		   else
