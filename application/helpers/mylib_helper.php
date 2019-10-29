@@ -89,9 +89,9 @@ if ( ! function_exists('generatehtml'))
         
     }
     
-	function sopirStat($sopir)
+	function sopirStat($stat)
 	{
-		switch($sopir){
+		switch($stat){
 			case 0:
 				return "Non Aktif";
 			case 1:
@@ -100,6 +100,45 @@ if ( ! function_exists('generatehtml'))
 				return "Sedang Bertugas";
 			case 3:
 				return "Dipesan (Booked)";
+			break;
+		}
+	}
+	
+	function spj($id)
+	{
+		switch($id){
+			case 1:
+				return "Dalam kota tugas operasional";
+			case 2:
+				return "Luar kota";
+			break;
+		}
+	}
+	
+	function userStat($user)
+	{
+		switch($user){
+			case 0:
+				return "Non Aktif";
+			case 1:
+				return "Aktif";
+			break;
+		}
+	}
+	
+	function userTipe($t)
+	{
+		switch($t){
+			case 1:
+				return "Administrator";
+			case 2:
+				return "Manajer";
+			case 3:
+				return "User";
+			case 4:
+				return "Operator";
+			case 5:
+				return "Sopir";
 			break;
 		}
 	}

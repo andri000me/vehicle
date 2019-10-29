@@ -1070,10 +1070,6 @@
 
         function user()
 		{
-		  //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		  
 		   $this->load->model('usermodel');
 		   $this->load->model('useraddmodel');
 		    
@@ -1082,19 +1078,19 @@
 		   $this->load->model('karyawanmodel');
 		   $data['id_jab'] = $this->karyawanmodel->tampil_karyawan();
 		   
-		   $this->load->model('statusmodel');
-		   $data['status'] = $this->statusmodel->get_all_status();
+		   // $this->load->model('statusmodel');
+		   // $data['status'] = $this->statusmodel->get_all_status();
 		   
-		   $this->load->model('tipemodel');
-		   $data['tipe'] = $this->tipemodel->get_all_tipe();
+		   // $this->load->model('tipemodel');
+		   // $data['tipe'] = $this->tipemodel->get_all_tipe();
 		   
 		   $level = $this->session->userdata('level');
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
-		   $this->template->set('title','User | eFormC');
-		   $this->template->load('template','admin/user/user_index',$data);
+		   $this->template->set('title','User Profile');
+		   $this->template->load('template_refresh','admin/user/index',$data);
 		}
 	    //End of function User
 		

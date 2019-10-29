@@ -22,7 +22,14 @@
   <!-- CSS Files -->
   <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.6" rel="stylesheet" />
   <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-  
+  <style type="text/css">
+  .nav-link[data-toggle].collapsed:after {
+    content: "▾";
+	}
+  .nav-link[data-toggle]:not(.collapsed):after {
+    content: "";
+	}
+  </style>
   
    </head>
    
@@ -30,17 +37,17 @@
 	 <div class="navbar-default sidebar" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
 		 <div class="logo">
 			<a href="" class="simple-text logo-normal">
-			  <img src="<?php echo base_url();?>asset/images/logo.png" alt="logo edriver" />
-			  <?php //echo $this->session->userdata('nama');?>
+			  <img src="<?php echo base_url();?>asset/images/logo.png"/>
 			</a>
 		  </div>
 		  <div class="sidebar-wrapper navbar-collapse">
-			<ul class="nav navbar-nav">
+			<ul class="nav navbar-nav flex-column flex-nowrap">
 			 <?php
 				$level = $this->session->userdata('level');
 				$check_menu = $this->usermodel->get_menu_for_level($level);
+				$sub = 1;
 				foreach($check_menu->result() as $row){
-				 echo"<li class='nav-item dropdown'>";
+				 echo"<li class='nav-item'>";
 				 if($row->HAVECHILD == 0){
 					echo"<a class='nav-link' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'>";
 					echo"<i class='material-icons'>".$row->ICON."</i>";
@@ -48,21 +55,25 @@
 					echo"</a>";
 				 }else{
 					$level2 = $this->usermodel->get_second_level($row->MENU_ID);
-					echo"<a class='nav-link dropdown-toggle' aria-haspopup='true' aria-expanded='false' role='button' data-toggle='dropdown' href='".base_url()."".$this->uri->segment(0)."".$row->MENU_URI."'>";
+					echo"<a class='nav-link collapsed' data-toggle='collapse' data-target='#submenu".$sub."' href='#'>";
 					echo"<i class='material-icons'>".$row->ICON."</i>";
 					echo"<p>".strtoupper($row->MENU_NAMA)."</p>";
 					echo"</a>";
+					echo"<div class='collapse' id='submenu".$sub."' aria-expanded='false'>";
+					 echo"<ul class='flex-column pl-2 nav'>";
 					foreach($level2->result() as $row2){
-					 echo"<div class='dropdown-menu'>";
-					 //echo "<li class='dropdown-menu'>";
-						echo"<a class='dropdown-item' href='".base_url()."".$this->uri->segment(0)."".$row2->MENU_URI."'>";
+						echo"<li class='nav-item'>";
+						echo"<a class='nav-link py-0' href='".base_url()."".$this->uri->segment(0)."".$row2->MENU_URI."'>";
+						echo"<i class='material-icons'>".$row2->ICON."</i>";
 						echo"<p>".strtoupper($row2->MENU_NAMA)."</p>";
 						echo"</a>";
-					 //echo "</li>";
-					 echo"</div>";  
+						echo"</li>";
 					}
+					 echo"</ul>";
+					echo"</div>";
 				 }
 				 echo"</li>";
+				 $sub++;
 				}
 			 ?>
 			</ul>
@@ -343,8 +354,10 @@
     $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
-
     });
+	// $(document).ready(function() {
+		// $('select').selectpicker();
+	// });
   </script>
   <script>
     $(document).ready(function() {
@@ -392,8 +405,24 @@
 	  total: 200,
 	  showLabel: true
 	});
-	
   </script>
+	<script>
+	/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+	var dropdown = document.getElementsByClassName("dropdown-btn");
+	var i;
+
+	for (i = 0; i < dropdown.length; i++) {
+	  dropdown[i].addEventListener("click", function() {
+	  this.classList.toggle("active");
+	  var dropdownContent = this.nextElementSibling;
+	  if (dropdownContent.style.display === "block") {
+	  dropdownContent.style.display = "none";
+	  } else {
+	  dropdownContent.style.display = "block";
+	  }
+	  });
+	}
+	</script>
 	
    </body>
    

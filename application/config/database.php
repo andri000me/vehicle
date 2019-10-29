@@ -49,9 +49,10 @@ $active_group = 'default';
 $active_record = TRUE;
 
 //koneksi ke database lokal
-			
+//$tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.7)(PORT = 1521))			
 $tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
     (CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = xe)))';
+
 
 $db['default']['hostname'] = $tnsname; 
 $db['default']['username'] = 'kendaraan';
