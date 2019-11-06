@@ -15,8 +15,6 @@
                                         <th>NO</th>
                                         <th>TGL BERANGKAT</th>
                                         <th>TGL KEMBALI</th>
-										<th>JAM KELUAR</th>
-										<th>JAM KEMBALI</th>
 										<th>TUJUAN</th>
 										<th>KEPERLUAN</th>
 										<th>STATUS</th>
@@ -27,17 +25,15 @@
                                 foreach($request->result() as $row)
 								{
 								?>
-                                    <tr class="odd gradeX">
+                                    <tr>
                                         <td><?php echo $no;//$row->ID_REQUEST;?></td>
                                         <td><?php echo $row->TGL_BERANGKAT;?></td>
                                         <td><?php echo $row->TGL_KEMBALI;?></td>
-                                        <td><?php echo $row->JAM_KELUAR;?></td>
-										<td><?php echo $row->JAM_KEMBALI;?></td>
-										<td><?php echo $row->KETERANGAN_TUJUAN;?></td>
+										<td><?php echo $row->TUJUAN;?></td>
 										<td><?php echo $row->KEPERLUAN;?></td>
 										<td>
 										  <?php 
-										      $cek = $row->ID_STATUS_REQUEST;
+										      $cek = $row->STATUS;
 											  
 											  if($cek == 4)
 											  {

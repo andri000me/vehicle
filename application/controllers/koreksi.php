@@ -14,8 +14,6 @@
 	   
 	   public function index()
 	   {
-		 $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
@@ -31,10 +29,6 @@
 	   
 	   function update_op($id)
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-	       
 		 $this->auth->restrict();
 		 $this->auth->check_menu(6);
 		 
@@ -71,10 +65,6 @@
 	   
 	   function berangkat()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $this->load->model('appr_admin_model');
 		   
@@ -141,10 +131,6 @@
 		
 	   function kembali()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $this->load->model('appr_admin_model');
 		   
@@ -219,10 +205,6 @@
 		
 		public function print_form()
 		{
-			//slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   $this->load->model('appr_admin_model');

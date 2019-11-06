@@ -15,10 +15,6 @@
         
 		public function index()
 		{
-			//slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -26,22 +22,23 @@
 		   $id = $this->session->userdata('nid');
 		   
 		   $subdit = $this->requestmodel->filter_request($id);
-		   $dir = $this->session->userdata('direktorat_id');
+		   //$dir = $this->session->userdata('direktorat_id');
+		   $dir = $this->session->userdata('subdit');
 		   
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   //$data['approval'] = $this->requestmodel->show_request($subdit);
-		   $data['approval'] = $this->requestmodel->show_request2($dir);
+		   $data['approval'] = $this->requestmodel->show_request($subdit);
+		   //$data['approval'] = $this->requestmodel->show_request2($dir);
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
 		   
 		   $level = $this->session->userdata('level');
 		   
-		   if($level == 1 || $level == 6)
+		   if($level == 1)
 		     redirect('approval/approval_admin');
 		   else
 		   {
-		      $this->template->set('title','Daftar Request Masuk | eFormC');
+		      $this->template->set('title','Daftar Request Masuk');
 		      $this->template->load('template_refresh','manajer/approval/dataapproval',$data);
 		   }
 		}
@@ -107,33 +104,28 @@
         
 		public function approval_admin()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   
 		   $level = $this->session->userdata('level');
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   $data['level']= $level;
+		   //$data['level']= $level;
 		   $this->load->model('appr_admin_model');
 		   
-		   if($level == 6)
-		   	{	$data['approval'] = $this->appr_admin_model->show_request_jkt();}
-		   else
-			{	$data['approval'] = $this->appr_admin_model->show_request();	}
+		   $data['approval'] = $this->appr_admin_model->show_request();
+		   // if($level == 6)
+		   	// {	$data['approval'] = $this->appr_admin_model->show_request_jkt();}
+		   // else
+			// {	$data['approval'] = $this->appr_admin_model->show_request();	}
 			
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
-		   $this->template->set('title','Daftar Request Masuk | eFormC');
+		   $this->template->set('title','Daftar Request Masuk');
 		   $this->template->load('template_refresh','admin/approval/dataapproval',$data);
 		}
 		//End of function approval_admin
 		
 		public function pending_request()
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -141,17 +133,14 @@
 		   $id = $this->session->userdata('nid');
 		   
 		   //$subdit = $this->requestmodel->filter_request($id);
+		   $data['approval'] = $this->requestmodel->show_all_request();
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   if($level == 6)
-		   	{	$data['approval'] = $this->requestmodel->show_all_request_jkt();}
-		   else
-			{	$data['approval'] = $this->requestmodel->show_all_request();	}
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
 		   
 		   $level = $this->session->userdata('level');
 		   
-		    $this->template->set('title','Daftar Request Masuk | eFormC');
+		    $this->template->set('title','Daftar Request Masuk');
 		    $this->template->load('template_refresh','admin/approval/pending_request',$data);   
 		
 		}

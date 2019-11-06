@@ -15,6 +15,8 @@
    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo base_url();?>asset/images/apple-icon.png">
    <link rel="icon" type="image/png" href="<?php echo base_url();?>asset/images/favicon.png">
    <link href="<?php echo base_url();?>asset/demo/demo.css" rel="stylesheet" />
+  <!--     Select2     --> 
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/select2/css/select2.min.css" />
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/css/css.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
@@ -150,8 +152,10 @@
   <script src="<?php echo base_url();?>asset/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
   <script src="<?php echo base_url();?>asset/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!-- Plugin for the Select2  -->
+  <script src="<?php echo base_url();?>asset/select2/js/select2.min.js"></script>
   <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
-  <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-selectpicker.js"></script>
+  <!-- <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-selectpicker.js"></script> -->
   <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
   <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
@@ -355,12 +359,18 @@
       // Javascript method's body can be found in assets/js/demos.js
       md.initDashboardPageCharts();
     });
-	// $(document).ready(function() {
-		// $('select').selectpicker();
-	// });
   </script>
   <script>
-    $(document).ready(function() {
+  //Select2 Js
+	$(document).ready(function() {
+		$('.select2').select2({
+			debug: true,
+			placeholder: "Select a Data"
+		});
+	});
+  </script>
+  <script>
+    $(function() {
         $('#dataTables-id').DataTable({
                 responsive: true
         });

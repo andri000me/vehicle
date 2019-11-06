@@ -32,9 +32,6 @@ $(function(){
 });
 </script>
 <script type="text/javascript">
-
-</script>
-<script type="text/javascript">
 function hideAdd(){
 	$('#add').hide();
 	$('#edit').show(500);
@@ -110,7 +107,7 @@ function hideEdit(){
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">vpn_key</i>
+						<i class="material-icons">how_to_reg</i>
 					  </span>
 					</div>
 					<input type="text" class="form-control" placeholder="NID" name="nid" required/>
@@ -200,7 +197,7 @@ function hideEdit(){
 		</div>
 		<!-- End Edit Form -->
 	</div>
-	<!-- Classic Modal -->
+	  <!-- Classic Modal -->
 	  <div class="modal fade" id="delete" tabindex="-1" role="">
 		<div class="modal-dialog modal-login" role="document">
 		  <div class="modal-content">

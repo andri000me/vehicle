@@ -18,9 +18,8 @@
 	    /*$this->db->where('ID_PEMOHON', $id);
 		$this->db->from('REQUEST');
 	    return $this->db->get();*/
-		
-		return $this->db->query("
-		   SELECT 
+		/*
+			SELECT 
 			  RQ.ID_REQUEST,
 			  RQ.TGL_BERANGKAT,
 			  RQ.JAM_KELUAR,
@@ -39,6 +38,22 @@
 			  RQ.ID_PEMOHON = '$id'
 			ORDER BY 
 			  ID_REQUEST DESC
+		*/
+		
+		return $this->db->query("
+		   SELECT 
+			  RQ.ID_REQUEST,
+			  RQ.TGL_BERANGKAT,
+			  RQ.TGL_KEMBALI,
+			  RQ.TUJUAN,
+			  RQ.KEPERLUAN,
+			  RQ.STATUS
+			FROM 
+			  REQUEST RQ
+			WHERE 
+			  RQ.NID = '$id'
+			ORDER BY 
+			  ID_REQUEST DESC
 		");
 	 }
 	 
@@ -49,9 +64,7 @@
 		$this->db->join('VIEW_KARYAWAN','VIEW_REQUEST.ATAS_NAMA = VIEW_KARYAWAN.NAMA');
 		$this->db->where('VIEW_KARYAWAN.KODE_SUBDIT',$subdit);*/
 		//$this->db->where('VIEW_REQUEST.STATUS_REQUEST','Pending');
-		
-		//Menampilkan daftar request dgn status = 1 (pending) berdasarkan id subdit yg sama dengan user
-		return $this->db->query("
+			/*
 			SELECT
 			  REQ.ID_REQUEST,
 			  US.ID AS ID_USER,
@@ -77,6 +90,31 @@
 			  REQ.ID_STATUS_REQUEST = '4'
 			  AND
 			  EMP.DIREKTORAT_SUB_ID = '".$subdit."'
+			ORDER BY
+              REQ.ID_REQUEST DESC
+			 */
+		
+		//Menampilkan daftar request dgn status = 1 (pending) berdasarkan id subdit yg sama dengan user
+		return $this->db->query("
+			SELECT
+			  REQ.ID_REQUEST,
+			  US.ID_USER,
+			  EMP.NAMA,
+			  REQ.TGL_BERANGKAT,
+			  REQ.WAKTU_REQUEST,
+			  REQ.KEPERLUAN
+			FROM
+			  REQUEST REQ,
+			  USERS US,
+			  VIEW_KARYAWAN EMP
+			WHERE 
+			  REQ.NID = US.USERNAME
+			  AND 
+			  US.USERNAME = EMP.NID
+			  AND
+			  REQ.STATUS = '4'
+			  AND
+			  EMP.KODE_DIVISI = '".$subdit."'
 			ORDER BY
               REQ.ID_REQUEST DESC
 			");	  
@@ -123,27 +161,24 @@
 		return $this->db->query("
 			SELECT
 			  REQ.ID_REQUEST,
-			  US.ID AS ID_USER,
-			  REQ.ATAS_NAMA,
+			  US.ID_USER,
+			  EMP.NAMA,
 			  REQ.TGL_BERANGKAT,
-			  REQ.JAM_KELUAR,
-			  REQ.JAM_KEMBALI,
-			  REQ.WAKTU_MASUK,
-			  SR.STATUS_REQUEST,
+			  REQ.TGL_KEMBALI,
+			  REQ.WAKTU_REQUEST,
+			  REQ.TUJUAN,
+			  REQ.STATUS,
 			  REQ.KEPERLUAN
 			FROM
 			  REQUEST REQ,
-			  STATUS_REQUEST SR,
-			  PAYROLL_PJBS2.SYS_USERS US,
-			  PAYROLL_PJBS2.EMP_DETAIL EMP
+			  USERS US,
+			  VIEW_KARYAWAN EMP
 			WHERE 
-			  REQ.ID_PEMOHON = US.ID
+			  REQ.NID = US.USERNAME
 			  AND 
-			  REQ.ID_STATUS_REQUEST = SR.ID_STATUS_REQUEST
-			  AND
 			  US.USERNAME = EMP.NID
 			  AND
-			  REQ.ID_STATUS_REQUEST = '4'
+			  REQ.STATUS = '4'
 			ORDER BY
               REQ.ID_REQUEST DESC
 			");	  
@@ -185,20 +220,21 @@
 	 
 	 function filter_request($id)
 	 {
-	 	//$query = $this->db->query("SELECT KODE_SUBDIT FROM VIEW_KARYAWAN WHERE ID_KARYAWAN='".$id."'");
-		$query = $this->db->query(" SELECT DIREKTORAT_SUB_ID FROM PAYROLL_PJBS2.EMP_DETAIL WHERE NID = '".$id."' ");
+	 	$query = $this->db->query("SELECT KODE_DIVISI FROM VIEW_KARYAWAN WHERE NID='".$id."'");
+		//$query = $this->db->query(" SELECT DIREKTORAT_SUB_ID FROM PAYROLL_PJBS2.EMP_DETAIL WHERE NID = '".$id."' ");
 		$row=$query->row();
-		$id_subdit=$row->DIREKTORAT_SUB_ID;
+		//$id_subdit=$row->DIREKTORAT_SUB_ID;
+		$id_subdit=$row->KODE_DIVISI;
 		return $id_subdit;
 	 }
 	 //End of function filter_request
 	 
 	 function ambil_nama($id)
 	 {
-		//$query = $this->db->query("SELECT NAMA FROM VIEW_KARYAWAN WHERE ID_KARYAWAN='".$id."'");
-		$query = $this->db->query("
-		   SELECT NAMA FROM PAYROLL_PJBS2.EMP_DETAIL WHERE NID = '".$id."'
-		   ");
+		$query = $this->db->query("SELECT NAMA FROM KARYAWAN WHERE NID='".$id."'");
+		// $query = $this->db->query("
+		   // SELECT NAMA FROM PAYROLL_PJBS2.EMP_DETAIL WHERE NID = '".$id."'
+		   // ");
 		   
 		$row=$query->row();
 		$nama=$row->NAMA;

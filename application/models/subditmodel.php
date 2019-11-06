@@ -14,42 +14,44 @@
   {
      function get_all_subdit()
 	 {
-        $this->db->from('SUBDIT');
+        //$this->db->from('SUBDIT');
+		$this->db->from('DIVISI');
         return $this->db->get();		
 	 }
 	 // End of function get_all_subdit
 	 
 	 function insert_data_subdit($data)
 	 {
-	   $this->db->insert('SUBDIT', $data);
+	   $this->db->insert('DIVISI', $data);
 	 }
 	 //End of function insert_data_subdit
 	 
 	 function get_subdit_by_id($id)
 	 {
-	   $this->db->where('ID_SUBDIT', $id);
-	   return $this->db->get('SUBDIT');
+	   $this->db->where('ID_DIVISI', $id);
+	   return $this->db->get('DIVISI');
 	 }
 	 //End of function get_subdit_by_id
 	 
 	 function update_data_subdit($data, $id)
 	 {
-	   $this->db->where('ID_SUBDIT', $id);
-	   $this->db->update('SUBDIT', $data);
+	   $this->db->where('ID_DIVISI', $id);
+	   $this->db->update('DIVISI', $data);
 	 }
 	 //End of function update_data_subdit
 	 
 	 function delete_subdit($id)
 	 {
-	   $this->db->where('ID_SUBDIT', $id);
-	   $this->db->delete('SUBDIT');
+	   $this->db->where('ID_DIVISI', $id);
+	   $this->db->delete('DIVISI');
 	 }//End of function delete_subdit
 	 
 	 //------------------ Model untuk JABATAN --------------------
 	 
 	 function get_all_jabatan()
 	 {
-	    $this->db->from('VIEW_SUBDIT_JABATAN');		
+	    //$this->db->from('VIEW_DIVISI_JABATAN');
+		$this->db->from('VIEW_JABATAN');		
 		return $this->db->get();
 	 }
 	 //End of function get_all_jabatan
@@ -91,7 +93,7 @@
 	 
 	 function delete_jabatan($id)
 	 {
-	    $this->db->where('ID_JABATAN', $id);
+	    $this->db->where('KODE_JABATAN', $id);
 		$this->db->delete('JABATAN');
 	 }
 	 //End of function delete_jabatan

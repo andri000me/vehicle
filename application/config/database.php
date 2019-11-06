@@ -49,16 +49,16 @@ $active_group = 'default';
 $active_record = TRUE;
 
 //koneksi ke database lokal
-//$tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.7)(PORT = 1521))			
-$tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
-    (CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = xe)))';
+//$tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = xe)))';
+$tnsname = '(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.7)(PORT = 1521))(CONNECT_DATA =(SERVER = DEDICATED)(SERVICE_NAME = XE)))';
 
 
-$db['default']['hostname'] = $tnsname; 
-$db['default']['username'] = 'kendaraan';
-$db['default']['password'] = '123456';
-$db['default']['database'] = '';
-$db['default']['dbdriver'] = 'oci8';
+//$db['default']['hostname'] = $tnsname; 
+$db['default']['hostname'] = 'localhost'; 
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'kendaraan';
+$db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
 $db['default']['db_debug'] = TRUE;

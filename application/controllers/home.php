@@ -21,7 +21,7 @@
 	   public function index()
 	   {
 	     //$this->load->model('slidermodel');
-	     $this->load->model('monitoring_model');
+	     //$this->load->model('monitoring_model');
 		 
 		 //$data['dataslider'] = $this->slidermodel->get_all_slider();
 	     
@@ -41,13 +41,14 @@
 			$data['menu'] = $this->usermodel->get_menu_for_level($level);
 			//$data['subdit'] = $this->usermodel->get_user_subdit($id_subdit);
 			
-			$this->load->model('appr_admin_model');
-			if($level==6)
+			//$this->load->model('appr_admin_model');
+			
+			/*if($level==6)
 			{$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan_jkt();
 			 $data['driver_aktif'] = $this->appr_admin_model->get_status_sopir_op_jkt();}else
 			{$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan();
 			 $data['driver_aktif'] = $this->appr_admin_model->get_status_sopir_op();}
-			
+			*/
 			$data['class1'] = 'alert alert-success';
 			$data['title1'] = 'Kritik & Saran';
 			$data['alert1'] = 'Data sudah tersimpan';
@@ -55,16 +56,18 @@
 			
 		    //Set variabel $title
 		    $this->template->set('title', 'Welcome to Manajemen Kendaraan Dinas');
+			//$this->template->load('template_refresh', 'admin/index', $data);
 		    //Load file view 'index.php'
+			//Sementara Hide
 			if($level == 1)
 		      $this->template->load('template_refresh', 'admin/index', $data);
 			else if($level == 2)
 			  $this->template->load('template_refresh', 'manajer/index', $data);
-			else if($level == 3 || $level == 6)
+			//else if($level == 3 || $level == 6)
+			else if($level == 3)
 			  $this->template->load('template_refresh', 'user/index', $data);
 			else
-			  $this->template->load('template_refresh', 'operator/index', $data);
-			  
+			  $this->template->load('template_refresh', 'operator/index', $data);  
 			 //$this->load->view('admin/sukses');
 		 } //End of else
 	      
@@ -129,7 +132,7 @@
 	   public function assigning()
 	   {
 	     $this->load->model('usermodel');
-		 $level = $this->session->userdata('level');
+		 //$level = $this->session->userdata('level');
 		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
 
 		 $this->auth->restrict();
@@ -147,10 +150,10 @@
 	   }
 	   //End of function assigning
 	   
-	   public function master()
+	   /*public function master()
 	   {
 		 $this->load->model('usermodel');
-		 $level = $this->session->userdata('level');
+		 //$level = $this->session->userdata('level');
 		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
 
 		 $this->auth->restrict();
@@ -158,7 +161,7 @@
 
 		 $this->template->set('title','Manajemen Master Data | Aplikasi Monitoring Kendaraan Dinas');
 		 $this->template->load('template', 'admin/master', $data);
-	   }
+	   }*/
 	   //End of function master
 	   
 	}

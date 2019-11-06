@@ -15,10 +15,6 @@
 	 
 		public function index()
 		{
-		   //slider-------------
-		   //$this->load->model('slidermodel');
-		   //$data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -54,7 +50,6 @@
 			  $this->template->set('title','Input Form C');
 		   	  //$this->template->load('template','user/request/insert_request',$data);  
 			  $this->template->load('template_refresh','user/request/insert_request',$data);  
-			  
 		   }
 		   else
 		   {
@@ -62,9 +57,10 @@
               $keperluan=nl2br($cuap);
 			  $cuap1=$this->input->post('ket_tujuan');
 			  $ket_tujuan=nl2br($cuap1);
-		   	  $pemohon = $this->session->userdata('user_id');
+		   	  //$pemohon = $this->session->userdata('user_id');
+			  $pemohon = $this->session->userdata('id_user');
 			  $id = $this->session->userdata('nid');
-		   	  $subdit = $this->requestmodel->ambil_nama($id);
+		   	  //$subdit = $this->requestmodel->ambil_nama($id);
 			  
 			  $this->load->model('datemodel');
 			  //$tgl_berangkat = $this->datemodel->format_tanggal($this->input->post('date'));
@@ -73,23 +69,26 @@
 			  $tgl_kembali =  $this->input->post('date1');
 			  
 			  //konversi 03 ke Mar
-			  $tgl_berangkat = date('d-M-Y',strtotime($tgl_berangkat));
-			  $tgl_kembali = date('d-M-Y',strtotime($tgl_kembali));
+			  // $tgl_berangkat = date('d-M-Y',strtotime($tgl_berangkat));
+			  // $tgl_kembali = date('d-M-Y',strtotime($tgl_kembali));
+			  $tgl_berangkat = date('Y-m-d H:i:s',strtotime($tgl_berangkat));
+			  $tgl_kembali = date('Y-m-d H:i:s',strtotime($tgl_kembali));
 			  
 			  
 			  $data_req = array(
-				 'ID_PEMOHON' =>$pemohon,
-				 'ATAS_NAMA' =>$subdit,
-				 'TGL_BERANGKAT'   =>$tgl_berangkat,
-				 'TGL_KEMBALI'   =>$tgl_kembali,
+				 //'ID_PEMOHON' =>$pemohon,
+				 'NID'				=>$id,
+				 //'ATAS_NAMA' =>$subdit,
+				 'TGL_BERANGKAT'	=>$tgl_berangkat,
+				 'TGL_KEMBALI'		=>$tgl_kembali,
 				 //'JAM_KELUAR'   =>$this->input->post('jam_out'),
 				 //'JAM_KEMBALI'   =>$this->input->post('jam_in'),
-				 'KETERANGAN_TUJUAN'   =>$ket_tujuan,
-				 'JML_PENUMPANG'   =>$this->input->post('jml_penumpang'),
-				 'KEPERLUAN'   =>$keperluan,
-				 'ID_TIPE_SPJ'   =>$this->input->post('id_tipe_spj'),
-				 'SUBDIT' => $this->session->userdata('subdit')
-				
+				 'TUJUAN'			=>$ket_tujuan,
+				 'PENUMPANG'		=>$this->input->post('jml_penumpang'),
+				 'KEPERLUAN'   		=>$keperluan,
+				 'JENIS'			=>$this->input->post('id_tipe_spj'),
+				 'DIVISI' 			=> $this->session->userdata('subdit'),
+				 'STATUS'			=> '4'
 			  );
 			  $this->requestmodel->insert_data_request($data_req);
 			  // kembalikan ke halaman manajemen user
@@ -99,10 +98,6 @@
 		
 		public function success()
 		{
-		  //slider-------------
-		   //$this->load->model('slidermodel');
-		   //$data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -112,19 +107,15 @@
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3);
 
-		   $this->template->set('title','Request Sukses | eFormC');
+		   $this->template->set('title','Request Sukses');
 		   //$this->template->load('template','user/request/request_success',$data);
-		   $this->template->load('template_refresh','user/request/request_success',$data);
+		   $this->template->load('template_refresh','user/request/daftar_request',$data);
 		
 		}
 		//End of function success
 		
 		public function daftar_request()
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -134,7 +125,8 @@
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3);
 		   
-		   $id = $this->session->userdata('user_id');
+		   //$id = $this->session->userdata('user_id');
+		   $id = $this->session->userdata('nid');
 		   $data['request'] = $this->requestmodel->get_request($id);
 		   
 		   $this->template->set('title','List Request');
@@ -145,8 +137,6 @@
 		
 		public function daftar_operasional()
 		{
-           $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
@@ -163,11 +153,9 @@
 		   $this->template->load('template_refresh','user/request/daftar_operasional',$data);
 		}
 		//End of function daftar_operasional
-		
+		/*
 		public function daftar_sewa()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
@@ -183,12 +171,11 @@
 		   $this->template->load('template','user/request/daftar_sewa',$data);
 		
 		}
+		*/
 		//End of function daftar_sewa
 		
 		public function daftar_voucher()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
@@ -208,8 +195,6 @@
 		
 		public function daftar_reimburse()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   

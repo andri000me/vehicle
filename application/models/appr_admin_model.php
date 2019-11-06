@@ -84,7 +84,8 @@
 	 
 	 function show_request()
 	 {
-		$this->db->from('VIEW_REQUEST_ASS');
+		//$this->db->from('VIEW_REQUEST_ASS');
+		$this->db->from('VIEW_REQUEST');
 	    return $this->db->get();
 	 }
 	 function show_request_jkt()//gabungan dari request_model=show_all_request_jkt dan view_request_ass

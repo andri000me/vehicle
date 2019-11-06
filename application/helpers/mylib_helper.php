@@ -126,6 +126,17 @@ if ( ! function_exists('generatehtml'))
 		}
 	}
 	
+	function jabatanJ($j)
+	{
+		switch($j){
+			case 0:
+				return "Non Struktural";
+			case 1:
+				return "Struktural";
+			break;
+		}
+	}
+	
 	function userTipe($t)
 	{
 		switch($t){

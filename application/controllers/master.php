@@ -567,10 +567,6 @@
 		//Index untuk manajemen subdit
 	   function subdit()
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 	    //Load model 'usermodel'
 		 $this->load->model('usermodel');
 		 //Level untuk user ini
@@ -585,17 +581,13 @@
 		  //Ambil menu dari database sesuai dengan level
 		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
 	     $data['subdit'] = $this->subditmodel->get_all_subdit();
-		 $this->template->set('title', 'Subdit | eFormC');
-         $this->template->load('template', 'admin/subdit/subdit_index', $data);	 
+		 $this->template->set('title', 'Divisi');
+         $this->template->load('template_refresh', 'admin/subdit/sindex', $data);	 
 	   }
 	   //End of function index
 	   
 	   function insert_subdit()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 	      $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 	      $this->load->model('subditmodel');
@@ -614,13 +606,14 @@
 		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
 	         $data['subdit'] = $this->subditmodel->get_all_subdit();
 		     $this->template->set('title', 'Form Tambah Subdit Baru | eFormC');
-			 $this->template->load('template','admin/subdit/insert_subdit_form', $data);
+			 // $this->template->load('template','admin/subdit/insert_subdit_form', $data);
+			 redirect('master/subdit');
 		  }//End of if
 		  else
 		  {
 		     $data_subdit = array(
-			    'KODE_SUBDIT' => $this->input->post('kode_subdit'),
-				'SUBDIT' => $this->input->post('subdit')
+			    'KODE_DIVISI' => $this->input->post('kode_subdit'),
+				'DIVISI' => $this->input->post('subdit')
 			 );
 			 
 			 $this->subditmodel->insert_data_subdit($data_subdit);
@@ -633,11 +626,7 @@
 	   
 	   function edit_subdit()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-		 $this->load->model('subditmodel');
+		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 	      $this->load->model('subditmodel');
 		  
@@ -647,41 +636,44 @@
 		  $this->load->library('form_validation');
 		  $this->form_validation->set_rules('kode_subdit', 'kode_subdit', 'trim|required');
 		  $this->form_validation->set_rules('subdit', 'subdit', 'trim|required');
+		  $id = $this->input->post('id_subdit');
 		  
 		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
           
           //Mendapatkan id dari segmen ke-3 URI		  
-          $id = $this->uri->segment(3);	
-          
-           if($this->form_validation->run() == FALSE)
-           {
-		      $data['menu'] = $this->usermodel->get_menu_for_level($level);
-	          $data['subdit'] = $this->subditmodel->get_subdit_by_id($id);
-		      $this->template->set('title', 'Form Edit Subdit | eFormC');
-			  $this->template->load('template','admin/subdit/edit_subdit_form', $data);
-		   } //End of if
-           else
-           {
-		      $data_subdit = array(
-			    'KODE_SUBDIT' => $this->input->post('kode_subdit'),
-				'SUBDIT' => $this->input->post('subdit')
+          //$id = $this->uri->segment(3);	
+          $data = array(
+			    'KODE_DIVISI' => $this->input->post('kode_subdit'),
+				'DIVISI' => $this->input->post('subdit')
 			   );
+		  $this->subditmodel->update_data_subdit($data, $id);
+		  redirect('master/subdit');
+		  
+           // if($this->form_validation->run() == FALSE)
+           // {
+		      // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	          // $data['subdit'] = $this->subditmodel->get_subdit_by_id($id);
+		      // $this->template->set('title', 'Form Edit Subdit | eFormC');
+			  // $this->template->load('template_refresh','admin/subdit/sindex', $data);
+		   // } //End of if
+           // else
+           // {
+		      // $data_subdit = array(
+			    // 'KODE_DIVISI' => $this->input->post('kode_subdit'),
+				// 'DIVISI' => $this->input->post('subdit')
+			   // );
 			   
-			   $this->subditmodel->update_data_subdit($data_subdit, $id);
+			   // $this->subditmodel->update_data_subdit($data_subdit, $id);
 			   
-			   redirect('master/subdit');
-		   } //End of else		   
+			   // redirect('master/subdit');
+		   // } //End of else		   
 		
 	   }
 	   //End of function edit_subdit
 	   
 	   function delete_subdit()
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	     $this->auth->restrict();
+		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
 		 
 		 $this->load->model('subditmodel');
@@ -696,12 +688,8 @@
 //-------------------------- Controller untuk JABATAN ---------------------------------------------------
 	   //------------------------------ Jabatan Controller ---------------------------------------//
 	   
-	   function jabatan()  //renamed from view_jabatan
+	   function jabatan() 
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 	     $this->load->model('usermodel');
 		 $level = $this->session->userdata('level');
 	     $this->load->model('subditmodel');
@@ -710,19 +698,16 @@
 		 $this->auth->check_menu(1);
 		 
 		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		 $data['subdit'] = $this->subditmodel->get_all_subdit();
 	     $data['jabatan'] = $this->subditmodel->get_all_jabatan();
-		 $this->template->set('title', 'Jabatan | eFormC');
-         $this->template->load('template', 'admin/subdit/jabatan', $data);
+		 $this->template->set('title', 'Jabatan Karyawan');
+         $this->template->load('template_refresh', 'admin/subdit/jindex', $data);
 	   }
 	   //End of function view_jabatan
 	   
 	   function insert_jabatan()
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	    $this->load->model('subditmodel');
+	     $this->load->model('usermodel');
 		 $level = $this->session->userdata('level');
 	     $this->load->model('subditmodel');
 		 
@@ -764,11 +749,7 @@
 	   
 	   function edit_jabatan()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	      $this->load->model('usermodel');
+		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 	      $this->load->model('subditmodel');
 		  
@@ -782,42 +763,47 @@
 		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
 		  
 		  $id = $this->uri->segment(3);	
-		  
-		  if($this->form_validation->run() == FALSE)
-		  {
-		    $data['menu'] = $this->usermodel->get_menu_for_level($level);
-	        $data['jabatan'] = $this->subditmodel->get_jabatan_by_id($id);
-			$data['subdit'] = $this->subditmodel->get_all_subdit();
-			$data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
-			
-		    $this->template->set('title', 'Form Edit Jabatan Aplikasi Monitoring Kendaraan Dinas');
-			$this->template->load('template','admin/subdit/edit_jabatan_form', $data);
-		  
-		  } //End of if
-		  else
-		  {
-		     $data_jabatan = array(
+		  $data_jabatan = array(
 			      'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
-				  'JABATAN' => $this->input->post('jabatan'),
-				  'ID_SUBDIT' => $this->input->post('id_subdit'),
-                  'ID_JENIS_JABATAN' => $this->input->post('id_jenis_jabatan')				  
+				  'NAMA_JABATAN' => $this->input->post('jabatan'),
+				  'KODE_DIVISI' => $this->input->post('id_subdit'),
+                  'JENIS' => $this->input->post('id_jenis_jabatan')				  
 			  );
 			  
-			  $this->subditmodel->update_data_jabatan($data_jabatan, $id);
+		  $this->subditmodel->update_data_jabatan($data_jabatan, $id);
+		  redirect('master/jabatan');
+		  
+		  // if($this->form_validation->run() == FALSE)
+		  // {
+		    // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	        // $data['jabatan'] = $this->subditmodel->get_jabatan_by_id($id);
+			// $data['subdit'] = $this->subditmodel->get_all_subdit();
+			// $data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
+			
+		    // $this->template->set('title', 'Form Edit Jabatan Aplikasi Monitoring Kendaraan Dinas');
+			// $this->template->load('template','admin/subdit/edit_jabatan_form', $data);
+		  
+		  // } //End of if
+		  // else
+		  // {
+		     // $data_jabatan = array(
+			      // 'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
+				  // 'JABATAN' => $this->input->post('jabatan'),
+				  // 'ID_SUBDIT' => $this->input->post('id_subdit'),
+                  // 'ID_JENIS_JABATAN' => $this->input->post('id_jenis_jabatan')				  
+			  // );
 			  
-			  redirect('master/jabatan');
-		  } //End of else
+			  // $this->subditmodel->update_data_jabatan($data_jabatan, $id);
+			  
+			  // redirect('master/jabatan');
+		  // } //End of else
 		
 	   }
 	   //End of function edit_jabatan
 	   
 	   function delete_jabatan()
 	   {
-		  //slider-------------
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	      $this->auth->restrict();
+		  $this->auth->restrict();
 		  $this->auth->check_menu(1);
 		 
 		  $this->load->model('subditmodel');
@@ -949,10 +935,6 @@
 		
 		function karyawan()
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('karyawanmodel');
 		   $data['id_jab'] = $this->karyawanmodel->ambil_data();
 		   
@@ -964,8 +946,8 @@
 		   $data['karyawan'] = $this->karyawanmodel->tampil_karyawan();
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
-		   $this->template->set('title','Karyawan | eForm');
-		   $this->template->load('template','admin/karyawan/datakaryawan',$data);
+		   $this->template->set('title','Karyawan');
+		   $this->template->load('template_refresh','admin/karyawan/index',$data);
 		}
 	    //End of function karyawan
 		

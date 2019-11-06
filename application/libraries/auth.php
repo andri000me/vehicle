@@ -24,32 +24,43 @@ class Auth
    {
 	  //cek di database
 	  //$this->CI->db->from('USER');
+	  //Cek User
 	  $this->CI->db->from('USERS');
 	  $this->CI->db->where('USERNAME', $username);
 	  $this->CI->db->where('PASSWORD', md5($password));
 	  $result = $this->CI->db->get();
+	  $userdata = $result->row();
+	  
+	  //Cek DIVISI
+	  $this->CI->db->from('VIEW_KARYAWAN');
+	  $this->CI->db->where('NID', $username); 
+	  $result2 = $this->CI->db->get();
+	  $subdata = $result2->row();
 	  
 	  if($result->num_rows() == 0){
 			return false;  //Username dan password tsb tidak ada
 			}
 	  else
 	  {
-	     $userdata = $result->row();
-		 //$userdata = $result->row();
-	  	 $this->CI->db->from('TIPE_USER');
-		 $this->CI->db->where('ID_TIPE_USER', $userdata->ID_TIPE_USER);
+	  	 //$this->CI->db->from('TIPE_USER');
+		 //$this->CI->db->where('ID_TIPE_USER', $userdata->ID_TIPE_USER);
 		 
-		 $result2 = $this->CI->db->get();
-		 $userdata2 = $result2->row();
+		 //$result2 = $this->CI->db->get();
+		 //$userdata2 = $result2->row();
 		 //Mengambil informasi user dari database
 		 $session_data = array(
-		 	 'id_user' => $userdata->ID_USER,
+			 'id_user' => $userdata->ID_USER,
 			 'nid'     => $username,
 			 'pass'    => $password,
 			 'nama'    => $userdata->NAMA,
-			 'unit'    => $userdata->KODE_DISTRIK,
-			 'tipe'    => $userdata2->TIPE_USER,
-			 'level'   => $userdata->ID_TIPE_USER
+			 //'unit'    => $userdata->KODE_DISTRIK,
+			 //'tipe'    => $userdata2->TIPE_USER,
+			 'level'   => $userdata->TIPE_USER,
+			 'jabatan_id'	=> $subdata->KODE_JABATAN,
+			 //'subdit_id'	=> $subdata->DIREKTORAT_SUB_ID,
+			 'subdit'	=> $subdata->KODE_DIVISI
+			 //'direktorat_id'	=> $subdata->DIREKTORAT_ID
+			 //'level'   => $userdata->ID_TIPE_USER
 		 );
 		 
 		 //Membuat session
@@ -118,14 +129,14 @@ class Auth
 	
    function getLoginInformation($rv)
    {
-
-   
-		 $this->CI->db->from('PAYROLL_PJBS2.SYS_USERS');
+		 //$this->CI->db->from('PAYROLL_PJBS2.SYS_USERS');
+		 $this->CI->db->from('USERS');
 		 $this->CI->db->where('USERNAME', $rv->NID);
 		 $result = $this->CI->db->get();
 		 $userdata = $result->row();
 	  
-		 $this->CI->db->from('PAYROLL_PJBS2.EMP_DETAIL');
+		 //$this->CI->db->from('PAYROLL_PJBS2.EMP_DETAIL');
+		 $this->CI->db->from('KARYAWAN');
 	     $this->CI->db->where('NID', $rv->NID); 
 		 $hasil= $this->CI->db->get();
 		 $subdata = $hasil->row();
@@ -145,7 +156,8 @@ class Auth
 		  
 		 $username = $userdata->USERNAME;
 		   
-		 $this->CI->db->from('PAYROLL_PJBS2.COMP_DIREKTORAT_SUB');
+		 //$this->CI->db->from('PAYROLL_PJBS2.COMP_DIREKTORAT_SUB');
+		 $this->CI->db->from('SUBDIT');
 	     $this->CI->db->where('ID', $subdata->DIREKTORAT_SUB_ID); 
 		 $hasil2= $this->CI->db->get();
 		 

@@ -3,12 +3,19 @@
 //Mengambil data dari row
 $(document).ready(function(){
 	$('.zedit').click(function(){
+		document.getElementById('edit').scrollIntoView();
 		var edit=$(this).closest('td').children('span').attr('id');
 		var a=edit.split("^");
 		document.getElementById('username').value = a[0];
-		document.getElementById('tipe_user').value = a[1];
-		document.getElementById('status_user').value = a[2];
-		//hideAdd();
+		var tuVal = a[1], tuText = a[2];
+		var suVal = a[3], suText = a[4];
+		var a=$('#sEdit').find('option').length, b=$('#sEdit2').find('option').length;
+		if(a<=6){
+			$('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
+		}else{
+			$('#sEdit').find('option').get(0).remove();
+			$('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
+		}
 	});
 });
 $(document).ready(function(){
@@ -29,7 +36,6 @@ $(document).ready(function(){
 function hideAdd(){
 	$('#add').hide();
 	$('#edit').show(500);
-	//viewEdit();
 }
 function hideEdit(){
 	$('#add').show(500);
@@ -50,12 +56,11 @@ function hideEdit(){
 					 <table class="table table-hover" id="dataTables-id">
 						<thead class="text-primary">
 						  <tr>
-							<th>USERNAME</th>
-							<th>NID</th>
-							<th>NAMA</th>
-							<th>TIPE USER</th>
-							<th>STATUS</th>
-							<th>OPSI</th>
+							<th>Username</th>
+							<th>Nama</th>
+							<th>Tipe</th>
+							<th>Status</th>
+							<th>Opsi</th>
 						  </tr>
 						</thead>
 						<tbody>
@@ -64,18 +69,17 @@ function hideEdit(){
 						?>
 						  <tr>
 							<td>
-								<span class="zedit" id="<?php echo $row->USERNAME;?>^<?php echo $row->TIPE_USER;?>^<?php echo $row->STATUS_USER;?>">
+								<span class="zedit" id="<?php echo $row->USERNAME;?>^<?php echo $row->TIPE_USER;?>^<?php echo userTipe($row->TIPE_USER);?>^<?php echo $row->STATUS;?>^<?php echo userStat($row->STATUS);?>">
 								<?php
 									echo "<a href='' onclick='hideAdd(); return false;'>".$row->USERNAME."</a>";
 								?>
 								</span>
 							</td>
-							<td><?php echo $row->NID;?></td>
 							<td><?php echo $row->NAMA;?></td>
-							<td><?php echo $row->TIPE_USER;?></td>
-							<td><?php echo $row->STATUS_USER;?></td>
+							<td><?php echo userTipe($row->TIPE_USER);?></td>
+							<td><?php echo userStat($row->STATUS);?></td>
 							<td>
-								<span class="zdelete" id="<?php echo $row->ID_USER;?>^<?php echo $row->NID;?>">
+								<span class="zdelete" id="<?php echo $row->ID_USER;?>^<?php echo $row->USERNAME;?>">
 									<button class="btn btn-primary btn-fab btn-round btn-sm" data-toggle="modal" data-target="#delete">
 										<i class="material-icons">clear</i>
 									</button>
@@ -184,12 +188,11 @@ function hideEdit(){
 						<i class="material-icons">supervisor_account</i>
 					  </span>
 					</div>
-					<select name="status" class="form-control">
-					  <option id="status"></option>
-					  <option style="border: 0.1px solid; background-color: black;" disabled>&nbsp;</option>
+					<select name="status" class="form-control" id="sEdit">
+					  <option disabled>------------------------------------------------------------</option>
 					  <?php 
-					  for($i=0;$i<4;$i++){
-						  echo "<option value='$i'>".sopirStat($i)."</option>";
+					  for($i=1;$i<6;$i++){
+						  echo "<option value='$i'>".userTipe($i)."</option>";
 					  }
 					  ?>
 					</select>
@@ -200,9 +203,8 @@ function hideEdit(){
 						<i class="material-icons">check</i>
 					  </span>
 					</div>
-					<select name="status" class="form-control">
-					  <option id="status"></option>
-					  <option style="border-bottom: 1px solid #000;" disabled></option>
+					<select name="status" class="form-control" id="sEdit2">
+					  <option disabled>------------------------------------------------------------</option>
 					  <?php 
 					  for($i=0;$i<4;$i++){
 						  echo "<option value='$i'>".sopirStat($i)."</option>";

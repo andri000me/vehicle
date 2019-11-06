@@ -1,25 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
- 
- <div>
-    <div id="content_pjbs">
-        <div class="content_pjbs">	
-          <div class="sprtr_1"></div>
-					    
-			 <!-- isi dengan table atau tampilan -->
-			 <div class="panel90">
-          
-                   Request anda telah berhasil dikirimkan.
-				   <br/><br/>
-				   
-				   <?php echo anchor('home', 'Kembali', array('class' => 'btn2 btn2-small btn2-primary' )); ?>
-     
-                </div>
-             <!-- End of div class panel90 -->
-		 
-		 <div class="clear"></div>
-                
-		 <br><br><br><br>
-          
-        </div> <!-- End of div id content_pjbs -->
-    </div> <!-- End of div  class content_pjbs -->
- </div>  
+	  <div class="alert alert-success">
+        <div class="container">
+          <div class="alert-icon">
+            <i class="material-icons">check</i>
+          </div>
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true"><i class="material-icons">clear</i></span>
+          </button>
+          <b>Success Alert:</b> Request Anda berhasil dikirimkan ke Operator
+        </div>
+      </div>
+<?php include "insert_request.php";?> 

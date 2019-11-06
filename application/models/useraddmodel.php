@@ -7,7 +7,7 @@
   {
 	 public function get_all_user()
 	 {
-	    $this->db->from('VIEW_USER');
+	    $this->db->from('VIEW_USERS');
 	    return $this->db->get();
 	 }	 
 	 function insert_data_user($data)

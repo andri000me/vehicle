@@ -7,7 +7,7 @@
 				<div class="card-body">
 					<!-------- -------------------------------------------------------------------------------->
     
-					<img src="<?php echo base_url();?>asset/images/Flow_Kendaraan.JPG" align="left"/>
+					<img src="<?php echo base_url();?>asset/images/Flow_Kendaraan.JPG" align="left"/ width="100%">
 
 					<!-------- -------------------------------------------------------------------------------->
 				</div>
