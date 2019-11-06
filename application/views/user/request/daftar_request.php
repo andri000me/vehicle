@@ -10,7 +10,7 @@
 				<!-- isi dengan table atau tampilan -->
 				<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="example">
+					<table class="table table-hover" id="dataTables-id">
                                 <thead class=" text-primary">
                                         <th>NO</th>
                                         <th>TGL BERANGKAT</th>
@@ -31,30 +31,7 @@
                                         <td><?php echo $row->TGL_KEMBALI;?></td>
 										<td><?php echo $row->TUJUAN;?></td>
 										<td><?php echo $row->KEPERLUAN;?></td>
-										<td>
-										  <?php 
-										      $cek = $row->STATUS;
-											  
-											  if($cek == 4)
-											  {
-											    ?>
-												<span class="label label-warnin"><?php echo $row->STATUS_REQUEST; ?></span><br>
-												<?php
-											  }
-											  else if($cek == 2)
-											  {
-											    ?>
-												<span class="label label-important"><?php echo $row->STATUS_REQUEST; ?></span><br>
-												<?php
-											  }
-											  else if($cek == 3 || $cek == 1)
-											  {
-											     ?>
-												<span class="label label-success"><?php echo $row->STATUS_REQUEST; ?></span><br>
-												<?php
-											  }
-										  ?>
-										</td>
+										<td><?php echo reqStat($row->STATUS); ?></td>
                                     </tr>
                                 <?php
 								  $no++;

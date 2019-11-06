@@ -8,8 +8,6 @@
 				<!-- Header -->
 			  	<?php include "header.php";?>					    
 				<!-- isi dengan table atau tampilan -->
-				  	<?php echo anchor('approval/pending_request', 'Daftar Pending Request', array('class' => 'btn2 btn2-small btn2-warning')); ?>
-				   <br/>
 				<div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
@@ -57,4 +55,16 @@
 			  </div>
 			</div>
 		</div>
+	</div>
+	
+	<!-- End List -->
+	<div class="fixed-plugin">
+	  <div class="col-md-6">
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/pending_request/';?>">
+		 <span class="input-group-text">
+			<i class="material-icons">local_parking</i>
+		 </span>
+		 <b>Pending</b>
+		</a>
+	  </div>
 	</div>

@@ -104,6 +104,42 @@ if ( ! function_exists('generatehtml'))
 		}
 	}
 	
+	function oprStat($stat)
+	{
+		switch($stat){
+			case 0:
+				return "-";
+			case 1:
+				return "Kembali";
+			case 2:
+				return "Dibatalkan";
+			case 3:
+				return "Selesai";
+			case 4:
+				return "Berangkat";
+			case 5:
+				return "Stand By";
+			break;
+		}
+	}
+	
+	function reqStat($stat)
+	{
+		switch($stat){
+			case 0:
+				return "-";
+			case 1:
+				return "Disetujui";
+			case 2:
+				return "Ditolak";
+			case 3:
+				return "Selesai";
+			case 4:
+				return "Pending";
+			break;
+		}
+	}
+	
 	function spj($id)
 	{
 		switch($id){

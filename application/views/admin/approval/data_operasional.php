@@ -1,85 +1,42 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-<!-------------------------------------------------------------------------------------------------------------------------------->
-<?php $kode=$level;?>
-		 <div>
-    	     <div id="content_pjbs">
-        	     <div class="content_pjbs">
-            	
-                     <div class="sprtr_1"></div>
-					 
-					 <div class="fleft" style="margin-left:10px;">
-                        <table>
-                              <tr>
-                              	  <td><?php echo anchor('approval/approval_admin', 'Request', array('class' => 'btn2 btn2-small btn2-inverse')); ?></td>
-                                  <td><?php echo anchor('approval/lihat_operasional', 'Operasional', array('class' => 'btn2 btn2-small btn2-primary')); ?></td>
-								  <td><?php echo anchor('approval/hal_op_reject', 'Pembatalan', array('class' => 'btn2 btn2-small btn2-danger')); ?></td><?php if($kode==6){}else{?>
-								  <td><?php echo anchor('approval/lihat_sewa', 'Sewa', array('class' => 'btn2 btn2-small btn2-inverse')); ?></td>
-								  <td><?php echo anchor('approval/lihat_voucher', 'Voucher', array('class' => 'btn2 btn2-small btn2-inverse')); ?></td>
-								  <td><?php echo anchor('approval/lihat_reimburse', 'Reimburse', array('class' => 'btn2 btn2-small btn2-inverse')); ?></td><?php }?>
-                              </tr>
-                          </table>
-                      </div>
-					  
-					  <br/><br/>
-					<hr>
-					    
-			<div class="clear"></div>
-						 <!-- isi dengan table atau tampilan -->
-			 <div class="panel90">
-                <div class="judul_pjbs">
-                   <h3>Data Operasional</h3>
-                  <br />
-                </div>
-                 
-                <hr>
-				<div class="row-fluid">
-                        <div class="span12" style="font-size:11px;">
-                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example">
-                                <thead>
-                                    <tr>
-                                        <!--<th width="2px">NO</th>-->
-										<th width="5px">NO</th>
-                                        <th width="90px">PEMOHON</th>
-                                        <th width="80px">SOPIR / KENDARAAN</th>
-                                        <th width="40px" style="text-align:center">WAKTU BERANGKAT</th>
-                                        <th width="40px" style="text-align:center">WAKTU KEMBALI</th>
-                                        <th width="40px" style="text-align:center">TUJUAN</th>
-                                        <th width="20px" style="text-align:center">STATUS</th>
-									
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                	<?php
-										$no = 1;
-										
-										foreach($approval->result() as $row)
-										{
-									?>
-                                    <tr class="odd gradeX">
-										 <td>
-											<?php echo $no; ?>
-                                        </td>
-                                        <td>
-											<?php echo $row->PEMOHON; ?>
-                                        </td>
-                                        <td>
-											<?php echo $row->NAMA_SOPIR."<br>-<br>".$row->JENIS_KENDARAAN."<br>".$row->NO_POLISI; ?>
-                                        </td>
-                                        <td style="text-align:center">
-											<?php echo $row->TGL_BERANGKAT."<br>-<br>".$row->JAM_KELUAR; ?>
-                                        </td>
-                                        <td style="text-align:center">
-											<?php echo $row->TGL_KEMBALI."<br>-<br>".$row->JAM_KEMBALI; ?>
-                                        </td>
-                                        <td style="text-align:center">
-											<?php echo $row->KETERANGAN_TUJUAN; ?>
-                                        </td>
-                                        <td style="text-align:center">
-											<?php //echo $row->STATUS_OPERASIONAL; ?>
-                                            <br>
-											<?php
-                                            $cek = $row->ID_STATUS_OPERASIONAL;
+<div class="content">	
+ 	<div class="container-fluid">
+ 		<div class="row">
+ 			<div class="col-md-12">
+			  <div class="card card-nav-tabs">
+				<!-- Header -->
+			  	<?php include "header.php";?>					    
+				<!-- isi dengan table atau tampilan -->
+                <div class="card-body">
+				<div class="table-responsive">
+					<table class="table table-hover" id="dataTables-id">
+						<thead class=" text-primary">
+							<tr>
+								<th>NO</th>
+								<th>PEMOHON</th>
+								<th>SOPIR / KENDARAAN</th>
+								<th>WAKTU BERANGKAT</th>
+								<th>WAKTU KEMBALI</th>
+								<th>TUJUAN</th>
+								<th>STATUS</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php
+								$no = 1;
+								foreach($approval->result() as $row){
+							?>
+							<tr>
+								<td><?php echo $no; ?></td>
+								<td><?php echo $row->PEMOHON; ?></td>
+								<td><?php echo $row->NAMA_SOPIR."<br>-<br>".$row->JENIS_KENDARAAN."<br>".$row->NO_POLISI; ?>
+								</td>
+								<td><?php echo $row->TGL_BERANGKAT; ?></td>
+								<td><?php echo $row->TGL_KEMBALI; ?></td>
+								<td><?php echo $row->TUJUAN; ?></td>
+								<td>
+								<?php 
+									$cek = $row->ID_STATUS_OPERASIONAL;
 											
 											if($cek == 5)
 											{
@@ -123,17 +80,10 @@
 									}
 									 ?>
                                  </tbody>
-
-                            </table>
-                        </div>
-       				</div>
-             </div>  <!-- End of div class panel90 -->
-		 
-		             <div class="clear"></div>
-                
-			         <br><br><br><br>
-            
-                 </div>
-             </div>
-         </div>
-
+					</table>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		</div>
+	</div>

@@ -46,10 +46,6 @@
 		
 		public function print_form()
 		{
-			//slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   $this->load->model('appr_admin_model');
@@ -73,10 +69,6 @@
 	 		
 		function edit_approval($val,$id)
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
@@ -92,8 +84,8 @@
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
       	
 			  $data_request = array(
-				 'ID_STATUS_REQUEST' =>$val,
-				 'APPROVED_BY' => $this->session->userdata('nama')
+				 'STATUS' =>$val,
+				 'APPROVED_BY' => $this->session->userdata('nid')
 			  );
 			  $this->requestmodel->edit_data_request($data_request,$id);
 			  redirect('approval');
@@ -148,8 +140,6 @@
 		
 		public function semua_approval()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   
 		   $level = $this->session->userdata('level');
@@ -167,9 +157,6 @@
 		
 		function insert_op()
 		{
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-
 		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 		  
@@ -193,9 +180,10 @@
 	      $data['approval'] = $this->appr_admin_model->show_request1($id_req);
 		  
 		  //$tgl_kembali = $this->appr_admin_model->show_request1($id_req)->row()->TGL_KEMBALI;		
-		  $tgl_kembali = $this->appr_admin_model->get_tgl_kembali($id_req);
-		  $waktu_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
-		  $waktu_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
+		  $tgl_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
+		  //$waktu_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
+		  //$waktu_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
+		  $tgl_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
 		  //echo $waktu_berangkat." - ".$waktu_kembali."<br/><br/>";
 		  
 		  if($this->form_validation->run() == FALSE)
@@ -206,25 +194,31 @@
 			 //$data['approval'] = $this->appr_admin_model->show_request();
 		  	 
 		  	 
-			 $data['jenis_operasional'] = $this->appr_admin_model->tampil_jenis_operasional();
+			 //$data['jenis_operasional'] = $this->appr_admin_model->tampil_jenis_operasional();
+			 $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif(); 
+			 $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($tgl_kembali);
+			 $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($tgl_berangkat);
+			 $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
+			 $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($tgl_kembali);
+			 $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($tgl_berangkat);
 			 
-			 if($level==6)
-			 {
-				$data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif_jkt(); 
-				$data['sopir'] = $this->appr_admin_model->get_sopir_booked2_jkt($waktu_kembali);
-				$data['sopir2'] = $this->appr_admin_model->get_sopir_booked3_jkt($waktu_berangkat); 
-				$data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif_jkt();
-				$data['mobil'] = $this->appr_admin_model->get_mobil_booked2_jkt($waktu_kembali);
-                $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3_jkt($waktu_berangkat);
-			 }else
-			 {
-				$data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif(); 
-				$data['sopir'] = $this->appr_admin_model->get_sopir_booked2($waktu_kembali);
-				$data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($waktu_berangkat);
-				$data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
-				$data['mobil'] = $this->appr_admin_model->get_mobil_booked2($waktu_kembali);
-                $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($waktu_berangkat);
-			 }
+			 // if($level==6)
+			 // {
+				// $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif_jkt(); 
+				// $data['sopir'] = $this->appr_admin_model->get_sopir_booked2_jkt($waktu_kembali);
+				// $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3_jkt($waktu_berangkat); 
+				// $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif_jkt();
+				// $data['mobil'] = $this->appr_admin_model->get_mobil_booked2_jkt($waktu_kembali);
+                // $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3_jkt($waktu_berangkat);
+			 // }else
+			 // {
+				// $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif(); 
+				// $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($waktu_kembali);
+				// $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($waktu_berangkat);
+				// $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
+				// $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($waktu_kembali);
+                // $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($waktu_berangkat);
+			 // }
 			 
 			 //$data['mobil'] = $this->appr_admin_model->get_mobil_booked($tgl_kembali);
 		     //$data['sopir'] = $this->appr_admin_model->get_sopir_booked($tgl_kembali);
@@ -310,11 +304,7 @@
 		//End of function insert_op
 		
 	   function update_op($id)
-	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-	       
+	   {  
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
 		 
@@ -358,9 +348,6 @@
 	   //halaman reject
 		function hal_op_reject() 
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('usermodel');
 		   $level = $this->session->userdata('level');
 		   $data['level']= $level;
@@ -373,15 +360,12 @@
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
-		   $this->template->set('title','Pembatalan Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','admin/approval/hal_update_rej',$data);
+		   $this->template->set('title','Pembatalan Operasional');
+		   $this->template->load('template_refresh','admin/approval/hal_update_rej',$data);
 		}
 		//proses reject
 		function up_op_reject()
 		{
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-
 		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 		  
@@ -492,31 +476,26 @@
 		
 		function lihat_operasional()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
 		   $level = $this->session->userdata('level');
 		   $data['level'] = $level;
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   if($level==6){
-		   $data['approval'] = $this->appr_admin_model->show_all_operasional_jkt();}else
-		  {$data['approval'] = $this->appr_admin_model->show_all_operasional();}
+		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
+		   // if($level==6){
+		   // $data['approval'] = $this->appr_admin_model->show_all_operasional_jkt();}else
+		  // {$data['approval'] = $this->appr_admin_model->show_all_operasional();}
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','admin/approval/data_operasional',$data);
+		   $this->template->set('title','List Operasional');
+		   $this->template->load('template_refresh','admin/approval/data_operasional',$data);
 		}
 		// End of function lihat_operasional
 		
 	    function edit_operasional()
 		{
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $this->load->model('appr_admin_model');
 		   
@@ -657,10 +636,6 @@
 		
 	   function berangkat()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $this->load->model('appr_admin_model');
 		   
@@ -729,10 +704,6 @@
 		
 	   function kembali()
 	   {
-		  //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $this->load->model('appr_admin_model');
 		   
@@ -976,9 +947,6 @@
 		
 		function insert_voucher()
 		{
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-
 		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 		  
@@ -1037,8 +1005,6 @@
 		
 		function lihat_voucher()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
@@ -1055,9 +1021,6 @@
 		
 		function insert_reimburse()
 		{
-		   $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-
 		  $this->load->model('usermodel');
 		  $level = $this->session->userdata('level');
 		  
@@ -1113,8 +1076,6 @@
 		
 		function lihat_reimburse()
 		{
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   

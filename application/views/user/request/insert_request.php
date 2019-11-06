@@ -32,7 +32,7 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label for="status">Status Dinas</label>
-                <select id="status" name="id_tipe_spj" class="form-control">
+                <select id="status" name="id_tipe_spj" class="select2 form-control">
 				  <?php 
 					  for($i=1;$i<3;$i++){
 						  echo "<option value='$i'>".spj($i)."</option>";

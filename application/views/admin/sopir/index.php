@@ -67,21 +67,17 @@ function hideEdit(){
 						{ ?>
 							<tr>
 								<td>
-								<span class="zedit" id="<?php echo $row->NID;?>^<?php echo $row->NAMA;?>^<?php echo $row->TELEGRAM;?>^<?php echo $row->ID_STATUS_SOPIR;?>^<?php echo sopirStat($row->ID_STATUS_SOPIR);?>">
+								<span class="zedit" id="<?php echo $row->NID_SOPIR;?>^<?php echo $row->NAMA;?>^<?php echo $row->CHAT_ID;?>^<?php echo $row->STATUS;?>^<?php echo sopirStat($row->STATUS);?>">
 								<?php
-									echo "<a href='' onclick='hideAdd(); return false;'>".$row->NID."</a>";
+									echo "<a href='' onclick='hideAdd(); return false;'>".$row->NID_SOPIR."</a>";
 								?>
 								</span>
 								</td>
+								<td><?php echo $row->NAMA;?></td>
+								<td><?php echo $row->CHAT_ID;?></td>
+								<td><?php echo sopirStat($row->STATUS);?></td>
 								<td>
-								<?php echo $row->NAMA;?>
-								</td>
-								<td><?php echo $row->TELEGRAM;?></td>
-								<td>
-									<?php echo sopirStat($row->ID_STATUS_SOPIR);?>
-								</td>
-								<td>
-									<span class="zdelete" id="<?php echo $row->ID_SOPIR;?>^<?php echo $row->NID;?>">
+									<span class="zdelete" id="<?php echo $row->ID_SOPIR;?>^<?php echo $row->NID_SOPIR;?>">
 									<button class="btn btn-primary btn-fab btn-round btn-sm" data-toggle="modal" data-target="#delete">
 									<i class="material-icons">clear</i>
 									</button>
@@ -134,7 +130,7 @@ function hideEdit(){
 						<i class="material-icons">check</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" value="<?php echo sopirStat(1);?>" name="status" disabled/>
+					<input type="text" class="form-control" value="<?php echo sopirStat(1);?>" name="status" required/>
 				  </div>
                   <button type="submit" class="btn btn-outline-primary btn-round">Submit</a>
                 </div>

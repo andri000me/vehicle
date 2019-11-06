@@ -48,10 +48,6 @@
 	 
 		function insert_sopir()
 		{
-		   //slider-------------
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		
 		   $this->load->model('usermodel');
 		   $this->load->model('sopirmodel');
 		   
@@ -59,36 +55,46 @@
 		   $this->auth->check_menu(1);  
 		   
 		   $this->load->library('form_validation');
-		   //$this->form_validation->set_rules('nid', 'nid', 'trim|required');
+		   $this->form_validation->set_rules('nid', 'nid', 'trim|required');
 		   $this->form_validation->set_rules('nama', 'nama', 'trim|required');
 		   $this->form_validation->set_rules('status', 'status', 'trim|required');
-		   $this->form_validation->set_rules('lokasi', 'lokasi', 'trim|required');
+		   $this->form_validation->set_rules('telegram', 'telegram', 'trim|required');
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
 		   
-		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
-		 
-		   if ($this->form_validation->run() == FALSE)
-		   {
-			  $level = $this->session->userdata('level');
-		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			  
-			  $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
-			  $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
-
-			  $this->template->set('title','Form Tambah Sopir Baru | eFormC');
-			  $this->template->load('template','admin/sopir/insert_sopir_form',$data);
-		   }
-		   else
-		   {
-			  $data_sopir = array(
-				 'NID' =>$this->input->post('nid'),
+		   $data_sopir = array(
+				 'NID_SOPIR' =>$this->input->post('nid'),
 				 'NAMA' =>$this->input->post('nama'),
-				 'ID_STATUS_SOPIR' =>$this->input->post('status'),
-				 'KODE_LOKASI' =>$this->input->post('lokasi')
+				 'STATUS' =>$this->input->post('status'),
+				 'CHAT_ID' =>$this->input->post('telegram')
 			  );
 			  
-			  $this->sopirmodel->insert_data_sopir($data_sopir);
-			  redirect('master/sopir');
-		   }
+		   $this->sopirmodel->insert_data_sopir($data_sopir);
+		   redirect('master/sopir');
+		   // if ($this->form_validation->run() == FALSE)
+		   // {
+			  // $level = $this->session->userdata('level');
+		  	  // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+			  
+			  // $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
+			  // $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
+
+			  // $this->template->set('title','Form Tambah Sopir Baru | eFormC');
+			  // $this->template->load('template','admin/sopir/insert_sopir_form',$data);
+		   // }
+		   // else
+		   // {
+			  // $data_sopir = array(
+				 // 'NID' =>$this->input->post('nid'),
+				 // 'NAMA' =>$this->input->post('nama'),
+				 // 'ID_STATUS_SOPIR' =>$this->input->post('status'),
+				 // 'KODE_LOKASI' =>$this->input->post('lokasi')
+			  // );
+			  
+			  // $this->sopirmodel->insert_data_sopir($data_sopir);
+			  // redirect('master/sopir');
+		   // }
 		   
 		}
 		
@@ -115,35 +121,49 @@
 		   $this->form_validation->set_rules('nid', 'nid', 'trim|required');
 		   $this->form_validation->set_rules('nama', 'nama', 'trim|required');
 		   $this->form_validation->set_rules('status', 'status', 'trim|required');
-		   $this->form_validation->set_rules('lokasi', 'lokasi', 'trim|required');
+		   $this->form_validation->set_rules('telegram', 'telegram', 'trim|required');
 		   
-		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		   // $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
 		   
 		   $id = $this->uri->segment(3);
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   //$data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
+		   $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
+		   //$data['lokasi'] = $this->sopirmodel->get_all_lokasi();
 		   
-		   if ($this->form_validation->run() == FALSE)
-		   {
-			  $level = $this->session->userdata('level');
-		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			  $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
-      		  $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
-			  $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
-			  
-			  $this->template->set('title','Edit Driver Kendaraan');
-			  $this->template->load('template','admin/sopir/edit_sopir_form',$data);
-		   }
-		   else
-		   {
-			  $data_sopir = array(
-				 'NID' =>$this->input->post('nid'),
+		   $data_sopir = array(
+				 'NID_SOPIR' =>$this->input->post('nid'),
 				 'NAMA'   =>$this->input->post('nama'),
-				 'ID_STATUS_SOPIR'   =>$this->input->post('status'),
-				 'KODE_LOKASI' =>$this->input->post('lokasi')
-			  );
+				 'STATUS'   =>$this->input->post('status'),
+				 'CHAT_ID' =>$this->input->post('telegram')
+			);
+			$this->sopirmodel->update_data_sopir($data_sopir,$id);
+			redirect('master/sopir');
+		   
+		   // if ($this->form_validation->run() == FALSE)
+		   // {
+			  // $level = $this->session->userdata('level');
+		  	  // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+			  // $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
+      		  // $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
+			  // $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
 			  
-			  $this->sopirmodel->update_data_sopir($data_sopir,$id);
-			  redirect('master/sopir');
-		   }
+			  // $this->template->set('title','Edit Driver Kendaraan');
+			  // $this->template->load('template','admin/sopir/edit_sopir_form',$data);
+		   // }
+		   // else
+		   // {
+			  // $data_sopir = array(
+				 // 'NID' =>$this->input->post('nid'),
+				 // 'NAMA'   =>$this->input->post('nama'),
+				 // 'ID_STATUS_SOPIR'   =>$this->input->post('status'),
+				 // 'KODE_LOKASI' =>$this->input->post('lokasi')
+			  // );
+			  
+			  // $this->sopirmodel->update_data_sopir($data_sopir,$id);
+			  // redirect('master/sopir');
+		   // }
 		   
 		}
 //---------------------- end driver ------------------------------------------------
@@ -152,10 +172,6 @@
 
 	  function kendaraan()
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		 $this->load->model('usermodel');
 		 $level = $this->session->userdata('level');
 	     
@@ -725,18 +741,18 @@
 		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
 	         $data['subdit'] = $this->subditmodel->get_all_subdit();
 			 $data['jabatan'] = $this->subditmodel->get_all_jabatan();
-			 $data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
+			 //$data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
 			 
-		     $this->template->set('title', 'Form Tambah Jabatan Baru | eFormC');
+		     //$this->template->set('title', 'Form Tambah Jabatan Baru | eFormC');
 			 $this->template->load('template','admin/subdit/insert_jabatan_form', $data);
 		  }//End of if
 		  else
 		  {
 		      $data_jabatan = array(
 			      'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
-				  'JABATAN' => $this->input->post('jabatan'),
-				  'ID_SUBDIT' => $this->input->post('id_subdit'),
-				  'ID_JENIS_JABATAN' => $this->input->post('id_jenis_jabatan')
+				  'NAMA_JABATAN' => $this->input->post('jabatan'),
+				  'KODE_DIVISI' => $this->input->post('id_subdit'),
+				  'JENIS' => $this->input->post('id_jenis_jabatan')
 			  );
 			  
 			  $this->subditmodel->insert_data_jabatan($data_jabatan);

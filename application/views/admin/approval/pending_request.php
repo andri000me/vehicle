@@ -7,8 +7,6 @@
 				<!-- Header -->
 			  	<?php include "header.php";?>					    
 				<!-- isi dengan table atau tampilan -->
-				   <?php echo anchor('approval/approval_admin', 'Kembali', array('class' => 'btn2 btn2-small btn2-warning')); ?>
-				   <br/>
                 <div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
@@ -41,7 +39,7 @@
 									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">
 										<i class="material-icons">check</i>
 									</a>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-warning btn-fab btn-round btn-sm">
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">
 										<i class="material-icons">clear</i>
 									</a>
 								</td>
@@ -57,4 +55,16 @@
 			  </div>
 			</div>
 		</div>
+	</div>
+	
+	<!-- End List -->
+	<div class="fixed-plugin">
+	  <div class="col-md-6">
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/approval_admin/';?>">
+		 <span class="input-group-text">
+			<i class="material-icons">reply_all</i>
+		 </span>
+		 <b>Back</b>
+		</a>
+	  </div>
 	</div>

@@ -20,7 +20,7 @@
 //-----------------------------------------------
 	 function show_request1($id)
 	 {
-		$this->db->from('VIEW_REQUEST_ASS');
+		$this->db->from('VIEW_REQUEST');
 		$this->db->where('ID_REQUEST', $id);
 	    return $this->db->get();
 	 }
@@ -57,7 +57,8 @@
 		if($query->num_rows() > 0)
 		{
 		   foreach($query->result() as $row)
-		     $waktu_kembali = $row->TGL_KEMBALI." ".$row->JAM_KEMBALI;
+		     //$waktu_kembali = $row->TGL_KEMBALI." ".$row->JAM_KEMBALI;
+			 $waktu_kembali = $row->TGL_KEMBALI;
 		}
 		
 		return $waktu_kembali;
@@ -76,7 +77,8 @@
 		if($query->num_rows() > 0)
 		{
 		   foreach($query->result() as $row)
-		     $waktu_berangkat = $row->TGL_BERANGKAT." ".$row->JAM_KELUAR;
+		     //$waktu_berangkat = $row->TGL_BERANGKAT." ".$row->JAM_KELUAR;
+			 $waktu_berangkat = $row->TGL_BERANGKAT;
 		}
 		
 		return $waktu_berangkat;
@@ -120,7 +122,8 @@
 	 }
 	 function show_all_operasional()
 	 {
-		$this->db->from('VIEW_OPERASIONAL');
+		//$this->db->from('VIEW_OPERASIONAL');
+		$this->db->from('PEMINJAMAN');
 	    return $this->db->get();
 	 }
 	 
@@ -200,8 +203,9 @@
 	 
 	 function show_operasional()
 	 {
-		$this->db->from('VIEW_OPERASIONAL');
-		$this->db->where('ID_STATUS_OPERASIONAL', 5);
+		//$this->db->from('VIEW_OPERASIONAL');
+		$this->db->from('PEMINJAMAN');
+		$this->db->where('STATUS', 5);
 	    return $this->db->get();
 	 }
 	 
@@ -329,7 +333,8 @@
 //get data aktif
 	 function get_driver_aktif()
 	 {
-	   $this->db->from('VIEW_DRIVER_AKTIF');
+	   //$this->db->from('VIEW_DRIVER_AKTIF');
+	   $this->db->from('SOPIR');
 	   return $this->db->get();
 	 }
 	 function get_driver_aktif_jkt()
@@ -824,7 +829,8 @@
     {
       foreach($query->result() as $row)
       {
-	    $waktu_berangkat = $row->TGL_BERANGKAT." ".$row->JAM_KELUAR;
+	    //$waktu_berangkat = $row->TGL_BERANGKAT." ".$row->JAM_KELUAR;
+		$waktu_berangkat = $row->TGL_BERANGKAT;
 		
 	    $diff = $this->db->query("
 			    SELECT 

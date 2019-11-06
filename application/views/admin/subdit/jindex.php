@@ -12,9 +12,11 @@ $(function(){
 		var opText = a[4], opVal = a[3];
 		var f=$('#sEdit').find('option').length;
 		if(f<=3){
-			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
+			//$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
+			$('#sEdit').prepend('<option value='+opVal+'>'+opText+'</option>');
 		}else{
 			$('#sEdit').find('option').get(0).remove();
+			//$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
 			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
 		}
 		// console.log(opVal);
@@ -122,10 +124,10 @@ function hideEdit(){
 						<i class="material-icons">style</i>
 					  </span>
 					</div>
-					<select name="subdit" id="divisi" class="select2 form-control">
+					<select name="id_subdit" class="select2 form-control">
 					  <?php 
 					  foreach($subdit->result() as $divisi){
-						  echo "<option value='$divisi->ID_DIVISI'>".$divisi->DIVISI."</option>";
+						  echo "<option value='".$divisi->KODE_DIVISI."'>".$divisi->DIVISI."</option>";
 					  }
 					  ?>
 					</select>
@@ -136,7 +138,7 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="jenis_jabatan" class="select2 form-control" title="Jenis Jabatan">
+					<select name="id_jenis_jabatan" class="select2 form-control">
 					  <?php 
 					  for($i=0;$i<=1;$i++){
 						  echo "<option value='$i'>".jabatanJ($i)."</option>";
@@ -188,7 +190,7 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="status" class="form-control" id="sEdit">
+					<select name="status" class="select2 form-control" id="sEdit">
 						<option disabled>------------------------------------------------------------</option>
 						 <?php 
 						 for($i=0;$i<2;$i++){
