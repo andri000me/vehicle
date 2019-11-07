@@ -55,7 +55,7 @@
 			$data['notif']  = $this->uri->segment(3);
 			
 		    //Set variabel $title
-		    $this->template->set('title', 'Welcome to Manajemen Kendaraan Dinas');
+		    $this->template->set('title', 'Sistem Informasi Pengelolaan Kendaraan Dinas');
 			//$this->template->load('template_refresh', 'admin/index', $data);
 		    //Load file view 'index.php'
 			//Sementara Hide
@@ -83,7 +83,7 @@
 		  
 		  if($this->form_validation->run() == FALSE)
 		  {
-		     $this->template->set('title', 'Welcome to Monitoring Kendaraan Dinas');
+		     $this->template->set('title', 'Sistem Informasi Pengelolaan Kendaraan Dinas');
 			 $this->template->load('template_2','login_form');
 		  } //End of if
 		  else

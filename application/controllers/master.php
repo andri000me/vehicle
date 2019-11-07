@@ -66,36 +66,12 @@
 		   $data_sopir = array(
 				 'NID_SOPIR' =>$this->input->post('nid'),
 				 'NAMA' =>$this->input->post('nama'),
-				 'STATUS' =>$this->input->post('status'),
+				 'STATUS' =>1,
 				 'CHAT_ID' =>$this->input->post('telegram')
 			  );
 			  
 		   $this->sopirmodel->insert_data_sopir($data_sopir);
 		   redirect('master/sopir');
-		   // if ($this->form_validation->run() == FALSE)
-		   // {
-			  // $level = $this->session->userdata('level');
-		  	  // $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			  
-			  // $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
-			  // $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
-
-			  // $this->template->set('title','Form Tambah Sopir Baru | eFormC');
-			  // $this->template->load('template','admin/sopir/insert_sopir_form',$data);
-		   // }
-		   // else
-		   // {
-			  // $data_sopir = array(
-				 // 'NID' =>$this->input->post('nid'),
-				 // 'NAMA' =>$this->input->post('nama'),
-				 // 'ID_STATUS_SOPIR' =>$this->input->post('status'),
-				 // 'KODE_LOKASI' =>$this->input->post('lokasi')
-			  // );
-			  
-			  // $this->sopirmodel->insert_data_sopir($data_sopir);
-			  // redirect('master/sopir');
-		   // }
-		   
 		}
 		
 		function delete_sopir($id)
@@ -125,7 +101,8 @@
 		   
 		   // $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
 		   
-		   $id = $this->uri->segment(3);
+		   //$id = $this->uri->segment(3);
+		   $id = $this->input->post('id');
 		   $level = $this->session->userdata('level');
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   //$data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
@@ -734,7 +711,7 @@
 		 $this->form_validation->set_rules('kode_jabatan', 'kode_jabatan', 'trim|required');
 		 $this->form_validation->set_rules('jabatan', 'jabatan', 'trim|required');
 		 
-		 $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+		 //$this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
 		  
 		  if($this->form_validation->run() == FALSE)
 		  {  
@@ -775,15 +752,14 @@
 		  $this->load->library('form_validation');
 		  $this->form_validation->set_rules('kode_jabatan', 'kode_jabatan', 'trim|required');
 		  $this->form_validation->set_rules('jabatan', 'jabatan', 'trim|required');
-		 
-		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+		  $data['subdit'] = $this->subditmodel->get_all_subdit();
 		  
-		  $id = $this->uri->segment(3);	
+		  $id = $this->input->post('id');
 		  $data_jabatan = array(
 			      'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
 				  'NAMA_JABATAN' => $this->input->post('jabatan'),
 				  'KODE_DIVISI' => $this->input->post('id_subdit'),
-                  'JENIS' => $this->input->post('id_jenis_jabatan')				  
+                  'JENIS' => $this->input->post('jenis')				  
 			  );
 			  
 		  $this->subditmodel->update_data_jabatan($data_jabatan, $id);
@@ -1094,53 +1070,25 @@
 		
 		function insert_user()
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		
 		   $this->load->model('usermodel');
 		   $this->load->model('useraddmodel');
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
-		   
-		   $this->load->library('form_validation');
-		   //$this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'trim|required');
-		   $this->form_validation->set_rules('username', 'username', 'trim|required');
-		   $this->form_validation->set_rules('password', 'password', 'trim|required');
-		   $this->form_validation->set_rules('tipe_user', 'tipe_user', 'trim|required');
-		   $this->form_validation->set_rules('status_user', 'status_user', 'trim|required');
-		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
-
-		   if ($this->form_validation->run() == FALSE)
-		   {
-			  $level = $this->session->userdata('level');
-		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
-
-			  $this->template->set('title','Form Tambah User Baru | eFormC');
-			  $this->template->load('template','admin/user/insert_user',$data);
-		   }
-		   else
-		   {
-			  $data_lokasi = array(
-				 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
+		   $data_lokasi = array(
+				 // 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
 				 'USERNAME' =>$this->input->post('username'),
 				 'PASSWORD' =>md5($this->input->post('password')),
-				 'ID_TIPE_USER' =>$this->input->post('tipe_user'),
-				 'ID_STATUS_USER' =>$this->input->post('status_user')
+				 'TIPE_USER' =>$this->input->post('tipe_user'),
+				 'STATUS' =>1
 			  );
-			  $this->useraddmodel->insert_data_user($data_lokasi);
-			  redirect('master/user');
-		   }
+			$this->useraddmodel->insert_data_user($data_lokasi);
+			redirect('master/user');
 		}
 		//End of function insert_user
 		
 		function delete_user($id)
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
 		   $this->load->model('useraddmodel');
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
@@ -1153,56 +1101,24 @@
 		
 		function edit_user()
 		{
-		   //slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		   $this->load->model('usermodel');
 		   $this->load->model('useraddmodel');
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
-		   $this->load->library('form_validation');
-		   
-		   $this->load->model('karyawanmodel');
-		   $data['id_jab'] = $this->karyawanmodel->tampil_karyawan();
-		   
-		   $this->load->model('statusmodel');
-		   $data['status'] = $this->statusmodel->get_all_status();
-		   
-		   $this->load->model('tipemodel');
-		   $data['tipe'] = $this->tipemodel->get_all_tipe();
-		   
-		   //$this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'trim|required');
-		   $this->form_validation->set_rules('username', 'username', 'trim|required');
-		   $this->form_validation->set_rules('tipe_user', 'tipe_user', 'trim|required');
-		   $this->form_validation->set_rules('status_user', 'status_user', 'trim|required');
-
-		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
-		   $id = $this->uri->segment(3);
-		   
-		   if ($this->form_validation->run() == FALSE)
-		   {
-			  $level = $this->session->userdata('level');
-		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
-      		  $data['user'] = $this->useraddmodel->get_user_by_id($id);
-			  
-			  $this->template->set('title','Edit data User | MyWebApplication.com');
-			  $this->template->load('template','admin/user/edit_user',$data);
-		   }
-		   else
-		   {
-			
-		       $data_user = array(
-					 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
-					 'USERNAME' =>$this->input->post('username'),
-					 'ID_TIPE_USER' =>$this->input->post('tipe_user'),
-					 'ID_STATUS_USER' =>$this->input->post('status_user')
+		   $id = $this->input->post('username');
+		   $pass = md5($this->input->post('password'));
+		   $data_user = array(
+					 // 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
+					 // 'USERNAME' =>$this->input->post('username'),
+					 'TIPE_USER' =>$this->input->post('tipe_user'),
+					 'STATUS' =>$this->input->post('status')
 			   );
-			  
-			  $this->useraddmodel->update_data_user($data_user,$id);
-			  redirect('master/user');
-		   }
+			if(!empty($pass)){
+			   $data_user['PASSWORD']=$pass;
+			}
+			$this->useraddmodel->update_data_user($data_user,$id);
+			redirect('master/user');
 		}
 		//End of function edit_user
 	//End of function master

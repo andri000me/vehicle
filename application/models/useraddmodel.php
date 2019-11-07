@@ -27,7 +27,8 @@
 	 }
 	 function update_data_user($data,$id)
 	 {
-	   $this->db->where('ID_USER',$id);
+	   // $this->db->where('ID_USER',$id);
+	   $this->db->where('USERNAME',$id);
 	   $this->db->update('USERS',$data);
 	 }
   }

@@ -9,6 +9,7 @@ $(function(){
 		document.getElementById('nid').value = a[0];
 		document.getElementById('nama').value = a[1];
 		document.getElementById('telegram').value = a[2];
+		document.getElementById('id').value = a[5];
 		var opText = a[4], opVal = a[3];
 		var f=$('#sEdit').find('option').length;
 		if(f<=5){
@@ -67,7 +68,7 @@ function hideEdit(){
 						{ ?>
 							<tr>
 								<td>
-								<span class="zedit" id="<?php echo $row->NID_SOPIR;?>^<?php echo $row->NAMA;?>^<?php echo $row->CHAT_ID;?>^<?php echo $row->STATUS;?>^<?php echo sopirStat($row->STATUS);?>">
+								<span class="zedit" id="<?php echo $row->NID_SOPIR;?>^<?php echo $row->NAMA;?>^<?php echo $row->CHAT_ID;?>^<?php echo $row->STATUS;?>^<?php echo sopirStat($row->STATUS);?>^<?php echo $row->ID_SOPIR;?>">
 								<?php
 									echo "<a href='' onclick='hideAdd(); return false;'>".$row->NID_SOPIR."</a>";
 								?>
@@ -124,14 +125,6 @@ function hideEdit(){
 					</div>
 					<input type="text" class="form-control" placeholder="Telegram" name="telegram" required/>
 				  </div>
-				  <div class="input-group">
-					<div class="input-group-prepend">
-					  <span class="input-group-text">
-						<i class="material-icons">check</i>
-					  </span>
-					</div>
-					<input type="text" class="form-control" value="<?php echo sopirStat(1);?>" name="status" required/>
-				  </div>
                   <button type="submit" class="btn btn-outline-primary btn-round">Submit</a>
                 </div>
 				<?php echo form_close();?>
@@ -152,6 +145,7 @@ function hideEdit(){
 						<i class="material-icons">vpn_key</i>
 					  </span>
 					</div>
+					<input type="hidden" name="id" id="id">
 					<input type="text" class="form-control" name="nid" id="nid" required/>
 				  </div>
 				  <div class="input-group">

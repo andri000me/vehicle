@@ -6,20 +6,18 @@ $(function(){
 		document.getElementById('edit').scrollIntoView();
 		var edit=$(this).closest('td').children('span').attr('id');
 		var a=edit.split("^");
-		document.getElementById('nid').value = a[0];
-		document.getElementById('nama').value = a[1];
-		document.getElementById('telegram').value = a[2];
+		document.getElementById('kode_jabatan').value = a[0];
+		document.getElementById('jabatan').value = a[1];
+		//document.getElementById('subdit').value = a[2];
+		document.getElementById('id').value = a[5];
 		var opText = a[4], opVal = a[3];
 		var f=$('#sEdit').find('option').length;
 		if(f<=3){
-			//$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-			$('#sEdit').prepend('<option value='+opVal+'>'+opText+'</option>');
+			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
 		}else{
 			$('#sEdit').find('option').get(0).remove();
-			//$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
 			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
 		}
-		// console.log(opVal);
 	});
 });
 $(function(){
@@ -69,7 +67,7 @@ function hideEdit(){
 							?>
 							<tr>
 								<td> 
-								<span class="zedit" id="<?php echo $row->KODE_JABATAN;?>^<?php echo $row->NAMA_JABATAN;?>^<?php echo $row->DIVISI;?>^<?php echo $row->JENIS;?>^<?php echo jabatanJ($row->JENIS);?>">
+								<span class="zedit" id="<?php echo $row->KODE_JABATAN;?>^<?php echo $row->NAMA_JABATAN;?>^<?php echo $row->DIVISI;?>^<?php echo $row->JENIS;?>^<?php echo jabatanJ($row->JENIS);?>^<?php echo $row->ID_JABATAN;?>">
 								<?php
 									echo "<a href='' onclick='hideAdd(); return false;'>".$row->KODE_JABATAN."</a>";
 								?>
@@ -125,6 +123,7 @@ function hideEdit(){
 					  </span>
 					</div>
 					<select name="id_subdit" class="select2 form-control">
+						<option></option>
 					  <?php 
 					  foreach($subdit->result() as $divisi){
 						  echo "<option value='".$divisi->KODE_DIVISI."'>".$divisi->DIVISI."</option>";
@@ -138,7 +137,7 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="id_jenis_jabatan" class="select2 form-control">
+					<select name="id_jenis_jabatan" class="form-control">
 					  <?php 
 					  for($i=0;$i<=1;$i++){
 						  echo "<option value='$i'>".jabatanJ($i)."</option>";
@@ -166,7 +165,8 @@ function hideEdit(){
 						<i class="material-icons">code</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" name="nid" id="nid" required/>
+					<input type="hidden" name="id" id="id">
+					<input type="text" class="form-control" name="kode_jabatan" id="kode_jabatan" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
@@ -174,7 +174,7 @@ function hideEdit(){
 						<i class="material-icons">beenhere</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" value="" name="nama" id="nama" required/>
+					<input type="text" class="form-control" name="jabatan" id="jabatan" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
@@ -182,7 +182,14 @@ function hideEdit(){
 						<i class="material-icons">style</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" value="" name="telegram" id="telegram" required/>
+					<select name="id_subdit" class="select2" id="subdit" style="width:80%">
+						<option></option>
+					  <?php 
+					  foreach($subdit->result() as $divisi2){
+						  echo "<option value='".$divisi2->KODE_DIVISI."'>".$divisi2->DIVISI."</option>";
+					  }
+					  ?>
+					</select>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
@@ -190,7 +197,7 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="status" class="select2 form-control" id="sEdit">
+					<select name="jenis" class="form-control" id="sEdit">
 						<option disabled>------------------------------------------------------------</option>
 						 <?php 
 						 for($i=0;$i<2;$i++){
