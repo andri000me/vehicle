@@ -7,21 +7,23 @@ $(function(){
 		var edit=$(this).closest('td').children('span').attr('id');
 		var a=edit.split("^");
 		document.getElementById('user').value = a[0];
-		var tuVal = a[1], tuText = a[2];
-		var suVal = a[3], suText = a[4];
-		var a=$('#sEdit').find('option').length, b=$('#sEdit2').find('option').length;
-		if(a<=6){
-			$('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
-		}else{
-			$('#sEdit').find('option').get(0).remove();
-			$('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
-		}
-		if(b<=3){
-			$('#sEdit2').prepend('<option value='+suVal+' selected="selected">'+suText+'</option>');
-		}else{
-			$('#sEdit2').find('option').get(0).remove();
-			$('#sEdit2').prepend('<option value='+suVal+' selected="selected">'+suText+'</option>');
-		}
+		$('#sEdit').val(a[1]).trigger('change');
+		$('#sEdit2').val(a[2]).trigger('change');
+		// var tuVal = a[1], tuText = a[2];
+		// var suVal = a[3], suText = a[4];
+		// var a=$('#sEdit').find('option').length, b=$('#sEdit2').find('option').length;
+		// if(a<=6){
+			// $('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
+		// }else{
+			// $('#sEdit').find('option').get(0).remove();
+			// $('#sEdit').prepend('<option value='+tuVal+' selected="selected">'+tuText+'</option>');
+		// }
+		// if(b<=3){
+			// $('#sEdit2').prepend('<option value='+suVal+' selected="selected">'+suText+'</option>');
+		// }else{
+			// $('#sEdit2').find('option').get(0).remove();
+			// $('#sEdit2').prepend('<option value='+suVal+' selected="selected">'+suText+'</option>');
+		// }
 	});
 });
 $(function(){
@@ -77,7 +79,7 @@ function hideEdit(){
 						?>
 						  <tr>
 							<td>
-								<span class="zedit" id="<?php echo $row->USERNAME;?>^<?php echo $row->TIPE_USER;?>^<?php echo userTipe($row->TIPE_USER);?>^<?php echo $row->STATUS;?>^<?php echo userStat($row->STATUS);?>">
+								<span class="zedit" id="<?php echo $row->USERNAME;?>^<?php echo $row->TIPE_USER;?>^<?php echo $row->STATUS;?>">
 								<?php
 									echo "<a href='' onclick='hideAdd(); return false;'>".$row->USERNAME."</a>";
 								?>
@@ -115,7 +117,7 @@ function hideEdit(){
 						<i class="material-icons">how_to_reg</i>
 					  </span>
 					</div>
-					<select name="nid" class="select2 form-control" id="nid" onchange="ganti(this)">
+					<select name="nid" class="select2 form-control" id="nid">
 						<option></option>
 					<?php
 						foreach($id_jab->result() as $row){
@@ -192,7 +194,6 @@ function hideEdit(){
 					  </span>
 					</div>
 					<select name="tipe_user" class="select2" id="sEdit" style="width:80%">
-					  <option disabled>-------------------------------------------</option>
 					  <?php 
 					  for($i=1;$i<6;$i++){
 						  echo "<option value='$i'>".userTipe($i)."</option>";
@@ -207,7 +208,6 @@ function hideEdit(){
 					  </span>
 					</div>
 					<select name="status" class="select2" id="sEdit2" style="width:80%">
-					  <option disabled>-------------------------------------------</option>
 					  <?php 
 					  for($i=0;$i<2;$i++){
 						  echo "<option value='$i'>".userStat($i)."</option>";

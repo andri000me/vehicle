@@ -14,7 +14,8 @@
   {
      function get_all_kendaraan()
 	 {
-        $this->db->from('VIEW_KENDARAAN');
+        // $this->db->from('VIEW_KENDARAAN');
+		$this->db->from('KENDARAAN');
         return $this->db->get();		
 	 }
 	 

@@ -190,6 +190,25 @@ if ( ! function_exists('generatehtml'))
 		}
 	}
 	
+	function carStat($k)
+	{
+		switch($k){
+			case 0:
+				return "Dikembalikan";
+			case 1:
+				return "Tersedia";
+			case 2:
+				return "Sedang Digunakan";
+			case 3:
+				return "Rusak";
+			case 4:
+				return "Sedang Diperbaiki";
+			case 5:
+				return "Dipesan";
+			break;
+		}
+	}
+	
     function selisihTGl($tgl1,$tgl2)
     {
         $pecah1 = explode("-", $tgl1);

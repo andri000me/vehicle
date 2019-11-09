@@ -1,0 +1,69 @@
+/*!
+
+ =========================================================
+ * Material Bootstrap Wizard - v1.0.2
+ =========================================================
+ 
+ * Product Page: https://www.creative-tim.com/product/material-bootstrap-wizard
+ * Copyright 2017 Creative Tim (http://www.creative-tim.com)
+ * Licensed under MIT (https://github.com/creativetimofficial/material-bootstrap-wizard/blob/master/LICENSE.md)
+ 
+ =========================================================
+ 
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ */
+
+.made-with-mk {
+  width: 50px;
+  height: 50px;
+  display: block;
+  position: fixed;
+  z-index: 555;
+  top: 170px;
+  right: 40px;
+  border-radius: 30px;
+  background-color: rgba(16, 16, 16, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  cursor: pointer;
+  padding: 10px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+  -moz-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+  -o-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+  transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1); }
+  .made-with-mk:hover, .made-with-mk:active, .made-with-mk:focus {
+    width: 218px;
+    color: #FFFFFF;
+    transition-duration: .55s;
+    padding: 10px 19px; }
+    .made-with-mk:hover .made-with, .made-with-mk:active .made-with, .made-with-mk:focus .made-with {
+      opacity: 1; }
+    .made-with-mk:hover .brand, .made-with-mk:active .brand, .made-with-mk:focus .brand {
+      left: 0; }
+  .made-with-mk .brand,
+  .made-with-mk .made-with {
+    float: left; }
+  .made-with-mk .brand {
+    position: relative;
+    top: 4px;
+    left: -1px;
+    letter-spacing: 1px;
+    vertical-align: middle;
+    font-size: 16px;
+    font-weight: 600; }
+  .made-with-mk .made-with {
+    color: rgba(255, 255, 255, 0.6);
+    position: absolute;
+    left: 58px;
+    top: 14px;
+    opacity: 0;
+    margin: 0;
+    -webkit-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+    -moz-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+    -o-transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1);
+    transition: 0.55s cubic-bezier(0.6, 0, 0.4, 1); }
+    .made-with-mk .made-with strong {
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9); }

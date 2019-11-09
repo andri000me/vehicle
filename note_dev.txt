@@ -1,0 +1,8 @@
+Catatan
+1. Data Master (Select2 belum fix)
+- Divisi (Done)
+- Supir (Done)
+- Jabatan (Done)
+- User (Done) -> Cek User Aktif
+- Karyawan (Done) -> Tampilan Modal
+- Kendaraan

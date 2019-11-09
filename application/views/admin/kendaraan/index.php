@@ -8,18 +8,10 @@ $(function(){
 		var a=edit.split("^");
 		document.getElementById('nid').value = a[0];
 		document.getElementById('nama').value = a[1];
-		document.getElementById('telegram').value = a[2];
-		$('#sEdit').val(a[3]).trigger('change');
 		document.getElementById('id').value = a[4];
-		// var opText = a[4], opVal = a[3];
-		// var f=$('#sEdit').find('option').length;
-		// if(f<=5){
-			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		// }else{
-			// $('#sEdit').find('option').get(0).remove();
-			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		// }
-		// console.log(opVal);
+		var opText = a[3], opVal = a[2];
+		// Set value to list option from raw data
+		$('#sEdit').val(opVal).trigger('change');
 	});
 });
 $(function(){
@@ -28,64 +20,56 @@ $(function(){
 		var base_url = "<?php echo base_url();?>";
 		var a=del.split("^");
 		console.log(a[1]);
-		document.getElementById('delId').href = base_url+'master/delete_sopir/'+a[0];
+		document.getElementById('delId').href = base_url+'master/delete_karyawan/'+a[0];
 		document.getElementById('hnama').innerHTML = "Apakah Anda yakin akan menghapus data "+a[1]+" ?";
 	});
 });
 </script>
-<script type="text/javascript">
-function hideAdd(){
-	$('#add').hide();
-	$('#edit').show(500);
-}
-function hideEdit(){
-	$('#add').show(500);
-	$('#edit').hide();
-}
-</script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
+
  <div class="content">
     <div class="container-fluid">
     <div class="row">
+	<a data-toggle="modal" data-target="#insert" class="made-with-mk">
+		<div class="brand"><i class="material-icons">library_add</i></div>
+		<div class="made-with">Tambah <strong>Karyawan</strong></div>
+	</a>
 		<div class="col-md-8">
+		<!-- TABEL KENDARAAN  --------------------------------------------------------------------------------->
+                	       <div class="judul_pjbs">
+                    	      <?php 
+					              echo anchor('master/detail_kendaraan_dinas','Detail Kendaraan Dinas', array('class' => 'btn2 btn2-warning btn2-small' ));
+					         ?>
+                           </div> <!--- End of div class judul_pjbs --->
 			<div class="card">
 				<div class="card-header card-header-primary">
-                  <h4 class="card-title">List Driver Kendaraan</h4>
+                  <h4 class="card-title">List Kendaraan</h4>
                 </div>
 				<div class="card-body">
 					<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
 						<thead class="text-primary">
 							<tr>
-								<th>No</th>
-								<th>Nama</th>
-								<th>Telegram</th>
-                                <th>Status</th>
-                                <th>Opsi</th>
-                            </tr>
+								<th>Nomor Polisi</th>
+								<th>Nama Kendaraan</th>
+								<th>Status</th>
+								<th>Opsi</th>
+							</tr>
 						</thead>
 						<tbody>
-						<?php foreach($datasopir->result() as $row)
-						{ ?>
-							<tr>
-								<td>
-								<span class="zedit" id="<?php echo $row->NID_SOPIR;?>^<?php echo $row->NAMA;?>^<?php echo $row->CHAT_ID;?>^<?php echo $row->STATUS;?>^<?php echo $row->ID_SOPIR;?>">
-								<?php
-									echo "<a href='' onclick='hideAdd(); return false;'>".$row->NID_SOPIR."</a>";
-								?>
-								</span>
-								</td>
-								<td><?php echo $row->NAMA;?></td>
-								<td><?php echo $row->CHAT_ID;?></td>
-								<td><?php echo sopirStat($row->STATUS);?></td>
-								<td>
-									<span class="zdelete" id="<?php echo $row->ID_SOPIR;?>^<?php echo $row->NID_SOPIR;?>">
-									<button class="btn btn-primary btn-fab btn-round btn-sm" data-toggle="modal" data-target="#delete">
-									<i class="material-icons">clear</i>
-									</button>
-									</span>
-								</td>
-							</tr>
+							<?php
+								foreach($kendaraan->result() as $row){  ?>
+								<tr>
+									<td><?php echo $row->NO_POLISI; ?></td>
+									<td><?php echo $row->NAMA_KENDARAAN; ?></td>
+									<td><?php echo carStat($row->STATUS); ?></td>
+									<td>
+									<?php
+										echo anchor('master/edit_kendaraan/'.$row->ID_KENDARAAN, 'Edit', 'class="btn2 btn2-info btn2-mini"');
+										echo anchor('master/delete_kendaraan/'.$row->ID_KENDARAAN, 'Hapus', 'class="btn2 btn2-danger btn2-mini"');
+									?>
+									</td>
+								</tr>
 							<?php } ?>
 						</tbody>
 					</table>
@@ -93,7 +77,6 @@ function hideEdit(){
 				</div>
 			</div>
 		</div>
-		
 		<!-- Add Form -->
 		<div class="col-md-4" id="add">
 			<div class="card card-profile">
@@ -101,30 +84,37 @@ function hideEdit(){
                   <h4 class="card-title">Tambah Data</h4>
                 </div>
                 <div class="card-body">
-				<?php echo form_open('master/insert_sopir');?>
+				<?php echo form_open('master/insert_kendaraan');?>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">how_to_reg</i>
+						<i class="material-icons">looks_one</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" placeholder="NID" name="nid" required/>
+					<input type="text" class="form-control" placeholder="Nomor Polisi" name="nopol" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">face</i>
+						<i class="material-icons">local_taxi</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" placeholder="Nama" name="nama" required/>
+					<input type="text" class="form-control" placeholder="Kendaraan" name="nama" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">near_me</i>
+						<i class="material-icons">ballot</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" placeholder="Telegram" name="telegram" required/>
+					<select name="tipe_user" class="select2 form-control">
+						<option></option>
+					  <?php 
+					  for($i=0;$i<6;$i++){
+						  echo "<option value='$i'>".carStat($i)."</option>";
+					  }
+					  ?>
+					</select>
 				  </div>
                   <button type="submit" class="btn btn-outline-primary btn-round">Submit</a>
                 </div>
@@ -139,46 +129,37 @@ function hideEdit(){
                   <h4 class="card-title">Update Data</h4>
                 </div>
                 <div class="card-body">
-				<?php echo form_open('master/edit_sopir');?>
+				<?php echo form_open('master/edit_user');?>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">vpn_key</i>
+						<i class="material-icons">looks_one</i>
 					  </span>
 					</div>
-					<input type="hidden" name="id" id="id">
-					<input type="text" class="form-control" name="nid" id="nid" required/>
+					<input type="text" class="form-control" placeholder="Nomor Polisi" name="nopol" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">face</i>
+						<i class="material-icons">local_taxi</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" value="" name="nama" id="nama" required/>
+					<input type="text" class="form-control" placeholder="Kendaraan" name="nama" required/>
 				  </div>
 				  <div class="input-group">
 					<div class="input-group-prepend">
 					  <span class="input-group-text">
-						<i class="material-icons">near_me</i>
+						<i class="material-icons">ballot</i>
 					  </span>
 					</div>
-					<input type="text" class="form-control" value="" name="telegram" id="telegram" required/>
-				  </div>
-				  <div class="input-group">
-					<div class="input-group-prepend">
-					  <span class="input-group-text">
-						<i class="material-icons">check</i>
-					  </span>
-					</div>
-					<select name="status" class="select2" id="sEdit" style="width:80%">
-						<?php 
-						 for($i=0;$i<4;$i++){
-							 echo "<option value=".$i.">".sopirStat($i)."</option>";
-						 }
-						 ?>
+					<select name="tipe_user" class="select2 form-control">
+						<option></option>
+					  <?php 
+					  for($i=0;$i<6;$i++){
+						  echo "<option value='$i'>".carStat($i)."</option>";
+					  }
+					  ?>
 					</select>
-				  </div>
                   <button type="submit" class="btn btn-outline-warning btn-round">Update</button>
 				  <button type="button" class="btn btn-outline-primary btn-round" onclick="hideEdit(); return false;">Cancel</button>
                 </div>
@@ -187,7 +168,7 @@ function hideEdit(){
 		</div>
 		<!-- End Edit Form -->
 	</div>
-	  <!-- Classic Modal -->
+	<!-- Classic Modal -->
 	  <div class="modal fade" id="delete" tabindex="-1" role="">
 		<div class="modal-dialog modal-login" role="document">
 		  <div class="modal-content">

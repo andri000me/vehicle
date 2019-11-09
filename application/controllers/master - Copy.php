@@ -19,9 +19,14 @@
 	   {
 		 
 		 $this->load->model('usermodel');
+		 // $level = $this->session->userdata('level');
+		 // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		 
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
+		 
 		 $this->template->set('title','Master Data');
+		 // $this->template->load('template_refresh', 'admin/master', $data);
 		 $this->template->load('template_refresh', 'admin/master');
 	   }
 	   //End of function index
@@ -31,7 +36,12 @@
 		{
 		  $this->load->model('usermodel');
 		  $this->load->model('sopirmodel');
+		  
+		  //$level = $this->session->userdata('level');
+		  //$data['menu'] = $this->usermodel->get_menu_for_level($level);
+		  
 		  $data['datasopir'] = $this->sopirmodel->get_all_sopir();
+	 
 		  $this->template->set('title','Driver Kendaraan');
 		  $this->template->load('template_refresh', 'admin/sopir/index', $data);
 		}
@@ -40,8 +50,19 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('sopirmodel');
+		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
+		   
+		   $this->load->library('form_validation');
+		   $this->form_validation->set_rules('nid', 'nid', 'trim|required');
+		   $this->form_validation->set_rules('nama', 'nama', 'trim|required');
+		   $this->form_validation->set_rules('status', 'status', 'trim|required');
+		   $this->form_validation->set_rules('telegram', 'telegram', 'trim|required');
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		   
 		   $data_sopir = array(
 				 'NID_SOPIR' =>$this->input->post('nid'),
 				 'NAMA' =>$this->input->post('nama'),
@@ -58,6 +79,7 @@
 		  $this->load->model('sopirmodel');
 		  $this->auth->restrict();
 		  $this->auth->check_menu(1);  
+		   
 		  $id = $this->uri->segment(3);
 		  $this->sopirmodel->delete_data_sopir($id);
 		  redirect('master/sopir');
@@ -67,10 +89,26 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('sopirmodel');
+		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
+		   
+		   $this->load->library('form_validation');
+		   $this->form_validation->set_rules('nid', 'nid', 'trim|required');
+		   $this->form_validation->set_rules('nama', 'nama', 'trim|required');
+		   $this->form_validation->set_rules('status', 'status', 'trim|required');
+		   $this->form_validation->set_rules('telegram', 'telegram', 'trim|required');
+		   
+		   // $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		   
+		   //$id = $this->uri->segment(3);
 		   $id = $this->input->post('id');
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   //$data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
 		   $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
+		   //$data['lokasi'] = $this->sopirmodel->get_all_lokasi();
+		   
 		   $data_sopir = array(
 				 'NID_SOPIR' =>$this->input->post('nid'),
 				 'NAMA'   =>$this->input->post('nama'),
@@ -79,6 +117,31 @@
 			);
 			$this->sopirmodel->update_data_sopir($data_sopir,$id);
 			redirect('master/sopir');
+		   
+		   // if ($this->form_validation->run() == FALSE)
+		   // {
+			  // $level = $this->session->userdata('level');
+		  	  // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+			  // $data['status_sopir'] = $this->sopirmodel->get_all_status_sopir();
+      		  // $data['sopir'] = $this->sopirmodel->get_sopir_by_id($id);
+			  // $data['lokasi'] = $this->sopirmodel->get_all_lokasi();
+			  
+			  // $this->template->set('title','Edit Driver Kendaraan');
+			  // $this->template->load('template','admin/sopir/edit_sopir_form',$data);
+		   // }
+		   // else
+		   // {
+			  // $data_sopir = array(
+				 // 'NID' =>$this->input->post('nid'),
+				 // 'NAMA'   =>$this->input->post('nama'),
+				 // 'ID_STATUS_SOPIR'   =>$this->input->post('status'),
+				 // 'KODE_LOKASI' =>$this->input->post('lokasi')
+			  // );
+			  
+			  // $this->sopirmodel->update_data_sopir($data_sopir,$id);
+			  // redirect('master/sopir');
+		   // }
+		   
 		}
 //---------------------- end driver ------------------------------------------------
 
@@ -87,21 +150,40 @@
 	  function kendaraan()
 	   {
 		 $this->load->model('usermodel');
+		 $level = $this->session->userdata('level');
+	     
 	     $this->load->model('kendaraanmodel');
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
+		 
+		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		 
 	     $data['kendaraan'] = $this->kendaraanmodel->get_all_kendaraan();
-		 $this->template->set('title', 'Kendaraan Dinas');
-         $this->template->load('template_refresh', 'admin/kendaraan/index', $data);	 
+		 $this->template->set('title', 'Kendaraan | eFormC');
+         $this->template->load('template', 'admin/kendaraan/kendaraan_index', $data);	 
 	   }
 	   //End of function kendaraan
 	   
 	   function insert_kendaraan()
 	   {
-		  $this->load->model('usermodel');
-		  $this->load->model('kendaraanmodel');
+		  //slider-------------
+		  $this->load->model('slidermodel');
+		  $data['dataslider'] = $this->slidermodel->get_all_slider();
+		 
+	      $this->load->model('usermodel');
+		  $level = $this->session->userdata('level');
+	      $this->load->model('kendaraanmodel');
+		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(1);
+		  
+		  $this->load->library('form_validation');
+		  //$this->form_validation->set_rules('id_kendaraan', 'id_kendaraan', 'trim|required');
+		  $this->form_validation->set_rules('id_jenis_kendaraan', 'id_jenis_kendaraan', 'trim|required');
+		  $this->form_validation->set_rules('no_polisi', 'no_polisi', 'trim|required');
+		  
+		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+		  
 		  if($this->form_validation->run() == FALSE)
 		  { 
 		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
@@ -204,6 +286,10 @@
 	   
 	   function detail_kendaraan_dinas()  //renamed from view_detail_kd
 	   {
+		 //slider-------------
+		 $this->load->model('slidermodel');
+		 $data['dataslider'] = $this->slidermodel->get_all_slider();
+		 
 		 $this->load->model('usermodel');
 		 $level = $this->session->userdata('level');
 	     $this->load->model('kendaraanmodel');
@@ -357,18 +443,137 @@
 		  redirect('master/detail_kendaraan_dinas');
 	   }
 	   //End of function_delete_detail_kd
+
+//---------------------- Controller untuk JENIS_KENDARAAN ------------------------------------------------
+		function jenis_kendaraan()
+		{
+		  //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		  
+		   $this->load->model('usermodel');
+		   $this->load->model('kendaraanmodel');
+		   
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   $data['datakendaraan'] = $this->kendaraanmodel->get_all_jenis_kd();
+		   
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1); 
+		   $this->template->set('title','Jenis Kendaraan | eFormC');
+		   $this->template->load('template','admin/kendaraan/jenis_kendaraan',$data);
+		}
+		
+		// End of function jenis_kendaraan
+	 
+		function insert_jenis_kendaraan()
+		{
+		   //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		
+		   $this->load->model('usermodel');
+		   $this->load->model('kendaraanmodel');
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   $this->load->library('form_validation');
+		   $this->form_validation->set_rules('jenis_kendaraan', 'jenis_kendaraan', 'trim|required');
+		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		 
+		   if ($this->form_validation->run() == FALSE)
+		   {
+			  $level = $this->session->userdata('level');
+		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
+
+			  $this->template->set('title','Form Tambah Jenis Kendaraan Baru | eFormC');
+			  $this->template->load('template','admin/kendaraan/insert_jenis_kendaraan',$data);
+		   }
+		   else
+		   {
+			  $data_jenis_kd = array(
+				 'JENIS_KENDARAAN' =>$this->input->post('jenis_kendaraan')
+			  );
+			  $this->kendaraanmodel->insert_data_jenis_kd($data_jenis_kd);
+			  redirect('master/jenis_kendaraan');
+		   }
+		}
+		// End of function insert_jenis_kendaraan
+		
+		function delete_jenis_kendaraan($id)
+		{
+		   //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		   
+		   $this->load->model('kendaraanmodel');
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   
+		   $id = $this->uri->segment(3);
+		   $this->kendaraanmodel->delete_jenis_kd($id);
+		   redirect('master/jenis_kendaraan');
+		}
+		
+		// End of function delete_jenis_kendaraan
+		
+		function edit_jenis_kendaraan()
+		{
+		   //slider-------------
+		  $this->load->model('slidermodel');
+		  $data['dataslider'] = $this->slidermodel->get_all_slider();
+		 
+		   $this->load->model('usermodel');
+		   $this->load->model('kendaraanmodel');
+		   
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   $this->load->library('form_validation');
+		   
+		   $this->form_validation->set_rules('jenis_kendaraan', 'jenis_kendaraan', 'trim|required');
+
+		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		   $id = $this->uri->segment(3);
+		   
+		   if ($this->form_validation->run() == FALSE)
+		   {
+			  $level = $this->session->userdata('level');
+		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
+      		  $data['jenis_kendaraan'] = $this->kendaraanmodel->get_jenis_kd_by_id($id);
+			  
+			  $this->template->set('title','Form Edit Jenis Kendaraan | eFormC');
+			  $this->template->load('template','admin/kendaraan/edit_jenis_kendaraan',$data);
+		   }
+		   else
+		   {
+			  $data_kendaraan = array(
+				 'JENIS_KENDARAAN'   =>$this->input->post('jenis_kendaraan')
+			  );
+			  $this->kendaraanmodel->update_data_jenis_kd($data_kendaraan,$id);
+			  redirect('master/jenis_kendaraan');
+		   }
+		}
+		// End of function edit_jenis_kendaraan
+		
+//---------------------- end jenis kendaraan ------------------------------------------------
+
 //-------------------------- Controller untuk SUBDIT ---------------------------------------------------
 		//Index untuk manajemen subdit
 	   function subdit()
 	   {
 	    //Load model 'usermodel'
 		 $this->load->model('usermodel');
-		 $this->load->model('subditmodel');
+		 //Level untuk user ini
+		 $level = $this->session->userdata('level');
+	     
+	     $this->load->model('subditmodel');
 	     //Mencegah user yang belum login mengakses halaman ini
 		 $this->auth->restrict();
 		 //Mencegah user mengakses menu yang tidak boleh dibuka
 		 $this->auth->check_menu(1);
-		 $data['subdit'] = $this->subditmodel->get_all_subdit();
+		 
+		  //Ambil menu dari database sesuai dengan level
+		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	     $data['subdit'] = $this->subditmodel->get_all_subdit();
 		 $this->template->set('title', 'Divisi');
          $this->template->load('template_refresh', 'admin/subdit/sindex', $data);	 
 	   }
@@ -377,15 +582,37 @@
 	   function insert_subdit()
 	   {
 	      $this->load->model('usermodel');
-		  $this->load->model('subditmodel');
+		  $level = $this->session->userdata('level');
+	      $this->load->model('subditmodel');
+		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(1);
-		  $data_subdit = array(
+		  
+		  $this->load->library('form_validation');
+		  $this->form_validation->set_rules('kode_subdit', 'kode_subdit', 'trim|required');
+		  $this->form_validation->set_rules('subdit', 'subdit', 'trim|required');
+		  
+		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+		  
+		  if($this->form_validation->run() == FALSE)
+		  { 
+		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	         $data['subdit'] = $this->subditmodel->get_all_subdit();
+		     $this->template->set('title', 'Form Tambah Subdit Baru | eFormC');
+			 // $this->template->load('template','admin/subdit/insert_subdit_form', $data);
+			 redirect('master/subdit');
+		  }//End of if
+		  else
+		  {
+		     $data_subdit = array(
 			    'KODE_DIVISI' => $this->input->post('kode_subdit'),
 				'DIVISI' => $this->input->post('subdit')
 			 );
-		  $this->subditmodel->insert_data_subdit($data_subdit);
-		  redirect('master/subdit');
+			 
+			 $this->subditmodel->insert_data_subdit($data_subdit);
+			 
+			 redirect('master/subdit');
+		  } //End of else
 		  
 	   }
 	   //End of funtion insert_subdit
@@ -393,16 +620,47 @@
 	   function edit_subdit()
 	   {
 		  $this->load->model('usermodel');
+		  $level = $this->session->userdata('level');
 	      $this->load->model('subditmodel');
+		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(1);
+		  
+		  $this->load->library('form_validation');
+		  $this->form_validation->set_rules('kode_subdit', 'kode_subdit', 'trim|required');
+		  $this->form_validation->set_rules('subdit', 'subdit', 'trim|required');
 		  $id = $this->input->post('id_subdit');
-		  $data = array(
+		  
+		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+          
+          //Mendapatkan id dari segmen ke-3 URI		  
+          //$id = $this->uri->segment(3);	
+          $data = array(
 			    'KODE_DIVISI' => $this->input->post('kode_subdit'),
 				'DIVISI' => $this->input->post('subdit')
 			   );
 		  $this->subditmodel->update_data_subdit($data, $id);
 		  redirect('master/subdit');
+		  
+           // if($this->form_validation->run() == FALSE)
+           // {
+		      // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	          // $data['subdit'] = $this->subditmodel->get_subdit_by_id($id);
+		      // $this->template->set('title', 'Form Edit Subdit | eFormC');
+			  // $this->template->load('template_refresh','admin/subdit/sindex', $data);
+		   // } //End of if
+           // else
+           // {
+		      // $data_subdit = array(
+			    // 'KODE_DIVISI' => $this->input->post('kode_subdit'),
+				// 'DIVISI' => $this->input->post('subdit')
+			   // );
+			   
+			   // $this->subditmodel->update_data_subdit($data_subdit, $id);
+			   
+			   // redirect('master/subdit');
+		   // } //End of else		   
+		
 	   }
 	   //End of function edit_subdit
 	   
@@ -410,9 +668,12 @@
 	   {
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
+		 
 		 $this->load->model('subditmodel');
+		 
 		 $id = $this->uri->segment(3);
 		 $this->subditmodel->delete_subdit($id);
+		 
 		 redirect('master/subdit');
 	   }
 	   //End of function delete_subdit
@@ -423,9 +684,13 @@
 	   function jabatan() 
 	   {
 	     $this->load->model('usermodel');
-		 $this->load->model('subditmodel');
+		 $level = $this->session->userdata('level');
+	     $this->load->model('subditmodel');
+
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
+		 
+		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		 $data['subdit'] = $this->subditmodel->get_all_subdit();
 	     $data['jabatan'] = $this->subditmodel->get_all_jabatan();
 		 $this->template->set('title', 'Jabatan Karyawan');
@@ -436,27 +701,59 @@
 	   function insert_jabatan()
 	   {
 	     $this->load->model('usermodel');
-		 $this->load->model('subditmodel');
+		 $level = $this->session->userdata('level');
+	     $this->load->model('subditmodel');
+		 
 	     $this->auth->restrict();
 		 $this->auth->check_menu(1);
-		 $data_jabatan = array(
+		 
+		 $this->load->library('form_validation');
+		 $this->form_validation->set_rules('kode_jabatan', 'kode_jabatan', 'trim|required');
+		 $this->form_validation->set_rules('jabatan', 'jabatan', 'trim|required');
+		 
+		 //$this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
+		  
+		  if($this->form_validation->run() == FALSE)
+		  {  
+		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	         $data['subdit'] = $this->subditmodel->get_all_subdit();
+			 $data['jabatan'] = $this->subditmodel->get_all_jabatan();
+			 //$data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
+			 
+		     //$this->template->set('title', 'Form Tambah Jabatan Baru | eFormC');
+			 $this->template->load('template','admin/subdit/insert_jabatan_form', $data);
+		  }//End of if
+		  else
+		  {
+		      $data_jabatan = array(
 			      'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
 				  'NAMA_JABATAN' => $this->input->post('jabatan'),
 				  'KODE_DIVISI' => $this->input->post('id_subdit'),
 				  'JENIS' => $this->input->post('id_jenis_jabatan')
 			  );
-		$this->subditmodel->insert_data_jabatan($data_jabatan);
-		redirect('master/jabatan'); 
+			  
+			  $this->subditmodel->insert_data_jabatan($data_jabatan);
+			  
+			  redirect('master/jabatan');
+		  } //End of else
+	     
 	   }
 	   //End of function jabatan
 	   
 	   function edit_jabatan()
 	   {
 		  $this->load->model('usermodel');
-		  $this->load->model('subditmodel');
+		  $level = $this->session->userdata('level');
+	      $this->load->model('subditmodel');
+		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(1);
+		  
+		  $this->load->library('form_validation');
+		  $this->form_validation->set_rules('kode_jabatan', 'kode_jabatan', 'trim|required');
+		  $this->form_validation->set_rules('jabatan', 'jabatan', 'trim|required');
 		  $data['subdit'] = $this->subditmodel->get_all_subdit();
+		  
 		  $id = $this->input->post('id');
 		  $data_jabatan = array(
 			      'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
@@ -467,6 +764,32 @@
 			  
 		  $this->subditmodel->update_data_jabatan($data_jabatan, $id);
 		  redirect('master/jabatan');
+		  
+		  // if($this->form_validation->run() == FALSE)
+		  // {
+		    // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	        // $data['jabatan'] = $this->subditmodel->get_jabatan_by_id($id);
+			// $data['subdit'] = $this->subditmodel->get_all_subdit();
+			// $data['jenis_jabatan'] = $this->subditmodel->get_jenis_jabatan();
+			
+		    // $this->template->set('title', 'Form Edit Jabatan Aplikasi Monitoring Kendaraan Dinas');
+			// $this->template->load('template','admin/subdit/edit_jabatan_form', $data);
+		  
+		  // } //End of if
+		  // else
+		  // {
+		     // $data_jabatan = array(
+			      // 'KODE_JABATAN' => $this->input->post('kode_jabatan'), 
+				  // 'JABATAN' => $this->input->post('jabatan'),
+				  // 'ID_SUBDIT' => $this->input->post('id_subdit'),
+                  // 'ID_JENIS_JABATAN' => $this->input->post('id_jenis_jabatan')				  
+			  // );
+			  
+			  // $this->subditmodel->update_data_jabatan($data_jabatan, $id);
+			  
+			  // redirect('master/jabatan');
+		  // } //End of else
+		
 	   }
 	   //End of function edit_jabatan
 	   
@@ -484,6 +807,119 @@
 		  redirect('master/jabatan');
 	   }
 	   //End of function_delete_jabatan
+
+//---------------------- Controller untuk LOKASI ------------------------------------------------
+		function lokasi()
+		{
+		  //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		  
+		   $this->load->model('usermodel');
+		   $this->load->model('lokasimodel');
+		   
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   $data['datalokasi'] = $this->lokasimodel->get_all_lokasi();
+		   
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1); 
+		   $this->template->set('title','Lokasi | eFormC');
+		   $this->template->load('template','admin/lokasi/lokasi_index',$data);
+		}
+		// End of function lokasi
+	 
+		function insert_lokasi()
+		{
+		   //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		
+		   $this->load->model('usermodel');
+		   $this->load->model('lokasimodel');
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   $this->load->library('form_validation');
+		   $this->form_validation->set_rules('kode_lokasi', 'kode_lokasi', 'trim|required');
+		   $this->form_validation->set_rules('lokasi', 'lokasi', 'trim|required');
+		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		 
+		   if ($this->form_validation->run() == FALSE)
+		   {
+			  $level = $this->session->userdata('level');
+		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
+
+			  $this->template->set('title','Tambah Lokasi Baru | eFormC');
+			  $this->template->load('template','admin/lokasi/insert_lokasi',$data);
+		   }
+		   else
+		   {
+			  $data_lokasi = array(
+				 'KODE_LOKASI' =>$this->input->post('kode_lokasi'),
+				 'LOKASI' =>$this->input->post('lokasi')
+			  );
+			  $this->lokasimodel->insert_data_lokasi($data_lokasi);
+			  redirect('master/lokasi');
+		   }
+		}
+		// End of function insert_lokasi
+		
+		function delete_lokasi($id)
+		{
+		   //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		   
+		   $this->load->model('lokasimodel');
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   
+		   $id = $this->uri->segment(3);
+		   $this->lokasimodel->delete_data_lokasi($id);
+		   redirect('master/lokasi');
+		}
+		//End of function delete_lokasi
+		
+		function edit_lokasi()
+		{
+		   //slider-------------
+		   $this->load->model('slidermodel');
+		   $data['dataslider'] = $this->slidermodel->get_all_slider();
+		 
+		   $this->load->model('usermodel');
+		   $this->load->model('lokasimodel');
+		   
+		   $this->auth->restrict();
+		   $this->auth->check_menu(1);  
+		   $this->load->library('form_validation');
+		   
+		   $this->form_validation->set_rules('kode_lokasi', 'kode_lokasi', 'trim|required');
+		   $this->form_validation->set_rules('lokasi', 'lokasi', 'trim|required');
+
+		   $this->form_validation->set_error_delimiters(' <span style="color:#FF0000">', '</span>');
+		   $id = $this->uri->segment(3);
+		   
+		   if ($this->form_validation->run() == FALSE)
+		   {
+			  $level = $this->session->userdata('level');
+		  	  $data['menu'] = $this->usermodel->get_menu_for_level($level);
+      		  $data['lokasi'] = $this->lokasimodel->get_lokasi_by_id($id);
+			  
+			  $this->template->set('title','Form Edit Lokasi | eFormC');
+			  $this->template->load('template','admin/lokasi/edit_lokasi',$data);
+		   }
+		   else
+		   {
+			  $data_lokasi = array(
+				 'KODE_LOKASI' =>$this->input->post('kode_lokasi'),
+				 'LOKASI'   =>$this->input->post('lokasi')
+			  );
+			  $this->lokasimodel->update_data_lokasi($data_lokasi,$id);
+			  redirect('master/lokasi');
+		   }
+		}
+		//End of function edit_lokasi
+//---------------------- end lokasi ------------------------------------------------
 	   
 //---------------------- MASTER KARYAWAN ----------------------------------------------
 
@@ -495,6 +931,8 @@
 		   $this->load->model('usermodel');
 		   
 		   $data['id_jab'] = $this->karyawanmodel->ambil_data();
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['karyawan'] = $this->karyawanmodel->tampil_karyawan();
 		   $data['divisi'] = $this->karyawanmodel->divisi();
 		   $this->auth->restrict();
@@ -508,6 +946,8 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('karyawanmodel');
+		   $level = $this->session->userdata('level');
+
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
 		   $data_karyawan = array(
@@ -524,6 +964,7 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('karyawanmodel');
+		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);
 		   $id = $this->input->post('id');
@@ -556,9 +997,21 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('useraddmodel');
+		    
 		   $data['user'] = $this->useraddmodel->get_all_user();
+		   
 		   $this->load->model('karyawanmodel');
 		   $data['id_jab'] = $this->karyawanmodel->tampil_karyawan();
+		   
+		   // $this->load->model('statusmodel');
+		   // $data['status'] = $this->statusmodel->get_all_status();
+		   
+		   // $this->load->model('tipemodel');
+		   // $data['tipe'] = $this->tipemodel->get_all_tipe();
+		   
+		   $level = $this->session->userdata('level');
+		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
 		   $this->template->set('title','User Profile');
@@ -574,6 +1027,7 @@
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1);  
 		   $data_lokasi = array(
+				 // 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
 				 'USERNAME' =>$this->input->post('username'),
 				 'PASSWORD' =>md5($this->input->post('password')),
 				 'TIPE_USER' =>$this->input->post('tipe_user'),
@@ -606,6 +1060,8 @@
 		   $id = $this->input->post('username');
 		   $pass = md5($this->input->post('password'));
 		   $data_user = array(
+					 // 'ID_KARYAWAN' =>$this->input->post('id_karyawan'),
+					 // 'USERNAME' =>$this->input->post('username'),
 					 'TIPE_USER' =>$this->input->post('tipe_user'),
 					 'STATUS' =>$this->input->post('status')
 			   );

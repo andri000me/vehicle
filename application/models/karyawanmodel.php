@@ -21,6 +21,11 @@
 	 	$this->db->from('JABATAN');
 		return $this->db->get();
 	 }
+	 function divisi()
+	 {
+	 	$this->db->from('DIVISI');
+		return $this->db->get();
+	 }
 	 function delete_data_karyawan($id)
 	 {
 		 $this->db->where('ID_KARYAWAN',$id);

@@ -9,15 +9,16 @@ $(function(){
 		document.getElementById('kode_jabatan').value = a[0];
 		document.getElementById('jabatan').value = a[1];
 		//document.getElementById('subdit').value = a[2];
-		document.getElementById('id').value = a[5];
-		var opText = a[4], opVal = a[3];
-		var f=$('#sEdit').find('option').length;
-		if(f<=3){
-			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		}else{
-			$('#sEdit').find('option').get(0).remove();
-			$('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		}
+		$('#subdit').val(a[2]).trigger('change');
+		$('#sEdit').val(a[3]).trigger('change');
+		document.getElementById('id').value = a[4];
+		// var f=$('#sEdit').find('option').length;
+		// if(f<=3){
+			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
+		// }else{
+			// $('#sEdit').find('option').get(0).remove();
+			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
+		// }
 	});
 });
 $(function(){
@@ -40,6 +41,11 @@ function hideEdit(){
 	$('#edit').hide();
 }
 </script>
+<style>
+select{
+	width:80%;
+}
+</style>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>		 
 <div class="content">
     <div class="container-fluid">
@@ -67,7 +73,7 @@ function hideEdit(){
 							?>
 							<tr>
 								<td> 
-								<span class="zedit" id="<?php echo $row->KODE_JABATAN;?>^<?php echo $row->NAMA_JABATAN;?>^<?php echo $row->DIVISI;?>^<?php echo $row->JENIS;?>^<?php echo jabatanJ($row->JENIS);?>^<?php echo $row->ID_JABATAN;?>">
+								<span class="zedit" id="<?php echo $row->KODE_JABATAN;?>^<?php echo $row->NAMA_JABATAN;?>^<?php echo $row->KODE_DIVISI;?>^<?php echo $row->JENIS;?>^<?php echo $row->ID_JABATAN;?>">
 								<?php
 									echo "<a href='' onclick='hideAdd(); return false;'>".$row->KODE_JABATAN."</a>";
 								?>
@@ -137,7 +143,8 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="id_jenis_jabatan" class="form-control">
+					<select name="id_jenis_jabatan" class="select2 form-control">
+						<option></option>
 					  <?php 
 					  for($i=0;$i<=1;$i++){
 						  echo "<option value='$i'>".jabatanJ($i)."</option>";
@@ -183,7 +190,6 @@ function hideEdit(){
 					  </span>
 					</div>
 					<select name="id_subdit" class="select2" id="subdit" style="width:80%">
-						<option></option>
 					  <?php 
 					  foreach($subdit->result() as $divisi2){
 						  echo "<option value='".$divisi2->KODE_DIVISI."'>".$divisi2->DIVISI."</option>";
@@ -197,8 +203,7 @@ function hideEdit(){
 						<i class="material-icons">device_hub</i>
 					  </span>
 					</div>
-					<select name="jenis" class="form-control" id="sEdit">
-						<option disabled>------------------------------------------------------------</option>
+					<select name="jenis" class="select2" id="sEdit" style="width:80%">
 						 <?php 
 						 for($i=0;$i<2;$i++){
 							 echo "<option value=".$i.">".jabatanJ($i)."</option>";

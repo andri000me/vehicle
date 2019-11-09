@@ -24,12 +24,20 @@
   <!-- CSS Files -->
   <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.6" rel="stylesheet" />
   <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
+  
+  <link href="<?php echo base_url();?>asset/css/mk.css" rel="stylesheet" />
   <style type="text/css">
   .nav-link[data-toggle].collapsed:after {
     content: "▾";
 	}
   .nav-link[data-toggle]:not(.collapsed):after {
     content: "";
+	}
+  .modal-notify .modal-header{
+	border-radius: 3px 3px 0 0;
+	}
+  .modal-notify .modal-content{
+	border-radius: 3px;
 	}
   </style>
   
@@ -362,10 +370,11 @@
   </script>
   <script>
   //Select2 Js
-	$(document).ready(function() {
+	$(function() {
 		$('.select2').select2({
 			debug: true,
-			placeholder: "Select a Data"
+			placeholder: "Select a Data",
+			allowClear: true
 		});
 	});
   </script>
