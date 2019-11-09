@@ -91,6 +91,7 @@
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
 	     $data['kendaraan'] = $this->kendaraanmodel->get_all_kendaraan();
+		 $data['supir'] = $this->kendaraanmodel->get_driver();
 		 $this->template->set('title', 'Kendaraan Dinas');
          $this->template->load('template_refresh', 'admin/kendaraan/index', $data);	 
 	   }
@@ -102,93 +103,39 @@
 		  $this->load->model('kendaraanmodel');
 	      $this->auth->restrict();
 		  $this->auth->check_menu(1);
-		  if($this->form_validation->run() == FALSE)
-		  { 
-		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		  $data_kendaraan = array(
+			'NAMA_KENDARAAN' => $this->input->post('nama'),
+			'NO_POLISI' => $this->input->post('nopol'),
+			'STATUS' => $this->input->post('status'),
+			'SOPIR' => $this->input->post('sopir')
+			);
 			 
-			 $data['status_kendaraan'] = $this->kendaraanmodel->get_all_status_kendaraan();
-			 $data['jenis_kendaraan'] = $this->kendaraanmodel->get_all_jenis_kendaraan();
-	         //$data['kendaraan'] = $this->kendaraanmodel->get_all_kendaraan();
-			 
-		     $this->template->set('title', 'Form Tambah Kendaraan Baru | eFormC');
-			 $this->template->load('template','admin/kendaraan/insert_kendaraan_form', $data);
-		  }//End of if
-		  else
-		  {
-		     $data_kendaraan = array(
-			    //'id_kendaraan' => $this->input->post('id_kendaraan'),
-				'ID_JENIS_KENDARAAN' => $this->input->post('id_jenis_kendaraan'),
-				//'tahun' => $this->input->post('tahun'),
-				'NO_POLISI' => $this->input->post('no_polisi'),
-				'ID_STATUS_KENDARAAN' => $this->input->post('id_status_kendaraan')
-			 );
-			 
-			 $this->kendaraanmodel->insert_data_kendaraan($data_kendaraan);
-			 
-			 redirect('master/kendaraan');
-		  } //End of else
-		  
+		  $this->kendaraanmodel->insert_data_kendaraan($data_kendaraan);
+		  redirect('master/kendaraan');
 	   }
 	   //End of funtion insert_kendaraan
 	   
 	   function edit_kendaraan()
 	   {
-		  //slider-------------
-		  $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		  $this->load->model('usermodel');
-		  $level = $this->session->userdata('level');
-	      $this->load->model('kendaraanmodel');
-		  
-	      $this->auth->restrict();
+		  $this->load->model('kendaraanmodel');
+		  $this->auth->restrict();
 		  $this->auth->check_menu(1);
-		  
-		  $this->load->library('form_validation');
-		  //$this->form_validation->set_rules('id_kendaraan', 'id_kendaraan', 'trim|required');
-		  $this->form_validation->set_rules('id_jenis_kendaraan', 'id_jenis_kendaraan', 'trim|required');
-		  $this->form_validation->set_rules('no_polisi', 'no_polisi', 'trim|required');
-		  
-		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
-          	  
-          $id = $this->uri->segment(3);	
-          
-           if($this->form_validation->run() == FALSE)
-           {
-		      $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			  
-			  $data['status_kendaraan'] = $this->kendaraanmodel->get_all_status_kendaraan();
-			  $data['jenis_kendaraan'] = $this->kendaraanmodel->get_all_jenis_kendaraan();
-	          $data['kendaraan'] = $this->kendaraanmodel->get_kendaraan_by_id($id);
-			  
-		      $this->template->set('title', 'Form Edit Kendaraan | eFormC');
-			  $this->template->load('template','admin/kendaraan/edit_kendaraan_form', $data);
-		   } //End of if
-           else
-           {
-		       $data_kendaraan = array(
-			     //'id_kendaraan' => $this->input->post('id_kendaraan'),
-				 'ID_JENIS_KENDARAAN' => $this->input->post('id_jenis_kendaraan'),
-				 //'tahun' => $this->input->post('tahun'),
-				 'NO_POLISI' => $this->input->post('no_polisi'),
-				 'ID_STATUS_KENDARAAN' => $this->input->post('id_status_kendaraan')
-			   );
-			   
-			   $this->kendaraanmodel->update_data_kendaraan($data_kendaraan, $id);
-			   
-			   redirect('master/kendaraan');
-		   } //End of else		   
-		
+		  $id = $this->input->post('id');	
+          $data_kendaraan = array(
+			'NAMA_KENDARAAN' => $this->input->post('nama'),
+			'NO_POLISI' => $this->input->post('nopol'),
+			'STATUS' => $this->input->post('status'),
+			'SOPIR' => $this->input->post('sopir')
+			);
+		  $this->kendaraanmodel->update_data_kendaraan($data_kendaraan, $id);
+		  redirect('master/kendaraan');
 	   }
 	   //End of function edit_kendaraan
 	   
 	   function delete_kendaraan()
 	   {
-		 //slider-------------
-		 $this->load->model('slidermodel');
-		 $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	     $this->auth->restrict();
+		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
 		 
 		 $this->load->model('kendaraanmodel');
@@ -205,17 +152,12 @@
 	   function detail_kendaraan_dinas()  //renamed from view_detail_kd
 	   {
 		 $this->load->model('usermodel');
-		 $level = $this->session->userdata('level');
-	     $this->load->model('kendaraanmodel');
-
+		 $this->load->model('kendaraanmodel');
 		 $this->auth->restrict();
 		 $this->auth->check_menu(1);
-		 
-		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
-	     $data['detail_kd'] = $this->kendaraanmodel->get_all_detail_kd();
-		 
-		 $this->template->set('title', 'Detail Kendaraan Dinas | eFormC');
-         $this->template->load('template', 'admin/kendaraan/detail_kendaraan_dinas', $data);
+		 $data['detail_kd'] = $this->kendaraanmodel->get_all_detail_kd();
+		 $this->template->set('title', 'Detail Kendaraan Dinas');
+         $this->template->load('template_refresh', 'admin/kendaraan/detail_kendaraan_dinas', $data);
 		 
 	   }
 	   //End of function detail_kendaraan_dinas

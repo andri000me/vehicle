@@ -14,8 +14,7 @@
   {
      function get_all_kendaraan()
 	 {
-        // $this->db->from('VIEW_KENDARAAN');
-		$this->db->from('KENDARAAN');
+        $this->db->from('VIEW_KENDARAAN');
         return $this->db->get();		
 	 }
 	 
@@ -139,6 +138,11 @@
 	 }
 	 //End of function get_available_kendaraan
 	 
+	 function get_driver()
+	 {
+	    $this->db->from('SOPIR');
+        return $this->db->get();	
+	 }
 	 //------------------ Model untuk JENIS_KENDARAAN_DINAS ----------------
 	 
 	 function get_all_jenis_kd() /*sama degn get_all_jenis_kendaraan*/
