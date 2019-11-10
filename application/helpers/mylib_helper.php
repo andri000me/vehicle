@@ -95,11 +95,7 @@ if ( ! function_exists('generatehtml'))
 			case 0:
 				return "Non Aktif";
 			case 1:
-				return "Aktif (Tersedia)";
-			case 2:
-				return "Sedang Bertugas";
-			case 3:
-				return "Dipesan (Booked)";
+				return "Aktif";
 			break;
 		}
 	}

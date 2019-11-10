@@ -346,17 +346,19 @@
 	   //End of function semua_approval
 	   
 	   //halaman reject
-		function hal_op_reject() 
+		// function hal_op_reject() 
+		function reject() 
 		{
 		   $this->load->model('usermodel');
-		   $level = $this->session->userdata('level');
-		   $data['level']= $level;
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['level']= $level;
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   
 		   $this->load->model('appr_admin_model');
-		   if($level==6)
-		   {$data['approval'] = $this->appr_admin_model->show_operasional_jkt();}else
-		   {$data['approval'] = $this->appr_admin_model->show_operasional();}
+		   $data['approval'] = $this->appr_admin_model->show_operasional();
+		   // if($level==6)
+		   // {$data['approval'] = $this->appr_admin_model->show_operasional_jkt();}else
+		   // {$data['approval'] = $this->appr_admin_model->show_operasional();}
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
@@ -1008,14 +1010,14 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['voucher'] = $this->appr_admin_model->show_all_voucher();
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','admin/approval/data_voucher',$data);
+		   $this->template->set('title','Daftar Voucher');
+		   $this->template->load('template_refresh','admin/approval/data_voucher',$data);
 		}
 		// End of function lihat_voucher
 		
@@ -1079,14 +1081,14 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(2); 
-		   $this->template->set('title','Daftar Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','admin/approval/data_reimburse',$data);
+		   $this->template->set('title','Daftar Reimburse');
+		   $this->template->load('template_refresh','admin/approval/data_reimburse',$data);
 		}
 		// End of function lihat_reimburse
 		

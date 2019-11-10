@@ -173,7 +173,7 @@ function hideEdit(){
 					</div>
 					<select name="status" class="select2" id="sEdit" style="width:80%">
 						<?php 
-						 for($i=0;$i<4;$i++){
+						 for($i=0;$i<2;$i++){
 							 echo "<option value=".$i.">".sopirStat($i)."</option>";
 						 }
 						 ?>

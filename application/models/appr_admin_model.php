@@ -294,7 +294,8 @@
 	 function show_operasional_user($id)
 	 {
 		$this->db->from('VIEW_OPERASIONAL');
-		$this->db->where('ID_PEMOHON', $id);
+		// $this->db->where('ID_PEMOHON', $id);
+		$this->db->where('NID', $id);
 	    return $this->db->get();
 	 }
 	 
@@ -1265,7 +1266,8 @@
 	function show_voucher_user($id)
 	{
 	  $this->db->from('VIEW_VOUCHER');
-	  $this->db->where('ID_PEMOHON', $id);
+	  // $this->db->where('ID_PEMOHON', $id);
+	  $this->db->where('NID', $id);
 	  return $this->db->get();
 	}
 	//End of function show_voucher_user
@@ -1280,7 +1282,8 @@
 	function show_reimburse_user($id)
 	{
 	  $this->db->from('VIEW_REIMBURSE');
-	  $this->db->where('ID_PEMOHON', $id);
+	  // $this->db->where('ID_PEMOHON', $id);
+	  $this->db->where('NID', $id);
 	  return $this->db->get();
 	}
 	//End of function show_reimburse_user

@@ -10,7 +10,7 @@
                 <!-- isi dengan table atau tampilan -->
                 <div class="card-body">
 				<div class="table-responsive">
-                    <table class="table table-hover" id="example">
+                    <table class="table table-hover" id="dataTables-id">
                                 <thead class=" text-primary">
                                         <!--<th width="2px">NO</th>-->
 										<th>NO</th>

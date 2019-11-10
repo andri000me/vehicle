@@ -18,8 +18,8 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('requestmodel');
 		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $this->auth->restrict();
 		   $this->auth->check_menu(3);  
 		   
@@ -140,8 +140,8 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   
 		   $id = $this->session->userdata('user_id');
 		   $data['approval'] = $this->appr_admin_model->show_operasional_user($id);
@@ -153,26 +153,6 @@
 		   $this->template->load('template_refresh','user/request/daftar_operasional',$data);
 		}
 		//End of function daftar_operasional
-		/*
-		public function daftar_sewa()
-		{
-		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   
-		   $id = $this->session->userdata('user_id');
-		   $data['sewa'] = $this->appr_admin_model->show_sewa_user($id);
-		   
-		   $this->auth->restrict();
-		   $this->auth->check_menu(3); 
-		   $this->template->set('title','Daftar Sewa Operasional | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','user/request/daftar_sewa',$data);
-		
-		}
-		*/
-		//End of function daftar_sewa
 		
 		public function daftar_voucher()
 		{

@@ -17,14 +17,14 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   // $level = $this->session->userdata('level');
+		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
 		   
 		   $this->auth->restrict();
 		   $this->auth->check_menu(6); 
-		   $this->template->set('title','Update Status | Aplikasi Monitoring Kendaraan Dinas');
-		   $this->template->load('template','operator/dataapproval_lengkap',$data);
+		   $this->template->set('title','Update Status Kendaraan Dinas');
+		   $this->template->load('template_refresh','operator/dataapproval_lengkap',$data);
 	   }
 	   
 	   function update_op($id)

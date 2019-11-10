@@ -3,6 +3,10 @@
 <div class="content">	
  	<div class="container-fluid">
  		<div class="row">
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/pending_request/';?>" class="made-with-mk">
+			<div class="brand"><i class="material-icons">local_parking</i></div>
+			<div class="made-with">Request <strong>Pending</strong></div>
+		</a>
  			<div class="col-md-12">
 			  <div class="card card-nav-tabs">
 				<!-- Header -->
@@ -58,13 +62,3 @@
 	</div>
 	
 	<!-- End List -->
-	<div class="fixed-plugin">
-	  <div class="col-md-6">
-		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/pending_request/';?>">
-		 <span class="input-group-text">
-			<i class="material-icons">local_parking</i>
-		 </span>
-		 <b>Pending</b>
-		</a>
-	  </div>
-	</div>

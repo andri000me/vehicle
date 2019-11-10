@@ -14,7 +14,7 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/hal_op_reject'?>">
+                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/reject'?>">
                           <h6 class="card-title">Pembatalan</h6>
                           </a>
                         </li>
