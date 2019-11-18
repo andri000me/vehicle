@@ -1,11 +1,12 @@
+
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <!-------------------------------------------------------------------------------------------------------------------------------->
 <div class="content">	
  	<div class="container-fluid">
  		<div class="row">
-		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/pending_request/';?>" class="made-with-mk">
-			<div class="brand"><i class="material-icons">local_parking</i></div>
-			<div class="made-with">Request <strong>Pending</strong></div>
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/lihat_operasional/';?>" class="made-with-mk">
+			<div class="brand"><i class="material-icons">reply_all</i></div>
+			<div class="made-with">Request <strong>Follow Up</strong></div>
 		</a>
  			<div class="col-md-12">
 			  <div class="card card-nav-tabs">
@@ -19,7 +20,7 @@
 							<tr>
 								<th>No</th>
 								<th>Pemohon</th>
-								<th>Waktu Keluar</th>
+								<th>Waktu Berangkat</th>
 								<th>Waktu Kembali</th>
 								<th>Waktu Request</th>
 								<th>Tujuan</th>
@@ -42,8 +43,11 @@
 								<td><?php echo $row->TUJUAN; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
 								<td>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/insert_op/'.$row->ID_REQUEST;?>" class="btn btn-success btn-fab btn-round btn-sm">
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">
 										<i class="material-icons">spellcheck</i>
+									</a>
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">
+										<i class="material-icons">clear</i>
 									</a>
 								</td>
 							</tr>

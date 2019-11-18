@@ -15,9 +15,9 @@ class Reportmodel extends CI_Model
 	   $query = $this->db->query("
 	      SELECT *
           FROM VIEW_OPERASIONAL
-          WHERE TGL_KEMBALI >= TO_DATE('".$tgl_mulai."','DD-MM-YYYY')
-          AND TGL_KEMBALI <= TO_DATE('".$tgl_akhir."','DD-MM-YYYY')
-          AND ID_STATUS_OPERASIONAL = 1
+          WHERE TGL_KEMBALI >= '".$tgl_mulai."'
+          AND TGL_KEMBALI <= '".$tgl_akhir."'
+          AND STATUS = 1
 	   ");
 	   
 	   return $query;
@@ -70,11 +70,9 @@ class Reportmodel extends CI_Model
     function get_daftar_kendaraan_op()
 	 {
 		$query = $this->db->query("
-		  SELECT KD.ID_KENDARAAN, KD.NO_POLISI, JK.JENIS_KENDARAAN
-          FROM KENDARAAN KD, DETAIL_KENDARAAN_DINAS DK, JENIS_KENDARAAN JK
-          WHERE KD.ID_KENDARAAN = DK.ID_KENDARAAN
-          AND KD.ID_JENIS_KENDARAAN = JK.ID_JENIS_KENDARAAN
-          AND DK.ID_TIPE_KENDARAAN_DINAS = '5'
+		  SELECT ID_KENDARAAN, NO_POLISI, NAMA_KENDARAAN
+          FROM KENDARAAN
+          WHERE STATUS = '5'
 		");
 		
 		return $query;
@@ -84,25 +82,23 @@ class Reportmodel extends CI_Model
 	 function get_daftar_sopir_op()
 	 {
 	   $query = $this->db->query("
-		   SELECT ID_SOPIR, NAMA
+		   SELECT ID_SOPIR, NID_SOPIR, NAMA
            FROM SOPIR
-           WHERE ID_STATUS_SOPIR != 3
-		   AND ID_STATUS_SOPIR != 0
-           AND ID_SOPIR != '0'
+           WHERE STATUS NOT IN ('3','0')
 		");
 		
 		return $query;
 	 }
      //end of function get_daftar_sopir_op
 	 
-     function hitung_jamop_kendaraan($tgl_mulai, $tgl_akhir, $id_kendaraan)
+     function hitung_jamop_kendaraan($tgl_mulai, $tgl_akhir, $nopol)
 	 {
 	    $query = $this->db->query("
-                 SELECT ID_OPERASIONAL, TGL_BERANGKAT, TGL_KEMBALI, JAM_KELUAR, JAM_KEMBALI
-                 FROM OPERASIONAL
-				 WHERE TGL_KEMBALI >= TO_DATE('".$tgl_mulai."','DD-MM-YYYY')
-				 AND TGL_KEMBALI <= TO_DATE('".$tgl_akhir."','DD-MM-YYYY')
-				 AND ID_KENDARAAN = '".$id_kendaraan."'
+                 SELECT ID_PEMINJAMAN, TGL_BERANGKAT, TGL_KEMBALI
+                 FROM VIEW_OPERASIONAL
+				 WHERE TGL_KEMBALI >= '".$tgl_mulai."'
+				 AND TGL_KEMBALI <= '".$tgl_akhir."'
+				 AND NO_POLISI = '".$nopol."'
                  ");
 		
         $total = 0;
@@ -113,15 +109,15 @@ class Reportmodel extends CI_Model
 		  
           foreach($query->result() as $row)
           {  
-		    $time_start = "'".$row->TGL_BERANGKAT." ".$row->JAM_KELUAR."'";
-			$time_stop = "'".$row->TGL_KEMBALI." ".$row->JAM_KEMBALI."'";
+		    $time_start = $row->TGL_BERANGKAT;
+			$time_stop = $row->TGL_KEMBALI;
 			
 			/*$diff = $this->db->query("
                              SELECT TIMESTAMPDIFF(MINUTE, ".$time_start.", ".$time_stop.") AS DIFF
 						   ");*/
 			$diff = $this->db->query("
 			    SELECT 
-			   (TO_DATE($time_stop,'DD-MM-YYYY HH24:MI:SS')-TO_DATE($time_start,'DD-MM-YYYY HH24:MI:SS')) * 24 * 60 DIFF
+			   ($time_stop-$time_start) * 24 * 60 DIFF
                 FROM DUAL
 			");
 			
@@ -160,7 +156,7 @@ class Reportmodel extends CI_Model
 		return $query;
 	 }
 	 
-	 function hitung_jamop_sopir($tgl_mulai, $tgl_akhir, $id_sopir, $tipe_spj)
+	 function hitung_jamop_sopir($tgl_mulai, $tgl_akhir, $id_sopir, $spj)
 	 {
 	    /*$query = $this->db->query("
                  SELECT ID_OPERASIONAL, TGL_BERANGKAT, TGL_KEMBALI, JAM_KELUAR, JAM_KEMBALI
@@ -172,24 +168,19 @@ class Reportmodel extends CI_Model
 				 
 		 $query = $this->db->query("
                  SELECT 
-				   OP.ID_OPERASIONAL, 
-				   OP.TGL_BERANGKAT, 
-                   OP.TGL_KEMBALI, 
-				   OP.JAM_KELUAR, 
-				   OP.JAM_KEMBALI
+				   ID_PEMINJAMAN, 
+				   TGL_BERANGKAT, 
+                   TGL_KEMBALI
                  FROM 
-				   OPERASIONAL OP,
-				   REQUEST RQ
+				   VIEW_OPERASIONAL
 				 WHERE 
-				   OP.ID_REQUEST = RQ.ID_REQUEST
-				   AND
-				   OP.TGL_KEMBALI >= TO_DATE('".$tgl_mulai."','DD-MM-YYYY')
+				   TGL_KEMBALI >= '".$tgl_mulai."'
 				   AND 
-				   OP.TGL_KEMBALI <= TO_DATE('".$tgl_akhir."','DD-MM-YYYY')
+				   TGL_KEMBALI <= '".$tgl_akhir."'
 				   AND 
-				   OP.ID_SOPIR = '".$id_sopir."'
+				   SOPIR = '".$id_sopir."'
 				   AND
-				   RQ.ID_TIPE_SPJ = '".$tipe_spj."'
+				   JENIS = '".$spj."'
                  ");
 		
         $total = 0;
@@ -200,8 +191,10 @@ class Reportmodel extends CI_Model
 		  
           foreach($query->result() as $row)
           {
-		    $time_start = "'".$row->TGL_BERANGKAT." ".$row->JAM_KELUAR."'";
-			$time_stop = "'".$row->TGL_KEMBALI." ".$row->JAM_KEMBALI."'";
+		    // $time_start = "'".$row->TGL_BERANGKAT." ".$row->JAM_KELUAR."'";
+			// $time_stop = "'".$row->TGL_KEMBALI." ".$row->JAM_KEMBALI."'";
+			$time_start = $row->TGL_BERANGKAT;
+			$time_stop = $row->TGL_KEMBALI;
 			
 			/*$diff = $this->db->query("
                              SELECT TIMESTAMPDIFF(MINUTE, ".$time_start.", ".$time_stop.") AS DIFF
@@ -209,7 +202,7 @@ class Reportmodel extends CI_Model
 			
 			$diff = $this->db->query("
 			    SELECT 
-			   (TO_DATE($time_stop,'DD-MM-YYYY HH24:MI:SS')-TO_DATE($time_start,'DD-MM-YYYY HH24:MI:SS')) * 24 * 60 DIFF
+			   ($time_stop-$time_start) * 24 * 60 DIFF
                 FROM DUAL
 			");
 			
@@ -233,6 +226,26 @@ class Reportmodel extends CI_Model
 		return $total;
 	 }
 	 //End of function hitung_jamop_sopir
+	 
+	 function hitung($query){
+		$total = 0;
+		
+		if($query->num_rows() > 0){
+		  $total_minutes =0;
+          foreach($query->result() as $row){
+		    $time_start = $row->TGL_BERANGKAT;
+			$time_stop = $row->TGL_KEMBALI;
+			$diff = $this->db->query("
+			    SELECT 
+			   ($time_stop-$time_start) * 24 * 60 DIFF
+                FROM DUAL
+			");
+			$total_minutes += $diff->row()->DIFF;
+		  }
+		  $total = $total_minutes/60;
+        }
+		return $total;
+	 }
 	 
 	 function lihat_operasional_sopir($tgl_mulai, $tgl_akhir, $sopir, $tipe_spj)
 	 {

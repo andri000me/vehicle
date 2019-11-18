@@ -1,146 +1,78 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-		 
-		 <div>
-    	     <div id="content_pjbs">
-        	     <div class="content_pjbs">
-            	
-                     <div class="sprtr_1"></div>
-					 
-					 <div class="fleft" style="margin-left:10px;">
-                        <table>
-                              <tr>
-								  <td><?php echo anchor('report/sopir', 'Operasional Sopir', array('class' => 'btn2 btn2-small btn2-primary')); ?></td>
-								  <td><?php echo anchor('report/detail_sopir', 'Detail Operasional Sopir', array('class' => 'btn2 btn2-small btn2-inverse')); ?></td>
-                              </tr>
-                          </table>
-                      </div>
-					  
-					  <br/><br/>
-					  <hr>
-					 
-			<div class="clear"></div>
-						<!-- isi dengan table atau tampilan -->
-		 	<div class="panel90">
-                <div class="judul_pjbs">
-                   <h3>Jam Operasional Sopir</h3>
-				   <?php
-				    //echo anchor('jamop/hitungjam2','Ubah Rentang Waktu', array('class' => 'btn2 btn2-warning btn2-small',));
-				   ?>
-                </div>
-                <hr>
-				
-				<div class="row-fluid">
-				    	
-                        <div class="span12" style="font-size:11px;">
-						
-						  <?php
-					   
-					        $tanggal = explode('|', $tgl);
-					   
-					        //echo $tanggal[0]." s/d ".$tanggal[1];
-					        //echo "<br/><br/>";
-					   
-				     	 ?>
-						 
-						 <?php echo form_open('report/sopir');?>
-                            <table class="table-condensed">
-							
-                                <tr>
-                                	<td class=""><span  class="inp_panel">Tanggal Awal</span></td>
-                                    <td>
-									   <?php
-										  $date = date('01-m-Y');
-										  
-										  $data = array(
-											   'name'        => 'date',
-											   'id'          => 'inputDatepic',
-											   'class'       => 'inputDatepic',
-											   'value'       => $date
-											   );
-									   
-										  echo form_input($data);
-										  echo form_error('date');
-									   ?>
-									</td>
-                                </tr>
-								
+<div class="content">	
+ 	<div class="container-fluid">
+ 		<div class="row">
+ 			<div class="col-lg-4 col-md-12">
+			  <div class="card">
+				<div class="card-header card-header-danger text-center">
+					<h4 class="card-title">Report</h4>
+				</div>
+				<div class="card-body">
+				<?php echo form_open('report/sopir');?>
+					<div class="form-group">
+						<label class="bmd-label-floating">Tanggal Awal</label>
+						<input type="text" class="form-control berangkatpicker" value="<?php echo date('01-m-Y');?>" name="date">
+					</div>
+					<div class="form-group">
+						<label class="bmd-label-floating">Tanggal Akhir</label>
+						<input type="text" class="form-control kembalipicker" value="<?php echo date('d-m-Y');?>" name="date1">
+					</div>
+					<div class="form-group">
+						<label for="status">Status Dinas</label>
+						<select id="status" name="id_tipe_spj" class="select2 form-control">
+							<option></option>
+						  <?php 
+							  for($i=1;$i<3;$i++){
+								  echo "<option value='$i'>".spj($i)."</option>";
+							  }
+						  ?>
+						</select>
+					</div></div>
+				<div class="card-footer justify-content-center">
+						<button type="submit" class="btn btn-danger btn-round">OK</button>&nbsp;&nbsp;
+						<button type="reset" class="btn btn-round">Reset</button>
+				</div>
+				<?php echo form_close();?>
+			  </div>
+			</div>
+            <div class="col-lg-8 col-md-12" id="table" >
+			<div class="card">
+				<div class="card-header card-header-danger text-center">
+					<h4 class="card-title">List Sopir</h4>
+					<?php $tanggal = explode('|', $tgl); ?>
+					<p class="card-category">Data Sopir pada
+					<?php echo $tanggal[0]." sampai ".$tanggal[1]; ?>
+					</p>
+				</div>
+				<div class="card-body">
+					<div class="card-body table-responsive">
+						<table class="table table-hover" id="dataTables-id">
+							<thead>
 								<tr>
-								     <td class=""><span  class="inp_panel">Tanggal Akhir</span></td>
-                                    <td>
-									   <?php
-										  $date = date('d-m-Y');
-										  
-										  $data = array(
-											   'name'        => 'date1',
-											   'id'          => 'inputDatepic2',
-											   'class'       => 'inputDatepic2',
-											   'value'       => $date
-											   );
-									   
-										  echo form_input($data);
-										  echo form_error('date1');
-									   ?>
-									</td>
+									<th>ID SOPIR</th>
+									<th>NAMA</th>
+									<th>JAM OPERASIONAL</th>
 								</tr>
-								
-								 <tr>
-                                	<td class=""><span  class="inp_panel">Status Dinas</span></td>
-                                    <td>
-                                    	<select name="id_tipe_spj">
-                                        	<option value="1">1.Dalam kota tugas operasional</option>
-                                            <option value="2">2.Luar kota</option>
-                                            
-                                        </select>
-                                        <?php echo form_error('id_tipe_spj');?>
-                                    </td>
-                                </tr>
-								
+							</thead>
+							<tbody>
+								<?php
+									foreach($op as $row){  
+										$data = explode('|', $row);
+								?>
 								<tr>
-								    <td>
-                                    	<input type="submit" class="btn2 btn2-warning btn2-small" value="Hitung"/>
-                                    </td>
+									<td> <?php echo $data[0]; ?></td>
+									<td> <?php echo $data[1]; ?></td>
+									<td> <?php echo $data[2]; ?></td>
 								</tr>
-                            
-                            </table>
-                         <?php echo form_close();?>
-						 
-						 <!--------------------------------------------------------------------------------------------------------------- -->
-                	
-                            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="example2" style="display:none">
-                                <thead>
-                                    <tr>
-                                        <th width="10%;">NO</th>
-                                        <th width="30%">ID SOPIR</th>
-										<th width="30%">NAMA</th>
-                                        <th width="30%">JAM OPERASIONAL</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                    <?php
-									    $no = 1;
-										foreach($op as $row)
-										{  
-										   $data = explode('|', $row);
-										?>
-										<tr>
-										  <td> <?php echo $no; $no++; ?>&nbsp; </td>
-										  <td> <?php echo $data[0]; ?>&nbsp; </td>
-                                          <td> <?php echo $data[1]; ?>&nbsp; </td>
-										  <td> <?php echo $data[2]; ?>&nbsp; </td>
-										</tr>
-										<?php
-										}
-									    ?>   
-                             
-                                </tbody>
-                                
-                            </table>
-                        </div>
-                        
-		             <div class="clear"></div>
-					 
-					 <div class="sprtr_1"></div>           
+								<?php } ?>   
+							</tbody>    
+						</table>
+					</div>
+				</div>
+			</div>
+			</div>
+		</div>
+	</div>
                          <!-- ini adalah graph jon -->
                     <div class="block">
                             <div class="block-content collapse in">
@@ -157,14 +89,6 @@
                     </div>
                          <!-- akhir graph -->   
                 
-			         <br><br><br><br>
-            
-                 </div>
-             </div>
-         </div>
-
-<br/><br/>
-
 <script src="<?php echo base_url();?>asset/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo base_url();?>asset/js/DT_bootstrap.js"></script>
 <script src="<?php echo base_url();?>asset/js/jquery.easy-pie-chart.js"></script>

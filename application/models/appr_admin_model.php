@@ -21,7 +21,8 @@
 	 function show_request1($id)
 	 {
 		$this->db->from('VIEW_REQUEST');
-		$this->db->where('ID_REQUEST', $id);
+		// $this->db->where('ID_REQUEST', $id);
+		$this->db->where('NID', $id);
 	    return $this->db->get();
 	 }
 	 
@@ -88,6 +89,7 @@
 	 {
 		//$this->db->from('VIEW_REQUEST_ASS');
 		$this->db->from('VIEW_REQUEST');
+		$this->db->where('STATUS',4);
 	    return $this->db->get();
 	 }
 	 function show_request_jkt()//gabungan dari request_model=show_all_request_jkt dan view_request_ass
@@ -350,7 +352,8 @@
 	 }
 	 function get_mobil_aktif()
 	 {
-	   $this->db->from('VIEW_MOBIL_AKTIF');
+	   // $this->db->from('VIEW_MOBIL_AKTIF');
+	   $this->db->from('KENDARAAN');
 	   return $this->db->get();
 	 }
 	 

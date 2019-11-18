@@ -4,11 +4,6 @@
                     <div class="nav-tabs-wrapper">
                       <ul class="nav nav-pills" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/approval_admin'?>">
-						  <h6 class="card-title">Request</h6>
-                          </a>
-                        </li>
-                        <li class="nav-item">
                           <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/lihat_operasional'?>">
 						  <h6 class="card-title">Operasional</h6>
                           </a>
@@ -16,16 +11,6 @@
                         <li class="nav-item">
                           <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/reject'?>">
                           <h6 class="card-title">Pembatalan</h6>
-                          </a>
-                        </li>
-						<li class="nav-item">
-                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/lihat_voucher'?>">
-                          <h6 class="card-title">Voucher</h6>
-                          </a>
-                        </li>
-						<li class="nav-item">
-                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'approval/lihat_reimburse'?>">
-                          <h6 class="card-title">Reimburse</h6>
                           </a>
                         </li>
                       </ul>

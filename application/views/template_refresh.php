@@ -22,29 +22,16 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!--<link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">-->
   <!-- CSS Files -->
-  <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.6" rel="stylesheet" />
-  <link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-  
+  <!--<link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.6" rel="stylesheet" />-->
+  <!--<link href="<?php echo base_url();?>asset/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />-->
+  <link href="<?php echo base_url();?>asset/css/material-dashboard-pro.min.css?v=2.1.0" rel="stylesheet" />
   <link href="<?php echo base_url();?>asset/css/mk.css" rel="stylesheet" />
-  <style type="text/css">
-  .nav-link[data-toggle].collapsed:after {
-    content: "▾";
-	}
-  .nav-link[data-toggle]:not(.collapsed):after {
-    content: "";
-	}
-  .modal-notify .modal-header{
-	border-radius: 3px 3px 0 0;
-	}
-  .modal-notify .modal-content{
-	border-radius: 3px;
-	}
-  </style>
+  
   
    </head>
    
    <body class="index-page sidebar-collapse">
-	 <div class="navbar-default sidebar" data-image="<?php echo base_url();?>asset/images/city-profile.jpg">
+	 <div class="navbar-default sidebar" data-image="<?php echo base_url();?>asset/images/city-profile.jpg" data-background-color="black">
 		 <div class="logo">
 			<a href="" class="simple-text logo-normal">
 			  <img src="<?php echo base_url();?>asset/images/logo.png"/>
@@ -67,10 +54,10 @@
 					$level2 = $this->usermodel->get_second_level($row->MENU_ID);
 					echo"<a class='nav-link collapsed' data-toggle='collapse' data-target='#submenu".$sub."' href='#'>";
 					echo"<i class='material-icons'>".$row->ICON."</i>";
-					echo"<p>".strtoupper($row->MENU_NAMA)."</p>";
+					echo"<p>".strtoupper($row->MENU_NAMA)."<b class='caret'></b></p>";
 					echo"</a>";
-					echo"<div class='collapse' id='submenu".$sub."' aria-expanded='false'>";
-					 echo"<ul class='flex-column pl-2 nav'>";
+					echo"<div class='collapse' id='submenu".$sub."'>";
+					 echo"<ul class='nav'>";
 					foreach($level2->result() as $row2){
 						echo"<li class='nav-item'>";
 						echo"<a class='nav-link py-0' href='".base_url()."".$this->uri->segment(0)."".$row2->MENU_URI."'>";
@@ -93,7 +80,8 @@
 	
 	
 	<div class="main-panel">
-	  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info navbar-color-on-scroll" color-on-scroll="100">
+	  <!--<nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info navbar-color-on-scroll" color-on-scroll="100">-->
+	  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <h4 class="navbar-brand"><?php echo $title; ?></h4>
@@ -188,8 +176,8 @@
   <!--  Notifications Plugin    -->
   <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="<?php echo base_url();?>asset/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
-  <script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
+  <script src="<?php echo base_url();?>asset/js/material-dashboard-pro.min.js?v=2.1.0" type="text/javascript"></script>
+  <!--<script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>-->
   <script src="<?php echo base_url();?>asset/demo/demo.js"></script>
   <script>	
     $(document).ready(function() {
@@ -381,7 +369,16 @@
   <script>
     $(function() {
         $('#dataTables-id').DataTable({
-                responsive: true
+			"pagingType": "full_numbers",
+			"lengthMenu": [
+			  [10, 25, 50, -1],
+			  [10, 25, 50, "All"]
+			],
+			responsive: true,
+			language: {
+			  search: "_INPUT_",
+			  searchPlaceholder: "Search records",
+			}
         });
     });
   </script>

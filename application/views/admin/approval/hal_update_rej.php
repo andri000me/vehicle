@@ -16,10 +16,9 @@
 								<th>No</th>
 								<th>Atas Nama</th>
 								<th>Keperluan</th>
-								<th>Jam Keluar</th>
-								<th>Jam Kembali</th>
-								<th>Tanggal</th>
-								<th>Approval</th>
+								<th>Tanggal Berangkat</th>
+								<th>Tanggal Kembali</th>
+								<th>Opsi</th>
 							</tr>
 						</thead>
 						<tbody>

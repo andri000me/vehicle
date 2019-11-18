@@ -1,7 +1,29 @@
+<style>
+.trans {
+  display: block;
+  top: 8%;
+  right: 35%;
+  position: fixed;
+  z-index: 500;
+  border-radius: 15px;
+  background-color: rgba(16, 16, 16, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  padding: 10px;}
+</style>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <div class="content">	
  	<div class="container-fluid">
  		<div class="row">
+		<div class="trans">
+			<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/insert_op/';?>">
+				<i class="material-icons">library_add</i>Tambah Transaksi
+			</a>
+		</div>
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/approval_admin/';?>" class="made-with-mk">
+			<div class="brand"><i class="material-icons">local_parking</i></div>
+			<div class="made-with">All Request <strong>Pending</strong></div>
+		</a>
  			<div class="col-md-12">
 			  <div class="card card-nav-tabs">
 				<!-- Header -->
@@ -12,13 +34,12 @@
 					<table class="table table-hover" id="dataTables-id">
 						<thead class=" text-primary">
 							<tr>
-								<th>NO</th>
-								<th>PEMOHON</th>
-								<th>SOPIR / KENDARAAN</th>
-								<th>WAKTU BERANGKAT</th>
-								<th>WAKTU KEMBALI</th>
-								<th>TUJUAN</th>
-								<th>STATUS</th>
+								<th>No</th>
+								<th>Pemohon</th>
+								<th>Kendaraan</th>
+								<th>Waktu Berangkat</th>
+								<th>Tujuan</th>
+								<th>Status</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -29,10 +50,8 @@
 							<tr>
 								<td><?php echo $no; ?></td>
 								<td><?php echo $row->PEMOHON; ?></td>
-								<td><?php echo $row->NAMA_SOPIR."<br>-<br>".$row->JENIS_KENDARAAN."<br>".$row->NO_POLISI; ?>
-								</td>
+								<td><?php echo $row->NO_POLISI." ".$row->NAMA_KENDARAAN; ?></td>
 								<td><?php echo $row->TGL_BERANGKAT; ?></td>
-								<td><?php echo $row->TGL_KEMBALI; ?></td>
 								<td><?php echo $row->TUJUAN; ?></td>
 								<td>
 								<?php 

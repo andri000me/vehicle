@@ -32,7 +32,7 @@
 		  $this->load->model('usermodel');
 		  $this->load->model('sopirmodel');
 		  $data['datasopir'] = $this->sopirmodel->get_all_sopir();
-		  $this->template->set('title','Driver Kendaraan');
+		  $this->template->set('title','<strong>Driver Kendaraan</strong>');
 		  $this->template->load('template_refresh', 'admin/sopir/index', $data);
 		}
 	 
@@ -92,7 +92,7 @@
 		 $this->auth->check_menu(1);
 	     $data['kendaraan'] = $this->kendaraanmodel->get_all_kendaraan();
 		 $data['supir'] = $this->kendaraanmodel->get_driver();
-		 $this->template->set('title', 'Kendaraan Dinas');
+		 $this->template->set('title', '<strong>Kendaraan Dinas</strong>');
          $this->template->load('template_refresh', 'admin/kendaraan/index', $data);	 
 	   }
 	   //End of function kendaraan
@@ -311,7 +311,7 @@
 		 //Mencegah user mengakses menu yang tidak boleh dibuka
 		 $this->auth->check_menu(1);
 		 $data['subdit'] = $this->subditmodel->get_all_subdit();
-		 $this->template->set('title', 'Divisi');
+		 $this->template->set('title', '<strong>Divisi</strong>');
          $this->template->load('template_refresh', 'admin/subdit/sindex', $data);	 
 	   }
 	   //End of function index
@@ -370,7 +370,7 @@
 		 $this->auth->check_menu(1);
 		 $data['subdit'] = $this->subditmodel->get_all_subdit();
 	     $data['jabatan'] = $this->subditmodel->get_all_jabatan();
-		 $this->template->set('title', 'Jabatan Karyawan');
+		 $this->template->set('title', '<strong>Jabatan Karyawan</strong>');
          $this->template->load('template_refresh', 'admin/subdit/jindex', $data);
 	   }
 	   //End of function view_jabatan
@@ -441,7 +441,7 @@
 		   $data['divisi'] = $this->karyawanmodel->divisi();
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
-		   $this->template->set('title','Karyawan');
+		   $this->template->set('title','<strong>Karyawan</strong>');
 		   $this->template->load('template_refresh','admin/karyawan/index',$data);
 		}
 	    //End of function karyawan
@@ -503,7 +503,7 @@
 		   $data['id_jab'] = $this->karyawanmodel->tampil_karyawan();
 		   $this->auth->restrict();
 		   $this->auth->check_menu(1); 
-		   $this->template->set('title','User Profile');
+		   $this->template->set('title','<strong>User Profile</strong>');
 		   $this->template->load('template_refresh','admin/user/index',$data);
 		}
 	    //End of function User

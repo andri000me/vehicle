@@ -26,7 +26,6 @@
               <div class="form-group">
                 <label class="bmd-label-floating">Jumlah Penumpang</label>
                 <input type="text" class="form-control" name="jml_penumpang" maxlength="1" value="1" required/>
-                <?php echo form_error('jml_penumpang');?>
               </div>
             </div>
             <div class="col-md-4">
@@ -48,7 +47,6 @@
                 <label class="bmd-label-floating">Keterangan Tujuan</label>
                 <div class="form-group">
                   <textarea class="form-control" rows="2" name="ket_tujuan" required></textarea>
-                  <?php echo form_error('ket_tujuan');?>
                 </div>
               </div>
             </div>
@@ -57,7 +55,6 @@
                 <label class="bmd-label-floating">Keperluan</label>
                 <div class="form-group">
                   <textarea class="form-control" rows="2" name="keperluan" required></textarea>
-                  <?php echo form_error('keperluan');?>
                 </div>
               </div>
             </div>

@@ -36,7 +36,10 @@ $(function(){
 	</a>
 		<div class="col-md-12">
 			<div class="card">
-				<div class="card-header card-header-primary">
+				<div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
                   <h4 class="card-title">List Karyawan</h4>
                 </div>
 				<div class="card-body">

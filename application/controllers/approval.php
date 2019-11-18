@@ -180,10 +180,10 @@
 	      $data['approval'] = $this->appr_admin_model->show_request1($id_req);
 		  
 		  //$tgl_kembali = $this->appr_admin_model->show_request1($id_req)->row()->TGL_KEMBALI;		
-		  $tgl_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
+		  // $tgl_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
 		  //$waktu_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
 		  //$waktu_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
-		  $tgl_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
+		  // $tgl_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
 		  //echo $waktu_berangkat." - ".$waktu_kembali."<br/><br/>";
 		  
 		  if($this->form_validation->run() == FALSE)
@@ -195,12 +195,12 @@
 		  	 
 		  	 
 			 //$data['jenis_operasional'] = $this->appr_admin_model->tampil_jenis_operasional();
-			 $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif(); 
-			 $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($tgl_kembali);
-			 $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($tgl_berangkat);
+			 // $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif(); 
+			 // $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($tgl_kembali);
+			 // $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($tgl_berangkat);
 			 $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
-			 $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($tgl_kembali);
-			 $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($tgl_berangkat);
+			 // $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($tgl_kembali);
+			 // $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($tgl_berangkat);
 			 
 			 // if($level==6)
 			 // {
@@ -224,20 +224,20 @@
 		     //$data['sopir'] = $this->appr_admin_model->get_sopir_booked($tgl_kembali);
 			 
 			 //Untuk sewa
-			 $this->load->model('suppliermodel');
-			 $data['harian'] = $this->suppliermodel->get_supplier_harian();
+			 // $this->load->model('suppliermodel');
+			 // $data['harian'] = $this->suppliermodel->get_supplier_harian();
 			 
-			 $this->load->model('kendaraanmodel');
-			 $data['kendaraan'] = $this->kendaraanmodel->get_all_jenis_kendaraan();
+			 // $this->load->model('kendaraanmodel');
+			 // $data['kendaraan'] = $this->kendaraanmodel->get_all_jenis_kendaraan();
 			 
 			 //-----------------------
 			 /*Reimburse*/
-			  $data['jenis_reimburse'] = $this->appr_admin_model->get_jenis_reimburse();
+			  // $data['jenis_reimburse'] = $this->appr_admin_model->get_jenis_reimburse();
 			 
 			 //-----------------------
 
-		     $this->template->set('title', 'Form Tambah Subdit Baru Aplikasi Monitoring Kendaraan Dinas');
-			 $this->template->load('template','admin/approval/insert_operasional', $data);
+		     $this->template->set('title', 'Penambahan Transaksi Operasional');
+			 $this->template->load('template_refresh','admin/approval/insert_operasional', $data);
 		  }
 		  else
 		  {

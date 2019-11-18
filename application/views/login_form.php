@@ -3,7 +3,7 @@
 		<div class=" col-md-4 ml-auto mr-auto">
           <div class="card card-login">
             <!--<form class="form" method="" action="">-->
-              <div class="card-header card-header-primary text-center">
+              <div class="card-header card-header-rose text-center">
                 <h4 class="card-title">Login Form</h4>
               </div>
               <div class="card-body">
@@ -24,8 +24,8 @@
                   </div>
                   <input type="password" class="form-control" name="password" placeholder="Password" required="">
                 </div>
-				<div class="card-footer text-center">
-					<input type="submit" name="submit" value="Get Started" class="btn btn-outline-primary btn-round btn-lg btn-block">
+				<div class="card-footer justify-content-center">
+					<input type="submit" name="submit" value="Get Started" class="btn btn-outline-primary btn-lg btn-round">
 				</div>
 				<?php echo form_close(); ?>
               </div>

@@ -22,7 +22,8 @@
 		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(6); 
+		   //$this->auth->check_menu(6); 
+		   $this->auth->check_menu(3); 
 		   $this->template->set('title','Update Status Kendaraan Dinas');
 		   $this->template->load('template_refresh','operator/dataapproval_lengkap',$data);
 	   }
@@ -30,7 +31,7 @@
 	   function update_op($id)
 	   {
 		 $this->auth->restrict();
-		 $this->auth->check_menu(6);
+		 $this->auth->check_menu(3);
 		 
 		 $this->load->model('appr_admin_model');
 		 
@@ -71,7 +72,7 @@
 		 $level = $this->session->userdata('level');
 	       
 		 $this->auth->restrict();
-		 $this->auth->check_menu(6);
+		 $this->auth->check_menu(3);
 		 
 		 $ids = $this->uri->segment(3);
 		 $extension = explode("-", $ids);
@@ -137,7 +138,7 @@
 		 $level = $this->session->userdata('level');
 	       
 		 $this->auth->restrict();
-		 $this->auth->check_menu(6);
+		 $this->auth->check_menu(3);
 		 
 		 $ids = $this->uri->segment(3);
 		 $extension = explode("-", $ids);
@@ -215,7 +216,7 @@
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(6); 
+		   $this->auth->check_menu(3); 
 		   
 		   $id = $this->uri->segment(3);
 		   $data['surat'] = $this->appr_admin_model->get_data_surat($id);

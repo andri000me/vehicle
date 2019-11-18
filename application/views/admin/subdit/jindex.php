@@ -52,7 +52,10 @@ select{
     <div class="row">
 		<div class="col-md-8">
 			<div class="card">
-				<div class="card-header card-header-primary">
+				<div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">assignment</i>
+                  </div>
                   <h4 class="card-title">List Jabatan</h4>
                 </div>
 				<div class="card-body">
@@ -101,7 +104,10 @@ select{
 		<!-- Add Form -->
 		<div class="col-md-4" id="add">
 			<div class="card card-profile">
-				<div class="card-header card-header-rose">
+				<div class="card-header card-header-rose card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">library_add</i>
+                  </div>
                   <h4 class="card-title">Tambah Data</h4>
                 </div>
                 <div class="card-body">
@@ -161,7 +167,10 @@ select{
 		<!-- Edit Form -->
 		<div class="col-md-4" id="edit" style="display:none">
 			<div class="card card-profile">
-				<div class="card-header card-header-warning">
+				<div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">edit</i>
+                  </div>
                   <h4 class="card-title">Update Data</h4>
                 </div>
                 <div class="card-body">

@@ -9,8 +9,8 @@ class Report extends CI_Controller {
 	//    $data['dataslider'] = $this->slidermodel->get_all_slider();
 		 
 	   $this->load->model('usermodel');
-	   $level = $this->session->userdata('level');
-	   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+	   // $level = $this->session->userdata('level');
+	   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		 
 	   $this->auth->restrict();
 	   $this->auth->check_menu(1);
@@ -52,14 +52,9 @@ class Report extends CI_Controller {
 	 
 	  public function operasional()
 	  {
-	     $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
 		  $this->load->model('usermodel');
 		  $this->load->model('reportmodel');
 		   
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4); 
 		  
@@ -68,21 +63,24 @@ class Report extends CI_Controller {
 		  $this->form_validation->set_rules('date1', 'date1', 'trim|required');
 		  
           $data_op = array();	
-          $tgl_awal = date("01-m-Y");
-          $tgl_akhir = date("d-m-Y");	  
+          // $tgl_awal = date("01-m-Y");
+          // $tgl_akhir = date("d-m-Y");
+		  $this->load->model('datemodel');
+		  $tgl_awal = $this->input->post('date');
+          $tgl_akhir = $this->input->post('date1');
 		   
-		  if ($this->form_validation->run() == FALSE)
-		  {
-		     //do nothing
-		  } 
-		  else
-		  { 
-		     $this->load->model('datemodel');
-			 //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
-             //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
-			 $tgl_awal = $this->input->post('date');
-             $tgl_akhir = $this->input->post('date1');	
-		  }
+		  // if ($this->form_validation->run() == FALSE)
+		  // {
+		     // //do nothing
+		  // } 
+		  // else
+		  // { 
+		     // $this->load->model('datemodel');
+			 // //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
+             // //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
+			 // $tgl_awal = $this->input->post('date');
+             // $tgl_akhir = $this->input->post('date1');	
+		  // }
 		  //End of else
 		   
 		   //$data['user'] = $this->reportmodel->lihat_detail_op_user($tgl_awal, $tgl_akhir, $nama);
@@ -90,22 +88,17 @@ class Report extends CI_Controller {
 		   
 		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		   //$data['op'] = $data_op;
-		   $this->template->set('title','Data Operasional| eFormC');
-		   $this->template->load('template','admin/report/operasional', $data);
+		   $this->template->set('title','Report Operasional');
+		   $this->template->load('template_refresh','admin/report/operasional', $data);
 		  
 	  }
 	  //End of function operasional
 	 
 	   public function user()
 	   {
-	      $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-		  $this->load->model('usermodel');
+	      $this->load->model('usermodel');
 		  $this->load->model('reportmodel');
 		   
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4); 
 		  
@@ -114,21 +107,24 @@ class Report extends CI_Controller {
 		  $this->form_validation->set_rules('date1', 'date1', 'trim|required');
 		  
           $data_op = array();	
-          $tgl_awal = date("01-m-Y");
-          $tgl_akhir = date("d-m-Y");	  
-		   
-		  if ($this->form_validation->run() == FALSE)
-		  {
-		     //do nothing
-		  } 
-		  else
-		  { 
-		     $this->load->model('datemodel');
-			 //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
-             //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
-			 $tgl_awal = $this->input->post('date');
-             $tgl_akhir = $this->input->post('date1');	
-		  }
+          // $tgl_awal = date("01-m-Y");
+          // $tgl_akhir = date("d-m-Y");	  
+		  $this->load->model('datemodel');
+		  $tgl_awal = $this->input->post('date');
+          $tgl_akhir = $this->input->post('date1');
+		  
+		  // if ($this->form_validation->run() == FALSE)
+		  // {
+		     // //do nothing
+		  // } 
+		  // else
+		  // { 
+		     // $this->load->model('datemodel');
+			 // //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
+             // //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
+			 // $tgl_awal = $this->input->post('date');
+             // $tgl_akhir = $this->input->post('date1');	
+		  // }
 		  //End of else
 		  
 		   $data['user'] = $this->reportmodel->hitung_jml_operasional_user($tgl_awal, $tgl_akhir);
@@ -149,8 +145,8 @@ class Report extends CI_Controller {
 		   
 		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		   //$data['op'] = $data_op;
-		   $this->template->set('title','Operasional User | eFormC');
-		   $this->template->load('template','admin/report/jmlop_user', $data);
+		   $this->template->set('title','Report User | eFormC');
+		   $this->template->load('template_refresh','admin/report/jmlop_user', $data);
 		  
 	   }
 	   //End of function user
@@ -205,14 +201,9 @@ class Report extends CI_Controller {
 	 
 	  public function kendaraan()
 	   {
-	      $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-		  $this->load->model('usermodel');
+	      $this->load->model('usermodel');
 		  $this->load->model('reportmodel');
 		   
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4); 
 		  
@@ -221,21 +212,24 @@ class Report extends CI_Controller {
 		  $this->form_validation->set_rules('date1', 'date1', 'trim|required');
 		  
           $data_op = array();	
-          $tgl_awal = date("01-m-Y");
-          $tgl_akhir = date("d-m-Y");	  
+          // $tgl_awal = date("01-m-Y");
+          // $tgl_akhir = date("d-m-Y");
+		  $this->load->model('datemodel');
+		  $tgl_awal = $this->input->post('date');
+		  $tgl_akhir = $this->input->post('date1');
 		   
-		  if ($this->form_validation->run() == FALSE)
-		  {
-		     //do nothing
-		  } 
-		  else
-		  { 
-		     $this->load->model('datemodel');
-			 //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
-             //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
-			 $tgl_awal = $this->input->post('date');
-             $tgl_akhir = $this->input->post('date1');	
-		  }
+		  // if ($this->form_validation->run() == FALSE)
+		  // {
+		     // //do nothing
+		  // } 
+		  // else
+		  // { 
+		     // $this->load->model('datemodel');
+			 // //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
+             // //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));	
+			 // $tgl_awal = $this->input->post('date');
+             // $tgl_akhir = $this->input->post('date1');	
+		  // }
 		  //End of else
 		  
 		   $kendaraan = $this->reportmodel->get_daftar_kendaraan_op();
@@ -243,30 +237,23 @@ class Report extends CI_Controller {
 		   foreach($kendaraan->result() as $row)
 		   {
 			 //echo $row->ID_KENDARAAN."<br/>";
-		     $jam_op = $this->reportmodel->hitung_jamop_kendaraan($tgl_awal, $tgl_akhir, $row->ID_KENDARAAN);
-             //echo "<br/>------------------------------------------------------------------------------------------<br/><br/>";
-				 
+		     $jam_op = $this->reportmodel->hitung_jamop_kendaraan($tgl_awal, $tgl_akhir, $row->NO_POLISI);
 		     array_push($data_op, $row->NO_POLISI."|".$row->JENIS_KENDARAAN."|".$jam_op);
 		   }
 		   
 		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		   $data['op'] = $data_op;
-		   $this->template->set('title','Operasional Kendaraan | eFormC');
-		   $this->template->load('template','admin/report/jamop_kendaraan', $data);
+		   $this->template->set('title','Report Kendaraan');
+		   $this->template->load('template_refresh','admin/report/jamop_kendaraan', $data);
 		  
 	   }
 	   //End of function kendaraan
 	   
 	  public function detail_kendaraan()
 	  {
-	     $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-		  $this->load->model('usermodel');
+	      $this->load->model('usermodel');
 		  $this->load->model('reportmodel');
 		   
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4); 
 		  
@@ -310,14 +297,9 @@ class Report extends CI_Controller {
 	   
 	   public function sopir()
 	   {
-	      $this->load->model('slidermodel');
-		  $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-		  $this->load->model('usermodel');
+	      $this->load->model('usermodel');
 		  $this->load->model('reportmodel');
 		   
-		  $level = $this->session->userdata('level');
-		  $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4); 
 		  
@@ -326,47 +308,50 @@ class Report extends CI_Controller {
 		  $this->form_validation->set_rules('date1', 'date1', 'trim|required');
 		   
 		  $data_op = array();	
-          $tgl_awal = date("01-m-Y");
-          $tgl_akhir = date("d-m-Y");
-		  $tipe_spj = 1;
+          // $tgl_awal = date("01-m-Y");
+          // $tgl_akhir = date("d-m-Y");
+		  // $spj = 1;
+		  $this->load->model('datemodel');
+		  $tgl_awal = $this->input->post('date');
+		  $tgl_akhir = $this->input->post('date1');
+		  $spj = $this->input->post('id_tipe_spj');
 		   
-		  if ($this->form_validation->run() == FALSE)
-		  {
-		    //do nothing
-		  } 
-		  else
-		  {	  
-	         $this->load->model('datemodel');
-			 //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
-             //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));
-			 $tgl_awal = $this->input->post('date');
-             $tgl_akhir = $this->input->post('date1');
-			 $tipe_spj = $this->input->post('id_tipe_spj');
-		  }
+		  // if ($this->form_validation->run() == FALSE)
+		  // {
+		    // //do nothing
+		  // } 
+		  // else
+		  // {	  
+	         // $this->load->model('datemodel');
+			 // //$tgl_awal = $this->datemodel->format_tanggal($this->input->post('date'));
+             // //$tgl_akhir = $this->datemodel->format_tanggal($this->input->post('date1'));
+			 // $tgl_awal = $this->input->post('date');
+             // $tgl_akhir = $this->input->post('date1');
+			 // $tipe_spj = $this->input->post('id_tipe_spj');
+		  // }
 		  //End of else
 		  
 		  $kendaraan = $this->reportmodel->get_daftar_sopir_op();
 		  
-		   foreach($kendaraan->result() as $row)
-		   {
+		  foreach($kendaraan->result() as $row){
 			  //echo $row->ID_KENDARAAN."<br/>";
 		      //$jam_op = $this->reportmodel->hitung_jamop_sopir($tgl_awal, $tgl_akhir, $row->ID_SOPIR);
-			  $jam_op = $this->reportmodel->hitung_jamop_sopir($tgl_awal, $tgl_akhir, $row->ID_SOPIR, $tipe_spj);
-              //echo "<br/>------------------------------------------------------------------------------------------<br/><br/>";
+			  // $jam_op = $this->reportmodel->hitung_jamop_sopir($tgl_awal, $tgl_akhir, $row->ID_SOPIR, $tipe_spj);
+			  $jam_op = $this->reportmodel->hitung_jamop_sopir($tgl_awal, $tgl_akhir, $row->NID_SOPIR, $spj);
 				 
-		      array_push($data_op, $row->ID_SOPIR."|".$row->NAMA."|".$jam_op);
+		      array_push($data_op, $row->NID_SOPIR."|".$row->NAMA."|".$jam_op);
 		    }
 			
-		   if($tipe_spj == 1)
-		      $tipe = 'Dinas Dalam Kota';
-		   else if($tipe_spj == 2)
-		      $tipe = 'Dinas Luar Kota';
+		   // if($tipe_spj == 1)
+		      // $tipe = 'Dinas Dalam Kota';
+		   // else if($tipe_spj == 2)
+		      // $tipe = 'Dinas Luar Kota';
 			  
-		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir.'|'.$tipe;  
+		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir.'|'.spj($spj);  
 		   //$data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		   $data['op'] = $data_op;
-		   $this->template->set('title','Operasional Sopir | eFormC');
-		   $this->template->load('template','admin/report/jamop_sopir',$data);
+		   $this->template->set('title','Report Sopir');
+		   $this->template->load('template_refresh','admin/report/jamop_sopir',$data);
 		 
 	   }
 	   //End of function sopir

@@ -140,7 +140,7 @@ if ( ! function_exists('generatehtml'))
 	{
 		switch($id){
 			case 1:
-				return "Dalam kota tugas operasional";
+				return "Dalam kota";
 			case 2:
 				return "Luar kota";
 			break;
