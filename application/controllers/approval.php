@@ -199,6 +199,7 @@
 			 // $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($tgl_kembali);
 			 // $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($tgl_berangkat);
 			 $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
+			 $data['request'] = $this->appr_admin_model->request();
 			 // $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($tgl_kembali);
 			 // $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($tgl_berangkat);
 			 
@@ -236,7 +237,7 @@
 			 
 			 //-----------------------
 
-		     $this->template->set('title', 'Penambahan Transaksi Operasional');
+		     $this->template->set('title', 'Transaksi Operasional');
 			 $this->template->load('template_refresh','admin/approval/insert_operasional', $data);
 		  }
 		  else

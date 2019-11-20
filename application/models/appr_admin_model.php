@@ -16,7 +16,14 @@
 	 {
 	    $this->	db->from('JENIS_OPERASIONAL');
 	    return $this->db->get();
-	 }	
+	 }
+
+	 function request()
+	 {
+		$this->db->from('VIEW_REQUEST');
+		$this->db->where('STATUS', 1);
+	    return $this->db->get();
+	 }
 //-----------------------------------------------
 	 function show_request1($id)
 	 {
