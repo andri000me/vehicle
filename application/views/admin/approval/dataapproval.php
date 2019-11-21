@@ -8,10 +8,19 @@
 			<div class="brand"><i class="material-icons">reply_all</i></div>
 			<div class="made-with">Request <strong>Follow Up</strong></div>
 		</a>
- 			<div class="col-md-12">
-			  <div class="card card-nav-tabs">
-				<!-- Header -->
-			  	<?php include "header.php";?>					    
+ 			<div class="col-md-8 ml-auto mr-auto">
+			<div class="page-categories">
+			<!-- Header -->
+			<?php include "header.php";?>
+			<div class="tab-content tab-space tab-subcategories">
+			 <div class="tab-pane">
+			  <div class="card">
+				<div class="card-header">
+					<h4 class="card-title">Operasional</h4>
+                        <p class="card-category">
+                          More information here
+                        </p>
+                      </div>
 				<!-- isi dengan table atau tampilan -->
 				<div class="card-body">
 				<div class="table-responsive">
@@ -62,6 +71,10 @@
 				</div>
 			  </div>
 			</div>
+		</div>
+		</div>
+		</div>
+		</div>
 		</div>
 	</div>
 	

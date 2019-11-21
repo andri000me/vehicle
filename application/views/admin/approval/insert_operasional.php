@@ -115,24 +115,24 @@ function hideComp(){
 						</div>
 						<br>
 						<div class="form-group">
-						  <label for="keteranganId">Keterangan</label>
-						  <input type="text" class="form-control" name="keterangan" id="keteranganId">
+						  <label for="penumpang">Jumlah Penumpang</label><br>
+						  <input type="text" class="form-control" name="penumpang" id="penumpang" readonly>
+						</div>
+						<div class="form-group">
+						  <label for="keterangan">Keterangan</label>
+						  <input type="text" class="form-control" name="keterangan" id="keterangan">
 						</div>
 						</div>
 						<div class="tab-pane" id="link111">
-						<div class="form-group" id="column">
-						  <label for="textCol">Keterangan</label><br>
-						  <textarea class="form-control" rows="3" name="detail" id="textCol" readonly></textarea>
+						<div class="jumbotron" id="zdrop">
+							<h5 id="ztext"></h5>
 						</div>
 						<div class="form-group">
-						  <button class="btn btn-success" type="submit">
+						  <button class="btn btn-primary" type="submit">
 							  <span class="btn-label">
 								<i class="material-icons">check</i>
 							  </span>
 							  Submit
-						  </button>
-						  <button class="btn btn-danger" type="reset">
-							  <i class="material-icons">close</i> Clear
 						  </button>
 						</div>
 						</div>
@@ -183,10 +183,10 @@ function hideComp(){
                   <h4 class="card-title">List Details</h4>
                 </div>
 				<div class="card-body">
-				 <input type="text" id="cari" onkeyup="myFunction()" placeholder="Cari request">
+				 <input type="text" id="cari" onkeyup="myFunction()" placeholder="Cari permintaan">
 				 <ul id="detail">
 					 <?php foreach($request->result() as $r){
-						echo "<li><a href='#'>".$r->NAMA.": ".$r->TUJUAN."</a></li>";
+						echo "<li><a href='#' name='".$r->ID_REQUEST."^".$r->PENUMPANG."'>".$r->NAMA.": ".$r->TUJUAN." - ".$r->PENUMPANG." orang</a></li>";
 					 }?>
 					 <li><a href="#">Adele</a></li>
 					 <li><a href="#">Billy</a></li>
@@ -198,19 +198,25 @@ function hideComp(){
 	</div>
 	
 <script type="text/javascript">
-$(function(init){
-	$('#detail').sortable({
-		connectWith: "#detail"
-	});
-	function init(){
-		$('#column').droppable({
-			accept: '#detail',
-			drop: function(event, ui){
-				$(this).find('#textCol').val('');
-				$(this).find('#textCol').val((ui.sortable.text()));
+$(function(){
+	$('#zdrop').droppable({
+		drop: function(event,ui){
+			var li, text, id, div, h5, i, a;
+			h5 = document.getElementById("ztext");
+			li = h5.getElementsByTagName("li");
+			for (i = 0; i < li.length; i++) {
+				a = li[i].getElementsByTagName("a");
+				console.log(li);
+				console.log(a);
 			}
-		});
-	}
+			text = $(ui.draggable).text();
+			id = $(ui.draggable).html();
+			div="<li class='list-group-item list-group-item-dark' id='"+id+"'>"+text+"</li>";
+			$(this).find('#ztext').append(div);
+			console.log(ui.draggable.attr("id"));
+			$(ui.draggable).remove();
+		}
+	});
 });
 function myFunction() {
     var input, filter, ul, li, a, i, txtValue;

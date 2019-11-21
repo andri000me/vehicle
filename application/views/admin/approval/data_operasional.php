@@ -1,34 +1,24 @@
-<style>
-.trans {
-  display: block;
-  top: 8%;
-  right: 35%;
-  position: fixed;
-  z-index: 500;
-  border-radius: 15px;
-  background-color: rgba(16, 16, 16, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #FFFFFF;
-  padding: 10px;}
-</style>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <div class="content">	
  	<div class="container-fluid">
  		<div class="row">
-		<div class="trans">
-			<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/insert_op/';?>">
-				<i class="material-icons">library_add</i>Tambah Transaksi
-			</a>
-		</div>
-		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/approval_admin/';?>" class="made-with-mk">
-			<div class="brand"><i class="material-icons">local_parking</i></div>
-			<div class="made-with">All Request <strong>Pending</strong></div>
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/insert_op/';?>" class="made-with-mk">
+			<div class="brand"><i class="material-icons">library_add</i></div>
+			<div class="made-with">Tambah <strong>Transaksi</strong></div>
 		</a>
- 			<div class="col-md-12">
-			  <div class="card card-nav-tabs">
-				<!-- Header -->
-			  	<?php include "header.php";?>					    
-				<!-- isi dengan table atau tampilan -->
+ 			<div class="col-md-12 ml-auto mr-auto">
+			 <div class="page-categories">
+			 <!-- Header -->
+			 <?php include "header.php";?>
+			 <div class="tab-content tab-space tab-subcategories">
+			  <div class="tab-pane">
+			  <div class="card">
+				<div class="card-header card-header-primary card-header-icon">
+                  <div class="card-icon">
+                    <i class="material-icons">crop_rotate</i>
+                  </div>
+                  <h4 class="card-title">Operasional</h4>
+                </div>
                 <div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
@@ -103,6 +93,7 @@
 				  </div>
 				</div>
 			  </div>
+			 </div>
 			</div>
 		</div>
 	</div>
