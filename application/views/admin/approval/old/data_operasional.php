@@ -1,4 +1,17 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
+<div class="content">	
+ 	<div class="container-fluid">
+ 		<div class="row">
+		<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/insert_op/';?>" class="made-with-mk">
+			<div class="brand"><i class="material-icons">library_add</i></div>
+			<div class="made-with">Tambah <strong>Transaksi</strong></div>
+		</a>
+ 			<div class="col-md-12 ml-auto mr-auto">
+			 <div class="page-categories">
+			 <!-- Header -->
+			 <?php include "header.php";?>
+			 <div class="tab-content tab-space tab-subcategories">
+			  <div class="tab-pane">
 			  <div class="card">
 				<div class="card-header card-header-primary card-header-icon">
                   <div class="card-icon">
@@ -80,3 +93,7 @@
 				  </div>
 				</div>
 			  </div>
+			 </div>
+			</div>
+		</div>
+	</div>

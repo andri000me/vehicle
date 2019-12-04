@@ -1,5 +1,45 @@
 <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
+$(function(){
+	$('.zadd').click(function(){
+		var add=$(this).closest('td').children('span').attr('id');
+		var a=add.split("^");
+		var ref = document.getElementById('zdrop');
+		var p = document.getElementById('penumpang').value;
+		if(p==5){
+			Swal.fire({
+			  icon: 'error',
+			  title: 'Oops...',
+			  text: 'Kendaraan sudah penuh!'
+			});
+		}else{
+			var row = ref.insertRow(-1);
+			row.insertCell(0).innerHTML = a[1];
+			row.insertCell(1).innerHTML = a[2];
+			row.insertCell(2).innerHTML = a[3];
+			// Execute Delete Table
+			$(this).fadeOut(500,function(){
+				delRow(this);
+			});
+			// Execute Sum Cell
+			sum();
+		}
+	});
+});
+function sum(){
+	var ref = document.getElementById('zdrop');
+	var p = 0;
+	for(var r = 0; r<ref.rows.length; r++){
+		var cell = parseInt(ref.rows[r].cells[2].innerHTML);
+		p += isNaN(cell) ? 0 : cell;
+	}
+	console.log("p :"+p+"cell :"+cell);
+	document.getElementById('penumpang').value = p;
+}
+function delRow(a){
+	var i = a.parentNode.parentNode.rowIndex;
+	document.getElementById('ztable').deleteRow(i);
+}
 function hideComp(){
 	var o = document.getElementById("jenis").value;
 	// console.log(o);
@@ -16,44 +56,9 @@ function hideComp(){
 		$('#reimburse').hide();
 		$('#voucher').fadeIn(500);
 	}
+	$('#detail').fadeIn(500);
 }
 </script>
-<style>
-* {
-  box-sizing: border-box;
-}
-
-#cari {
-  width: 100%;
-  font-size: 12px;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 15px;
-  margin-bottom: 10px;
-}
-
-#detail {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-#detail li a {
-  border: 1px solid #ecfcff;
-  background-image: linear-gradient(to left, #33b5e5 , #00d4ff);
-  border-radius: 10px;
-  margin-top: -1px; /* Prevent double borders */
-  background-color: #5edfff;
-  padding: 8px;
-  text-decoration: none;
-  color: white;
-  display: block
-}
-
-#detail li a:hover:not(.header) {
-  background-color: #b2fcff;
-}
-</style>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
  <div class="content">	
  	<div class="container-fluid">
@@ -80,8 +85,8 @@ function hideComp(){
 				</div>
 			  </div>
 			</div>
+			<div class="col-md-7">
 			  <!------------------- INSERT OPERASIONAL -------------------->
-			<div class="col-md-8">
 			  <div class="card" id="operasional" style="display:none">
 			    <div class="card-header card-header">
                   <h4 class="card-title">Operasional Kendaraan</h4>
@@ -89,22 +94,22 @@ function hideComp(){
 				<div class="card-body">
 				<?php echo form_open('approval/insert_op/'); ?>
 				 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-4">
                       <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
                         <li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#link110" role="tablist">Kendaraan</a>
+                          <a class="nav-link active" data-toggle="tab" href="#link111" role="tablist">Details</a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link111" role="tablist">Details</a>
+						<li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#link110" role="tablist">Kendaraan</a>
                         </li>
                       </ul>
                     </div>
 					<div class="col-md-8">
                       <div class="tab-content">
-                        <div class="tab-pane active" id="link110">
+                        <div class="tab-pane" id="link110">
 						<div class="form-group">
 						  <label class="bmd-label-floating">Kendaraan</label>
-						  <select name="kendaraan" class="select2" style="width:80%">
+						  <select name="kendaraan" class="select2" style="width:80%" required>
 							<option></option>
 							<?php 
 							foreach($mobil_aktif->result() as $m){
@@ -115,17 +120,8 @@ function hideComp(){
 						</div>
 						<br>
 						<div class="form-group">
-						  <label for="penumpang">Jumlah Penumpang</label><br>
-						  <input type="text" class="form-control" name="penumpang" id="penumpang" readonly>
-						</div>
-						<div class="form-group">
 						  <label for="keterangan">Keterangan</label>
 						  <input type="text" class="form-control" name="keterangan" id="keterangan">
-						</div>
-						</div>
-						<div class="tab-pane" id="link111">
-						<div class="jumbotron" id="zdrop">
-							<h5 id="ztext"></h5>
 						</div>
 						<div class="form-group">
 						  <button class="btn btn-primary" type="submit">
@@ -135,6 +131,22 @@ function hideComp(){
 							  Submit
 						  </button>
 						</div>
+						</div>
+						<div class="tab-pane active" id="link111">
+						 <div class="table-responsive">
+							<table class="table table-active" id="zdrop">
+							 <thead>
+							  <tr>
+							   <th>Pemohon</th>
+							   <th>Tujuan</th>
+							   <th>Penumpang</th>
+							  </tr>
+							 </thead>
+							</table>
+						 </div>
+						 <div class="form-group">
+						  <input type="text" class="form-control" name="penumpang" id="penumpang" placeholder="Jumlah Penumpang" readonly>
+						 </div>
 						</div>
 					  </div>
 					</div>
@@ -174,64 +186,44 @@ function hideComp(){
 			  </div>
 			</div>
 			<!-------------------------------- DETAILS  --------------------------------->
-			<div class="col-md-4">
+			<div class="col-md-5" id="detail" style="display:none">
 			  <div class="card">
 				<div class="card-header card-header-info card-header-icon">
                   <div class="card-icon">
                     <i class="material-icons">loupe</i>
                   </div>
-                  <h4 class="card-title">List Details</h4>
+                  <h4 class="card-title">Details Overview</h4>
                 </div>
 				<div class="card-body">
-				 <input type="text" id="cari" onkeyup="myFunction()" placeholder="Cari permintaan">
-				 <ul id="detail">
-					 <?php foreach($request->result() as $r){
-						echo "<li><a href='#' name='".$r->ID_REQUEST."^".$r->PENUMPANG."'>".$r->NAMA.": ".$r->TUJUAN." - ".$r->PENUMPANG." orang</a></li>";
-					 }?>
-					 <li><a href="#">Adele</a></li>
-					 <li><a href="#">Billy</a></li>
-				 </ul>
+				 <div class="table-responsive">
+				  <table class="table table-striped table-sm" id="ztable">
+					<thead>
+						<tr>
+						 <th class="text-center">Pemohon</th>
+						 <th>Tujuan</th>
+						 <th>Penumpang</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach($request->result() as $r){ ?>
+						<tr>
+						 <td>
+							<span class="zadd" id="<?php echo $r->ID_REQUEST;?>^<?php echo $r->NAMA;?>^<?php echo $r->TUJUAN;?>^<?php echo $r->PENUMPANG;?>">
+								<?php
+									echo "<a href='' onclick='return false;'> <i class='material-icons'>add_circle</i></a>&nbsp;";
+									echo $r->NAMA;
+								?>
+							</span>
+						 </td>
+						 <td><?php echo $r->TUJUAN;?></td>
+						 <td><?php echo $r->PENUMPANG;?></td>
+						</tr>
+					<?php } ?>
+					</tbody>
+				  </table>
+				 </div>
 				</div>
 			  </div>
 			</div>
 		</div>
 	</div>
-	
-<script type="text/javascript">
-$(function(){
-	$('#zdrop').droppable({
-		drop: function(event,ui){
-			var li, text, id, div, h5, i, a;
-			h5 = document.getElementById("ztext");
-			li = h5.getElementsByTagName("li");
-			for (i = 0; i < li.length; i++) {
-				a = li[i].getElementsByTagName("a");
-				console.log(li);
-				console.log(a);
-			}
-			text = $(ui.draggable).text();
-			id = $(ui.draggable).html();
-			div="<li class='list-group-item list-group-item-dark' id='"+id+"'>"+text+"</li>";
-			$(this).find('#ztext').append(div);
-			console.log(ui.draggable.attr("id"));
-			$(ui.draggable).remove();
-		}
-	});
-});
-function myFunction() {
-    var input, filter, ul, li, a, i, txtValue;
-    input = document.getElementById("cari");
-    filter = input.value.toUpperCase();
-    ul = document.getElementById("detail");
-    li = ul.getElementsByTagName("li");
-    for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent || a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            li[i].style.display = "";
-        } else {
-            li[i].style.display = "none";
-        }
-    }
-}
-</script>

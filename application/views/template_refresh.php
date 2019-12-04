@@ -161,7 +161,7 @@
   <!-- Plugin for the momentJs  -->
   <script src="<?php echo base_url();?>asset/js/plugins/moment.min.js"></script>
   <!--  Plugin for Sweet Alert -->
-  <script src="<?php echo base_url();?>asset/js/plugins/sweetalert2.js"></script>
+  <script src="<?php echo base_url();?>asset/js/plugins/sweetalert2.min.js"></script>
   <!-- Forms Validations Plugin -->
   <script src="<?php echo base_url();?>asset/js/plugins/jquery.validate.min.js"></script>
   <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
@@ -231,6 +231,14 @@
 			  search: "_INPUT_",
 			  searchPlaceholder: "Search records",
 			}
+        });
+		$('#detail-id').DataTable({
+			"pageLength" : 5,
+			"lengthMenu": [
+			  [5, 10, 15, -1],
+			  [5, 10, 15, "All"]
+			],
+			responsive: true
         });
     });
   </script>
