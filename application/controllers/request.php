@@ -21,7 +21,8 @@
 		   // $level = $this->session->userdata('level');
 		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3);  
+		   // $this->auth->check_menu(3);  
+		   $this->auth->check_menu(1);
 		   
 		   $this->load->library('form_validation');
 		   //$this->form_validation->set_rules('nama', 'nama', 'trim|required');
@@ -88,7 +89,7 @@
 				 'KEPERLUAN'   		=>$keperluan,
 				 'JENIS'			=>$this->input->post('id_tipe_spj'),
 				 'DIVISI' 			=> $this->session->userdata('subdit'),
-				 'STATUS'			=> '4'
+				 'STATUS'			=> '0'
 			  );
 			  $this->requestmodel->insert_data_request($data_req);
 			  // kembalikan ke halaman manajemen user
@@ -105,7 +106,8 @@
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3);
+		   // $this->auth->check_menu(3);
+		   $this->auth->check_menu(1);
 
 		   $this->template->set('title','Request Sukses');
 		   //$this->template->load('template','user/request/request_success',$data);
@@ -123,7 +125,8 @@
 		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3);
+		   // $this->auth->check_menu(3);
+		   $this->auth->check_menu(1);
 		   
 		   //$id = $this->session->userdata('user_id');
 		   $id = $this->session->userdata('nid');
@@ -147,7 +150,8 @@
 		   $data['approval'] = $this->appr_admin_model->show_operasional_user($id);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3); 
+		   // $this->auth->check_menu(3); 
+		   $this->auth->check_menu(1);
 		   $this->template->set('title','List Operasional');
 		   //$this->template->load('template','user/request/daftar_operasional',$data);
 		   $this->template->load('template_refresh','user/request/daftar_operasional',$data);
@@ -166,7 +170,8 @@
 		   $data['voucher'] = $this->appr_admin_model->show_voucher_user($id);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3); 
+		   // $this->auth->check_menu(3); 
+		   $this->auth->check_menu(1);
 		   $this->template->set('title','List Voucher');
 		   //$this->template->load('template','user/request/daftar_voucher',$data);
 		   $this->template->load('template_refresh','user/request/daftar_voucher',$data);
@@ -185,7 +190,8 @@
 		   $data['reimburse'] = $this->appr_admin_model->show_reimburse_user($id);
 		   
 		   $this->auth->restrict();
-		   $this->auth->check_menu(3); 
+		   // $this->auth->check_menu(3); 
+		   $this->auth->check_menu(1);
 		   $this->template->set('title','List Reimburse');
 		   //$this->template->load('template','user/request/daftar_reimburse',$data);
 		   $this->template->load('template_refresh','user/request/daftar_reimburse',$data);

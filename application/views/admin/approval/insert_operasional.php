@@ -5,8 +5,9 @@ $(function(){
 		var add=$(this).closest('td').children('span').attr('id');
 		var a=add.split("^");
 		var ref = document.getElementById('zdrop');
-		var p = document.getElementById('penumpang').value;
-		if(p==5){
+		var t = document.getElementById('penumpang').value;
+		var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
+		if(t==5){
 			Swal.fire({
 			  icon: 'error',
 			  title: 'Oops...',
@@ -14,26 +15,27 @@ $(function(){
 			});
 		}else{
 			var row = ref.insertRow(-1);
-			row.insertCell(0).innerHTML = a[1];
-			row.insertCell(1).innerHTML = a[2];
-			row.insertCell(2).innerHTML = a[3];
+			row.insertCell(0).innerHTML = html+''+a[0]+'>';
+			row.insertCell(1).innerHTML = a[1];
+			row.insertCell(2).innerHTML = a[2];
+			row.insertCell(3).innerHTML = a[3];
 			// Execute Delete Table
 			$(this).fadeOut(500,function(){
 				delRow(this);
 			});
-			// Execute Sum Cell
-			sum();
 		}
+		// Execute Sum Cell
+		sum();
 	});
 });
 function sum(){
 	var ref = document.getElementById('zdrop');
 	var p = 0;
 	for(var r = 0; r<ref.rows.length; r++){
-		var cell = parseInt(ref.rows[r].cells[2].innerHTML);
+		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
 		p += isNaN(cell) ? 0 : cell;
 	}
-	console.log("p :"+p+"cell :"+cell);
+	// console.log("p :"+p+"cell :"+cell);
 	document.getElementById('penumpang').value = p;
 }
 function delRow(a){
@@ -42,21 +44,24 @@ function delRow(a){
 }
 function hideComp(){
 	var o = document.getElementById("jenis").value;
-	// console.log(o);
 	if(o==1){
 		$('#operasional').fadeIn(500);
 		$('#reimburse').hide();
 		$('#voucher').hide();
+		var php = '<?php echo $kode_k;?>';
 	}else if(o==2){
 		$('#operasional').hide();
 		$('#reimburse').fadeIn(500);
 		$('#voucher').hide();
+		var php = '<?php echo $kode_r;?>';
 	}else{
 		$('#operasional').hide();
 		$('#reimburse').hide();
 		$('#voucher').fadeIn(500);
+		var php = '<?php echo $kode_v;?>';
 	}
 	$('#detail').fadeIn(500);
+	document.getElementById('no_trans').value = php;
 }
 </script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
@@ -108,6 +113,9 @@ function hideComp(){
                       <div class="tab-content">
                         <div class="tab-pane" id="link110">
 						<div class="form-group">
+						  <input type="text" class="form-control" name="no_trans" id="no_trans" readonly>
+						</div>
+						<div class="form-group">
 						  <label class="bmd-label-floating">Kendaraan</label>
 						  <select name="kendaraan" class="select2" style="width:80%" required>
 							<option></option>
@@ -137,6 +145,7 @@ function hideComp(){
 							<table class="table table-active" id="zdrop">
 							 <thead>
 							  <tr>
+							   <th>#</th>
 							   <th>Pemohon</th>
 							   <th>Tujuan</th>
 							   <th>Penumpang</th>

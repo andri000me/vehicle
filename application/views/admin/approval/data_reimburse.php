@@ -10,7 +10,7 @@
                 <div class="card-body">
 				<div class="table-responsive">
 					<table class="table table-hover" id="dataTables-id">
-						<thead class=" text-primary">
+						<thead class="text-primary">
 							<tr>
 								<th>NO</th>
 								<th>JENIS_REIMBURSE</th>

@@ -21,7 +21,7 @@
 	   public function index()
 	   {
 	     //$this->load->model('slidermodel');
-	     //$this->load->model('monitoring_model');
+	     $this->load->model('monitoring_model');
 		 
 		 //$data['dataslider'] = $this->slidermodel->get_all_slider();
 	     
@@ -49,6 +49,8 @@
 			{$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan();
 			 $data['driver_aktif'] = $this->appr_admin_model->get_status_sopir_op();}
 			*/
+			
+			$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan();
 			$data['class1'] = 'alert alert-success';
 			$data['title1'] = 'Kritik & Saran';
 			$data['alert1'] = 'Data sudah tersimpan';

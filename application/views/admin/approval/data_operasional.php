@@ -8,15 +8,16 @@
                 </div>
                 <div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="dataTables-id">
-						<thead class=" text-primary">
+					<table class="table table-hover display" id="listTable" style="width:100%">
+						<thead class="text-primary">
 							<tr>
-								<th>No</th>
-								<th>Pemohon</th>
+								<th></th>
+								<th>Keterangan</th>
+								<th>Supir</th>
 								<th>Kendaraan</th>
 								<th>Waktu Berangkat</th>
-								<th>Tujuan</th>
-								<th>Status</th>
+								<th class="none">Status</th>
+								<th class="none">#</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -25,57 +26,22 @@
 								foreach($approval->result() as $row){
 							?>
 							<tr>
-								<td><?php echo $no; ?></td>
-								<td><?php echo $row->PEMOHON; ?></td>
-								<td><?php echo $row->NO_POLISI." ".$row->NAMA_KENDARAAN; ?></td>
-								<td><?php echo $row->TGL_BERANGKAT; ?></td>
-								<td><?php echo $row->TUJUAN; ?></td>
+								<td></td>
+								<td><?php echo $row->KETERANGAN; ?></td>
+								<td><?php echo $row->NAMA; ?></td>
+								<td><?php echo "( ".$row->NO_POLISI.") ".$row->NAMA_KENDARAAN; ?></td>
+								<td><?php echo $row->TGL_PEMINJAMAN; ?></td>
+								<td><?php echo oprStat($row->STATUS); ?></td>
 								<td>
-								<?php 
-									$cek = $row->ID_STATUS_OPERASIONAL;
-											
-											if($cek == 5)
-											{
-											   ?>
-                                                  <span class="label label-warning"><?php echo $row->STATUS_OPERASIONAL; ?></span><br>
-												  <?php 
-											          echo anchor('approval/print_form/'.$row->ID_OPERASIONAL, 'Print',  array('class' => 'btn2 btn2-important btn2-mini'));
-											          echo "&nbsp;";
-											          echo anchor('approval/edit_operasional/'.$row->ID_OPERASIONAL."-".$row->ID_SOPIR."-".$row->ID_KENDARAAN, 'Edit', array('class' => 'btn2 btn2-warning btn2-mini'));
-											          echo "&nbsp;";
-											          echo anchor('approval/berangkat/'.$row->ID_OPERASIONAL."-".$row->ID_SOPIR."-".$row->ID_KENDARAAN, 'Berangkat', array('class' => 'btn2 btn2-info btn2-mini'));
-											}
-											else if($cek == 4)
-											{
-											  ?>
-                                                  <span class="label label-info"><?php echo $row->STATUS_OPERASIONAL; ?></span><br>
-												  <?php 
-											  echo anchor('approval/kembali/'.$row->ID_OPERASIONAL."-".$row->ID_SOPIR."-".$row->ID_KENDARAAN, 'Kembali', array('class' => 'btn2 btn2-info btn2-mini'));
-											   ?>
-												<?php
-										    }
-											
-										    else if($cek == 2)
-											{
-											    ?>
-												<span class="label label-important"><?php echo $row->STATUS_OPERASIONAL; ?></span><br>
-												<?php
-											}
-											else{
-												?>
-												<span class="label label-success"><?php echo $row->STATUS_OPERASIONAL; ?></span><br>
-												<?php
-												}
-											?>  
-											 <?php //echo anchor('approval/print_form/'.$row->ID_OPERASIONAL, 'Print',  array('class' => 'btn2 btn2-important btn2-mini')); ?>&nbsp;
-                                        </td>
-                                    </tr>
-									
-                                    <?php 
-									  $no++;
-									}
-									 ?>
-                                 </tbody>
+								<?php
+									echo anchor('approval/print_form/'.$row->ID_PEMINJAMAN, 'Print',  array('class' => 'btn2 btn2-important btn2-mini'));
+									echo "&nbsp;";
+									echo anchor('approval/edit_operasional/'.$row->ID_PEMINJAMAN, 'Edit', array('class' => 'btn2 btn2-warning btn2-mini'));
+								?>
+								</td>
+							</tr>
+							<?php $no++; } ?>
+						</tbody>
 					</table>
 				  </div>
 				</div>

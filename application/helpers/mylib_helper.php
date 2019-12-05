@@ -100,6 +100,17 @@ if ( ! function_exists('generatehtml'))
 		}
 	}
 	
+	function userStat($user)
+	{
+		switch($user){
+			case 0:
+				return "Non Aktif";
+			case 1:
+				return "Aktif";
+			break;
+		}
+	}
+	
 	function oprStat($stat)
 	{
 		switch($stat){
@@ -123,15 +134,13 @@ if ( ! function_exists('generatehtml'))
 	{
 		switch($stat){
 			case 0:
-				return "-";
+				return "Dibuat";
 			case 1:
 				return "Disetujui";
 			case 2:
 				return "Ditolak";
 			case 3:
 				return "Selesai";
-			case 4:
-				return "Pending";
 			break;
 		}
 	}
@@ -143,17 +152,6 @@ if ( ! function_exists('generatehtml'))
 				return "Dalam kota";
 			case 2:
 				return "Luar kota";
-			break;
-		}
-	}
-	
-	function userStat($user)
-	{
-		switch($user){
-			case 0:
-				return "Non Aktif";
-			case 1:
-				return "Aktif";
 			break;
 		}
 	}
