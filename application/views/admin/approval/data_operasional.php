@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover display" id="listTable" style="width:100%">
+					<table class="table table-hover display" id="opTable" style="width:100%">
 						<thead class="text-primary">
 							<tr>
 								<th></th>
@@ -29,7 +29,7 @@
 								<td></td>
 								<td><?php echo $row->KETERANGAN; ?></td>
 								<td><?php echo $row->NAMA; ?></td>
-								<td><?php echo "( ".$row->NO_POLISI.") ".$row->NAMA_KENDARAAN; ?></td>
+								<td><?php echo $row->NO_POLISI."- ".$row->NAMA_KENDARAAN; ?></td>
 								<td><?php echo $row->TGL_PEMINJAMAN; ?></td>
 								<td><?php echo oprStat($row->STATUS); ?></td>
 								<td>

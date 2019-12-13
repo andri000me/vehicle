@@ -93,28 +93,10 @@
 			  );
 			  $this->requestmodel->insert_data_request($data_req);
 			  // kembalikan ke halaman manajemen user
-			  redirect('request/success');
+			  $this->daftar_request();
+			  // redirect('request/success');
 		   }
 		}
-		
-		public function success()
-		{
-		   $this->load->model('usermodel');
-		   $this->load->model('requestmodel');
-		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   
-		   $this->auth->restrict();
-		   // $this->auth->check_menu(3);
-		   $this->auth->check_menu(1);
-
-		   $this->template->set('title','Request Sukses');
-		   //$this->template->load('template','user/request/request_success',$data);
-		   $this->template->load('template_refresh','user/request/daftar_request',$data);
-		
-		}
-		//End of function success
 		
 		public function daftar_request()
 		{
@@ -141,53 +123,27 @@
 		public function daftar_operasional()
 		{
 		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   // $level = $this->session->userdata('level');
-		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   $this->load->model('requestmodel');
 		   
 		   $id = $this->session->userdata('user_id');
-		   $data['approval'] = $this->appr_admin_model->show_operasional_user($id);
+		   $data['approval'] = $this->requestmodel->show_operasional_user($id);
 		   
 		   $this->auth->restrict();
 		   // $this->auth->check_menu(3); 
 		   $this->auth->check_menu(1);
-		   $this->template->set('title','List Operasional');
+		   $this->template->set('title','List Operasional Kendaraan');
 		   //$this->template->load('template','user/request/daftar_operasional',$data);
 		   $this->template->load('template_refresh','user/request/daftar_operasional',$data);
 		}
 		//End of function daftar_operasional
 		
-		public function daftar_voucher()
-		{
-		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   
-		   $id = $this->session->userdata('user_id');
-		   $data['voucher'] = $this->appr_admin_model->show_voucher_user($id);
-		   
-		   $this->auth->restrict();
-		   // $this->auth->check_menu(3); 
-		   $this->auth->check_menu(1);
-		   $this->template->set('title','List Voucher');
-		   //$this->template->load('template','user/request/daftar_voucher',$data);
-		   $this->template->load('template_refresh','user/request/daftar_voucher',$data);
-		}
-		//End of function daftar_voucher
-		
 		public function daftar_reimburse()
 		{
 		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   $level = $this->session->userdata('level');
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
+		   $this->load->model('requestmodel');
 		   
 		   $id = $this->session->userdata('user_id');
-		   $data['reimburse'] = $this->appr_admin_model->show_reimburse_user($id);
+		   $data['reimburse'] = $this->requestmodel->show_reimburse_user($id);
 		   
 		   $this->auth->restrict();
 		   // $this->auth->check_menu(3); 

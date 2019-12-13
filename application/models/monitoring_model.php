@@ -15,6 +15,12 @@ class Monitoring_model extends CI_Model {
         return $this->db->get();        
     }
 	
+	function profile($id)
+    {
+		$this->db->where('USERNAME', $id);
+		$this->db->from('USERS');
+        return $this->db->get();        
+    }
 	// function tampil_kendaraan_jkt()
     // {	       
 		// $this->db->from('VIEW_DASHBOARD');

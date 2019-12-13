@@ -15,15 +15,10 @@
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'request/daftar_operasional'?>">
-                          <h6 class="card-title">Operasional</h6>
+                          <h6 class="card-title">Kendaraan</h6>
                           </a>
                         </li>
-						            <li class="nav-item">
-                          <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'request/daftar_voucher'?>">
-                          <h6 class="card-title">Voucher</h6>
-                          </a>
-                        </li>
-						            <li class="nav-item">
+						<li class="nav-item">
                           <a class="nav-link" href="<?php echo base_url().''.$this->uri->segment(0).'request/daftar_reimburse'?>">
                           <h6 class="card-title">Reimburse</h6>
                           </a>

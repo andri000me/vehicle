@@ -4,30 +4,50 @@ $(function(){
 	$('.zadd').click(function(){
 		var add=$(this).closest('td').children('span').attr('id');
 		var a=add.split("^");
-		var ref = document.getElementById('zdrop');
-		var t = document.getElementById('penumpang').value;
-		var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
-		if(t==5){
-			Swal.fire({
-			  icon: 'error',
-			  title: 'Oops...',
-			  text: 'Kendaraan sudah penuh!'
+		// Tambahan Penyesuaian dari Select Option
+		var j = document.getElementById("jenis").value;
+		var ref;
+		if(j==1){
+			ref = document.getElementById('zdrop');
+			var t = document.getElementById('penumpang').value;
+			var check = t+a[3];
+			if(check>=5){
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  text: 'Kendaraan sudah penuh!'
+				});
+			}else{
+				detail(ref,a);
+				$(this).fadeOut(500,function(){
+					delRow(this);
+				});
+				sum();
+			}
+		}else if(j==2){
+			ref = document.getElementById('zdrop2');
+			detail(ref,a);
+			$(this).fadeOut(500,function(){
+					delRow(this);
 			});
 		}else{
-			var row = ref.insertRow(-1);
-			row.insertCell(0).innerHTML = html+''+a[0]+'>';
-			row.insertCell(1).innerHTML = a[1];
-			row.insertCell(2).innerHTML = a[2];
-			row.insertCell(3).innerHTML = a[3];
-			// Execute Delete Table
-			$(this).fadeOut(500,function(){
-				delRow(this);
-			});
+			console.log(j);
 		}
-		// Execute Sum Cell
-		sum();
+		// End Tambahan
 	});
 });
+function detail(ref,a){
+	var row = ref.insertRow(-1);
+	var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
+	row.insertCell(0).innerHTML = html+''+a[0]+'>';
+	row.insertCell(1).innerHTML = a[1];
+	row.insertCell(2).innerHTML = a[2];
+	row.insertCell(3).innerHTML = a[3];
+	// Execute Delete Table
+	// $(this).fadeOut(500,function(){
+		// delRow(this);
+	// });
+}
 function sum(){
 	var ref = document.getElementById('zdrop');
 	var p = 0;
@@ -35,7 +55,7 @@ function sum(){
 		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
 		p += isNaN(cell) ? 0 : cell;
 	}
-	// console.log("p :"+p+"cell :"+cell);
+	console.log("p :"+p+"cell :"+cell);
 	document.getElementById('penumpang').value = p;
 }
 function delRow(a){
@@ -44,26 +64,31 @@ function delRow(a){
 }
 function hideComp(){
 	var o = document.getElementById("jenis").value;
+	var php;
 	if(o==1){
 		$('#operasional').fadeIn(500);
 		$('#reimburse').hide();
-		$('#voucher').hide();
-		var php = '<?php echo $kode_k;?>';
+		php = '<?php echo $kode_k;?>';
+		document.getElementById('no_trans').value = php;
 	}else if(o==2){
 		$('#operasional').hide();
 		$('#reimburse').fadeIn(500);
-		$('#voucher').hide();
-		var php = '<?php echo $kode_r;?>';
+		php = '<?php echo $kode_r;?>';
+		document.getElementById('no_r').value = php;
 	}else{
 		$('#operasional').hide();
 		$('#reimburse').hide();
-		$('#voucher').fadeIn(500);
-		var php = '<?php echo $kode_v;?>';
 	}
 	$('#detail').fadeIn(500);
-	document.getElementById('no_trans').value = php;
+	// document.getElementById('no_trans').value = php;
 }
 </script>
+<style type="text/css">
+.file-input {
+  position: absolute;
+  opacity: 100;
+}
+</style>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
  <div class="content">	
  	<div class="container-fluid">
@@ -84,7 +109,6 @@ function hideComp(){
 						<option></option>
 						<option value="1">Kendaraan</option>
 						<option value="2">Reimburse</option>
-						<option value="3">Voucher Taxi</option>
 					  </select>
                     </div>
 				</div>
@@ -101,46 +125,37 @@ function hideComp(){
 				 <div class="row">
                     <div class="col-lg-3 col-md-4">
                       <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#link111" role="tablist">Details</a>
+						<li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#link_k" role="tablist">Kendaraan</a>
                         </li>
 						<li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link110" role="tablist">Kendaraan</a>
+                          <a class="nav-link" data-toggle="tab" href="#link_d1" role="tablist">Details</a>
                         </li>
                       </ul>
                     </div>
 					<div class="col-md-8">
                       <div class="tab-content">
-                        <div class="tab-pane" id="link110">
-						<div class="form-group">
-						  <input type="text" class="form-control" name="no_trans" id="no_trans" readonly>
+                        <div class="tab-pane active" id="link_k">
+							<div class="form-group">
+							  <input type="text" class="form-control" name="no_trans" id="no_trans" readonly>
+							</div>
+							<div class="form-group">
+							  <label class="bmd-label-floating">Kendaraan</label>
+							  <select name="kendaraan" class="select2" style="width:80%" required>
+								<option></option>
+								<?php 
+								foreach($mobil_aktif->result() as $m){
+									echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
+								}
+								?>
+							  </select>
+							</div>
+							<div class="form-group">
+							  <label for="keterangan">Keterangan</label>
+							  <input type="text" class="form-control" name="keterangan" id="keterangan">
+							</div>
 						</div>
-						<div class="form-group">
-						  <label class="bmd-label-floating">Kendaraan</label>
-						  <select name="kendaraan" class="select2" style="width:80%" required>
-							<option></option>
-							<?php 
-							foreach($mobil_aktif->result() as $m){
-								echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
-							}
-							?>
-						  </select>
-						</div>
-						<br>
-						<div class="form-group">
-						  <label for="keterangan">Keterangan</label>
-						  <input type="text" class="form-control" name="keterangan" id="keterangan">
-						</div>
-						<div class="form-group">
-						  <button class="btn btn-primary" type="submit">
-							  <span class="btn-label">
-								<i class="material-icons">check</i>
-							  </span>
-							  Submit
-						  </button>
-						</div>
-						</div>
-						<div class="tab-pane active" id="link111">
+						<div class="tab-pane" id="link_d1">
 						 <div class="table-responsive">
 							<table class="table table-active" id="zdrop">
 							 <thead>
@@ -156,6 +171,14 @@ function hideComp(){
 						 <div class="form-group">
 						  <input type="text" class="form-control" name="penumpang" id="penumpang" placeholder="Jumlah Penumpang" readonly>
 						 </div>
+						 <div class="form-group">
+						  <button class="btn btn-primary" type="submit">
+							  <span class="btn-label">
+								<i class="material-icons">check</i>
+							  </span>
+							  Submit
+						  </button>
+						 </div>
 						</div>
 					  </div>
 					</div>
@@ -163,33 +186,75 @@ function hideComp(){
 				<?php echo form_close();?>
 				</div>
 			  </div>
+			  
 			  <!-------------------------------- INSERT REIMBURSE  --------------------------------->
 			  <div class="card" id="reimburse" style="display:none">
-			    <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">move_to_inbox</i>
-                  </div>
-                  <h4 class="card-title">Reimburse</h4>
+			    <div class="card-header card-header">
+                  <h4 class="card-title">Operasional Reimburse</h4>
                 </div>
 				<div class="card-body">
-				<?php echo form_open('approval/insert_reimburse/'); ?>
-					<div class="form-group">
+				<?php echo form_open_multipart('approval/insert_reimburse/'); ?>
+				 <div class="row">
+                    <div class="col-lg-3 col-md-4">
+                      <ul class="nav nav-pills nav-pills-primary flex-column" role="tablist">
+						<li class="nav-item">
+                          <a class="nav-link active" data-toggle="tab" href="#link_r" role="tablist">Reimburse</a>
+                        </li>
+						<li class="nav-item">
+                          <a class="nav-link" data-toggle="tab" href="#link_d2" role="tablist">Details</a>
+                        </li>
+                      </ul>
                     </div>
-				<?php echo form_close();?>
-				</div>
-			  </div>
-			  <!-------------------------------- INSERT VOUCHER  --------------------------------->
-			  <div class="card" id="voucher" style="display:none">
-			    <div class="card-header card-header-danger card-header-icon">
-                  <div class="card-icon">
-                    <i class="material-icons">monetization_on</i>
-                  </div>
-                  <h4 class="card-title">Voucher Taxi</h4>
-                </div>
-				<div class="card-body">
-				<?php echo form_open('approval/insert_voucher/'); ?>
-					<div class="form-group">
-                    </div>
+					<div class="col-md-8">
+                      <div class="tab-content">
+                        <div class="tab-pane active" id="link_r">
+							<div class="form-group">
+							  <input type="text" class="form-control" name="no_reimburse" id="no_r" readonly>
+							</div>
+							<div class="form-group">
+							  <label for="keterangan">Keterangan</label>
+							  <input type="text" class="form-control" name="keterangan" required="true">
+							</div>
+							<div class="form-group">
+							  <label for="nominal">Nominal</label>
+							  <input type="text" class="form-control" name="nominal" number="true" required="true">
+							</div>
+							<div class="form-group">
+							  <label class="bmd-label-floating">Tanggal Pemberian</label>
+							  <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo date('d-m-Y H:i');?>">
+							</div>
+							<div class="form-group">
+								<label for="lampiran">Lampiran</label>
+								<div class="custom-file">
+								  <input type="file" class="file-input" id="lampiran">
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane" id="link_d2">
+						 <div class="table-responsive">
+							<table class="table table-active" id="zdrop2">
+							 <thead>
+							  <tr>
+							   <th>#</th>
+							   <th>Pemohon</th>
+							   <th>Tujuan</th>
+							   <th>Penumpang</th>
+							  </tr>
+							 </thead>
+							</table>
+						 </div>
+						 <div class="form-group">
+						  <button class="btn btn-primary" type="submit">
+							  <span class="btn-label">
+								<i class="material-icons">check</i>
+							  </span>
+							  Submit
+						  </button>
+						 </div>
+						</div>
+					  </div>
+					</div>
+				 </div>
 				<?php echo form_close();?>
 				</div>
 			  </div>

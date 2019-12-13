@@ -6,7 +6,7 @@
 
 <html>
    <head>
-   <title> <?php echo $title; ?> </title>
+   <title><?php echo $title; ?></title>
    <!-- refresh page every 30s -->
    <!--<meta charset="utf-8" http-equiv="refresh" content="120;" />-->
    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -21,6 +21,7 @@
   <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>asset/css/css.css" />
   <!--     JQuery UI     -->
   <link type="text/css" href="<?php echo base_url();?>asset/css/jquery-ui.min.css" rel="stylesheet" />
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!--<link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">-->
   <!-- CSS Files -->
@@ -91,7 +92,6 @@
 	
 	
 	<div class="main-panel">
-	  <!--<nav class="navbar navbar-expand-lg navbar-absolute fixed-top bg-info navbar-color-on-scroll" color-on-scroll="100">-->
 	  <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top">
         <div class="container-fluid">
           <div class="navbar-wrapper">
@@ -101,7 +101,7 @@
                 <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
               </button>
             </div>
-            <h4 class="navbar-brand"><?php echo $title; ?></h4>
+            <h3 class="navbar-brand"><strong><?php echo $title; ?></strong></h3>
           </div>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
@@ -125,7 +125,13 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownProfile">
-                  <a class="dropdown-item" href="#">Profile</a>
+				<?php
+					$ci = & get_instance();
+					$ci->load->model('monitoring_model');
+					$nid = $ci->session->userdata('nid');
+					$profile = $ci->monitoring_model->profile($nid);
+				?>
+                  <a class="dropdown-item" href="#profile" data-toggle="modal">Profile</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="<?php echo base_url().''.$this->uri->segment(0).'home/logout'?>">Log out</a>
                 </div>
@@ -146,7 +152,7 @@
 	 <div class="container-fluid">
 		<div class="copyright float-center">
 			&copy;
-			<script>document.write(new Date().getFullYear())</script>, by Slamet Fajar Suryadi
+			<?php echo date('Y')?>, by Slamet Fajar Suryadi
 		</div>
 	 </div>
 	</footer>  
@@ -174,7 +180,7 @@
   <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-datetimepicker.min.js"></script>
   <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
   <script src="<?php echo base_url();?>asset/js/plugins/jquery.dataTables.min.js"></script>
-  <script src="<?php echo base_url();?>asset/js/plugins/dataTables.responsive.mins.js"></script>
+  <!--<script src="<?php echo base_url();?>asset/js/plugins/dataTables.responsive.mins.js"></script>-->
   <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
   <script src="<?php echo base_url();?>asset/js/plugins/bootstrap-tagsinput.js"></script>
   <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
@@ -241,7 +247,7 @@
 			],
 			responsive: true
         });
-		$('#listTable').DataTable( {
+		$('#opTable').DataTable( {
 			responsive: {
 				details: {
 					type: 'column'

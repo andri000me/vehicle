@@ -10,7 +10,7 @@
 				<!-- isi dengan table atau tampilan -->
 				<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="dataTables-id">
+					<table class="table table-striped table-no-bordered table-hover" id="dataTables-id">
                                 <thead class=" text-primary">
                                         <th>NO</th>
                                         <th>TGL BERANGKAT</th>

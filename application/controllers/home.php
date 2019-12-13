@@ -64,7 +64,8 @@
 			if($level == 1)
 		      $this->template->load('template_refresh', 'admin/index', $data);
 			else if($level == 2)
-			  $this->template->load('template_refresh', 'manajer/index', $data);
+			  // $this->template->load('template_refresh', 'manajer/index', $data);
+			  $this->template->load('template_refresh', 'admin/index', $data);
 			//else if($level == 3 || $level == 6)
 			else if($level == 3)
 			  $this->template->load('template_refresh', 'user/index', $data);
@@ -100,7 +101,7 @@
 			 } 
 			 else
 			 {
-			    $this->template->set('title', 'Welcome to Monitoring Kendaraan Dinas');
+			    $this->template->set('title', 'Welcome!!');
 			    //$data['login_info'] = 'Maaf, username dan password salah ';
 				echo "<nav class='navbar navbar-transparent navbar-color-on-scroll fixed-top' id='sectionsNav'>";
 				echo "<div class='alert alert-danger'>";

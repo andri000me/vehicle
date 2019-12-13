@@ -8,7 +8,7 @@
                 </div>
                 <div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="dataTables-id">
+					<table class="table table-hover" id="opTable">
 						<thead class=" text-primary">
 							<tr>
 								<th>No</th>

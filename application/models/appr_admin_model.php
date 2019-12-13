@@ -28,9 +28,6 @@
 			 case 'r':
 				$table = 'REIMBURSE';
 			 break;
-			 case 'v':
-				$table = 'VOUCHER';
-			 break;
 		 }
 		 $this->db->select("RIGHT(ID_$table,2) as kode", FALSE);
 		 $this->db->order_by("ID_$table",'DESC');    
@@ -59,64 +56,6 @@
 	    return $this->db->get();
 	 }
 	 
-	 function get_tgl_kembali($id)
-	 {
-	    $query = $this->db->query("
-		   SELECT *
-		   FROM REQUEST
-		   WHERE ID_REQUEST = '$id' 
-		");
-		
-		$tgl_kembali = "";
-		
-		if($query->num_rows() > 0)
-		{
-		   foreach($query->result() as $row)
-		     $tgl_kembali = $row->TGL_KEMBALI;
-		}
-		
-		return $tgl_kembali;
-	 }
-	 
-	 function get_waktu_kembali($id)
-	 {
-	    $query = $this->db->query("
-		   SELECT *
-		   FROM REQUEST
-		   WHERE ID_REQUEST = '$id' 
-		");
-		
-		$waktu_kembali = "";
-		
-		if($query->num_rows() > 0)
-		{
-		   foreach($query->result() as $row)
-		     //$waktu_kembali = $row->TGL_KEMBALI." ".$row->JAM_KEMBALI;
-			 $waktu_kembali = $row->TGL_KEMBALI;
-		}
-		
-		return $waktu_kembali;
-	 }
-	 
-	 function get_waktu_berangkat($id)
-	 {
-	    $query = $this->db->query("
-		   SELECT *
-		   FROM REQUEST
-		   WHERE ID_REQUEST = '$id' 
-		");
-		
-		$waktu_kembali = "";
-		
-		if($query->num_rows() > 0)
-		{
-		   foreach($query->result() as $row)
-		     //$waktu_berangkat = $row->TGL_BERANGKAT." ".$row->JAM_KELUAR;
-			 $waktu_berangkat = $row->TGL_BERANGKAT;
-		}
-		
-		return $waktu_berangkat;
-	 }
 	 
 	 function show_request()
 	 {
@@ -128,8 +67,15 @@
 	 
 	 function show_all_operasional()
 	 {
-		//$this->db->from('VIEW_OPERASIONAL');
 		$this->db->from('VIEW_PEMINJAMAN');
+	    return $this->db->get();
+	 }
+	 
+	 function show_approval($nid)
+	 {
+		$this->db->from('VIEW_APPROVAL');
+		$this->db->where('ATASAN',$nid);
+		$this->db->where('STATUS',0);
 	    return $this->db->get();
 	 }
 	 
@@ -145,14 +91,6 @@
 	 {
 		$this->db->from('VIEW_OPERASIONAL');
 		$this->db->where('ID_REQUEST', $id);
-	    return $this->db->get();
-	 }
-	 
-	 function show_operasional_user($id)
-	 {
-		$this->db->from('VIEW_OPERASIONAL');
-		// $this->db->where('ID_PEMOHON', $id);
-		$this->db->where('NID', $id);
 	    return $this->db->get();
 	 }
 	 
@@ -667,49 +605,13 @@
 	 return $this->db->get();
   } //End of function get_status_sopir_op
   
-	//----------------------  Model untuk voucher, sewa, dan reimburse -------------
+	//----------------------  Model untuk reimburse -------------
 	
-	function insert_data_sewa($data)
-	{
-	   $this->db->insert('SEWA_KENDARAAN',$data);
-	}
-	//End of function insert_data_sewa
-	
-	function insert_data_voucher($data)
-	{
-	   $this->db->insert('VOUCHER',$data);
-	}
-	//End of function insert_data_voucher
-	
-	function get_jenis_reimburse()
-	{
-	   $this->db->from('JENIS_REIMBURSE');
-	   return $this->db->get();
-	}
-	 //End of function get_jenis_reimburse
-	 
-	function insert_data_reimburse($data)
+	function insert_reimburse($data)
 	{
 	   $this->db->insert('REIMBURSE',$data);
 	}
 	//End of function insert_data_reimburse
-	
-	function show_all_voucher()
-	{
-	  //$this->db->from('VIEW_VOUCHER');
-	  $this->db->from('VOUCHER');
-	  return $this->db->get();
-	}
-	//End of function show_all_voucher
-	
-	function show_voucher_user($id)
-	{
-	  $this->db->from('VIEW_VOUCHER');
-	  // $this->db->where('ID_PEMOHON', $id);
-	  $this->db->where('NID', $id);
-	  return $this->db->get();
-	}
-	//End of function show_voucher_user
 	
 	function show_all_reimburse()
 	{
@@ -718,15 +620,6 @@
 	  return $this->db->get();
 	}
 	//End of function show_all_reimburse
-	
-	function show_reimburse_user($id)
-	{
-	  $this->db->from('VIEW_REIMBURSE');
-	  // $this->db->where('ID_PEMOHON', $id);
-	  $this->db->where('NID', $id);
-	  return $this->db->get();
-	}
-	//End of function show_reimburse_user
 	
 	 //----------------- Untuk Print Form --------------------
 	 

@@ -28,6 +28,7 @@ class Auth
 	  $this->CI->db->from('USERS');
 	  $this->CI->db->where('USERNAME', $username);
 	  $this->CI->db->where('PASSWORD', md5($password));
+	  $this->CI->db->where('STATUS', 1);
 	  $result = $this->CI->db->get();
 	  $userdata = $result->row();
 	  

@@ -1,13 +1,4 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
-		 <!-- start alert -->
-        <?php if($notif==1){?>  <a href="<?php echo base_url(). 'index.php/home/';?>">
-         						<div class="<?php echo $class1;?>">
-            					<h4 class="alert-heading"><?php echo $title1;?></h4>
-            					<p><br /><br /><?php echo $alert1;$notif=0;?></p>   
-        						</div>
-                                </a>
-        <?php }?>
-        <!-- end alert -->
 		<!-- start modal kritik & saran-->
          	<div id="myModal" class="modal fade" tabindex="-10" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="min-width:140px;width:auto;margin-left:-140px;display:none">
             <div class="modal-header">
@@ -70,7 +61,6 @@
                                     <tr>
                                         <th>NO</th>
                                         <th>KENDARAAN</th>
-                                        <th>NO POLISI</th>
 										<th>STATUS</th>
                                         <th>SOPIR</th>
                                         <th>TUJUAN</th>
@@ -90,7 +80,6 @@
 								?>
                                     <tr class="odd gradeX">
                                         <td><?php echo $no; ?></td>
-                                        <td><?php echo $row->JENIS_KENDARAAN; ?></td>
                                         <td><?php echo $row->NO_POLISI; ?></td>
 										
 										<td>

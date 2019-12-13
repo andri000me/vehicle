@@ -25,11 +25,6 @@
 				  <i class="material-icons">move_to_inbox</i> Reimburse
 				 </a>
 				</li>
-				<li class="nav-item">
-				 <a class="nav-link" data-toggle="tab" href="#voucher" role="tablist">
-				  <i class="material-icons">monetization_on</i> Voucher
-				 </a>
-				</li>
              </ul>
 			 <!-- Menu -->
 			 <div class="tab-content tab-space tab-subcategories">
@@ -38,9 +33,6 @@
 			  </div>
 			  <div class="tab-pane" id="reimburse">
 				<?php include "data_reimburse.php";?>
-			  </div>
-			  <div class="tab-pane" id="voucher">
-				<?php include "data_voucher.php";?>
 			  </div>
 			  <div class="tab-pane active" id="pending">
 				<?php include "data_pending.php";?>

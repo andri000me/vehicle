@@ -19,7 +19,6 @@
 		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
 		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
-		   $data['voucher'] = $this->appr_admin_model->show_all_voucher();
 		   $data['pending'] = $this->appr_admin_model->show_request();
 		   
 		   $this->auth->restrict();
@@ -61,7 +60,6 @@
 		  $data['request'] = $this->appr_admin_model->request();
 		  $data['kode_k'] = 'K'.$this->appr_admin_model->generate_code('k');
 		  $data['kode_r'] = 'R'.$this->appr_admin_model->generate_code('r');
-		  $data['kode_v'] = 'V'.$this->appr_admin_model->generate_code('v');
 		  
 		  $this->template->set('title', 'Transaksi Operasional');
 		  $this->template->load('template_refresh','admin/approval/insert_operasional', $data);
@@ -76,8 +74,9 @@
 		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(2);
+		  $id	= $this->input->post('no_trans');
 		  $data = array(
-			'ID_PEMINJAMAN' => $this->input->post('no_trans'),
+			'ID_PEMINJAMAN' => $id,
 			'NO_POLISI' => $this->input->post('kendaraan'),
 			'STATUS' => '5',
 			'KETERANGAN' => $this->input->post('keterangan')
@@ -89,29 +88,31 @@
 		  );
 		  
 		  $this->appr_admin_model->insert_operasional($data);
-		  $this->insert_detail();
+		  $this->insert_detail($id,'PEMINJAMAN');
 		  $this->update_request();
 		  $this->appr_admin_model->update_mobil($data_m,$id_m);
-		  redirect('approval/');
+		  redirect('approval');
 		  
 		}
 		//End of function insert_op
 		
-		function insert_detail(){
-			$no_trans = $this->input->post('no_trans');
+		//Insert Detail Transaksi
+		function insert_detail($id,$jenis){
+			$no_trans = $this->input->post($id);
 			$id_req = $this->input->post('request');
 			$data = array();
 			$index = 0;
 			foreach($id_req as $req){
 				array_push($data,array(
-					'ID_TRANS'=>$no_trans,
+					'ID_TRANS'	=>$no_trans,
 					'ID_REQUEST'=>$req,
-					'TIPE'=>'PEMINJAMAN'
+					'TIPE'		=>$jenis
 				));
 				$index++;
 			}
 			$this->appr_admin_model->insert_detail($data);
 		}
+		//End Insert Detail Transaksi
 		
 		function update_request(){
 			$id_req = $this->input->post('request');
@@ -454,134 +455,31 @@
 		// End of function kembali
 		
 		
-		//-------------- Tambahan fungsi untuk Sewa, Voucher dan Reimburse -----------------------
-		
-		function insert_voucher()
-		{
-		  $this->load->model('usermodel');
-		  $level = $this->session->userdata('level');
-		  
-		  $this->load->model('appr_admin_model');
-		  
-	      $this->auth->restrict();
-		  $this->auth->check_menu(2);
-		  
-		  $this->load->library('form_validation');
-		  $this->form_validation->set_rules('id_request', 'id_request', 'trim|required');
-		  //$this->form_validation->set_rules('kode_voucher', 'kode_voucher', 'trim|required');
-		  $this->form_validation->set_rules('tgl_pemberian', 'tgl_pemberian', 'trim|required');
-		  
-		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
-		  
-		  $id_req = $this->uri->segment(3);
-	      $data['approval'] = $this->appr_admin_model->show_request1($id_req);
-		  
-		  //echo $this->input->post('kode_voucher')." ".$this->input->post('id_request')
-		  
-		  if($this->form_validation->run() == FALSE)
-		  { 			 
-		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			 $data['jenis_operasional'] = $this->appr_admin_model->tampil_jenis_operasional();
-
-		     $this->template->set('title', 'Form Tambah Subdit Baru Aplikasi Monitoring Kendaraan Dinas');
-			 $this->template->load('template','admin/approval/insert_operasional', $data);
-		  }
-		  else
-		  {
-             $tgl_pemberian = $this->input->post('tgl_pemberian');		
-             $tgl_pemberian = date('d-M-Y',strtotime($tgl_pemberian));
-			  
-		     $data = array(
-			    'KODE_VOUCHER' => $this->input->post('kode_voucher'),
-			 	'TGL_PEMBERIAN' => $tgl_pemberian,
-			 	//'NILAI_VOUCHER' => $this->input->post('nilai_voucher'),
-				'ID_REQUEST' => $this->input->post('id_request'),
-				'KETERANGAN' => $this->input->post('keterangan')
-			 );
-			 
-			 $id =  $this->input->post('id_request');
-			 
-			 $data2 = array(
-			 'ID_STATUS_REQUEST' => '3'
-			 );
-			 
-			 $this->appr_admin_model->insert_data_voucher($data);
-			 $this->appr_admin_model->update_request_op($data2,$id);
-			 
-			 redirect('approval/lihat_voucher');
-		  } //End of else
-		   
-		}
-		//End of function insert_voucher
-		
-		function lihat_voucher()
-		{
-		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   // $level = $this->session->userdata('level');
-		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   $data['voucher'] = $this->appr_admin_model->show_all_voucher();
-		   
-		   $this->auth->restrict();
-		   $this->auth->check_menu(2); 
-		   $this->template->set('title','Daftar Voucher');
-		   $this->template->load('template_refresh','admin/approval/data_voucher',$data);
-		}
-		// End of function lihat_voucher
+		//-------------- Tambahan fungsi Reimburse -----------------------
 		
 		function insert_reimburse()
 		{
-		  $this->load->model('usermodel');
-		  $level = $this->session->userdata('level');
-		  
-		  $this->load->model('appr_admin_model');
-		  
-	      $this->auth->restrict();
-		  $this->auth->check_menu(2);
-		  
-		  $this->load->library('form_validation');
-		  $this->form_validation->set_rules('id_request', 'id_request', 'trim|required');
-		  $this->form_validation->set_rules('tgl_pemberian', 'tgl_pemberian', 'trim|required');
-		  
-		  $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
-		  
-		  $id_req = $this->uri->segment(3);
-	      $data['approval'] = $this->appr_admin_model->show_request1($id_req);
-		  
-		  if($this->form_validation->run() == FALSE)
-		  { 			 
-		     $data['menu'] = $this->usermodel->get_menu_for_level($level);
-			 $data['jenis_operasional'] = $this->appr_admin_model->tampil_jenis_operasional();
-			 $data['jenis_reimburse'] = $this->appr_admin_model->get_jenis_reimburse();
-
-		     $this->template->set('title', 'Form Tambah Subdit Baru Aplikasi Monitoring Kendaraan Dinas');
-			 $this->template->load('template','admin/approval/insert_operasional', $data);
-		  }
-		  else
-		  {
-             $tgl_pemberian = $this->input->post('tgl_pemberian');	
-             $tgl_pemberian = date('d-M-Y',strtotime($tgl_pemberian));		 
+			$this->load->model('usermodel');
+			$this->load->model('appr_admin_model');
+			
+			$this->auth->restrict();
+			$this->auth->check_menu(2);
 			  
-		     $data = array(
-			    'ID_JENIS_REIMBURSE' => $this->input->post('id_jenis_reimburse'),
-				'ID_REQUEST' => $this->input->post('id_request'),
-				'KETERANGAN' => $this->input->post('keterangan'),
-			 	'TGL_PEMBERIAN' => $tgl_pemberian			
-			 );
-			 
-			 $id =  $this->input->post('id_request');
-			 
-			 $data2 = array(
-			 'ID_STATUS_REQUEST' => '3'
-			 );
-			 
-			 $this->appr_admin_model->insert_data_reimburse($data);
-			 $this->appr_admin_model->update_request_op($data2,$id);
-			 
-			 redirect('approval/lihat_reimburse');
-		  } //End of else
-		  
+			$tgl_pemberian = $this->input->post('tgl_pemberian');
+			$tgl_pemberian = date('Y-m-d H:i:s',strtotime($tgl_pemberian));
+			$id	= $this->input->post('no_reimburse');
+			$data = array(
+				'ID_REIMBURSE'	=> $id,
+				'KETERANGAN'	=> $this->input->post('keterangan'),
+				'NOMINAL'		=> $this->input->post('nominal'),
+			 	'TGL_PEMBERIAN' => $tgl_pemberian,
+				'LAMPIRAN'		=> $this->upload_file('lampiran')
+			);
+			
+			$this->appr_admin_model->insert_reimburse($data);
+			$this->insert_detail($id,'REIMBURSE');
+			$this->update_request();
+			redirect('approval');
 		}
 		//End of function insert_reimburse
 		
@@ -590,8 +488,6 @@
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
 		   
-		   // $level = $this->session->userdata('level');
-		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
 		   
 		   $this->auth->restrict();
@@ -601,7 +497,21 @@
 		}
 		// End of function lihat_reimburse
 		
-
+		//Upload File
+		private function upload_file($file){
+			$config['upload_path']		= './upload/reimburse';
+			$config['allowed_types']	= 'gif|jpg|png|jpeg';
+			$config['overwrite']		= true;
+			$config['max_size']			= 10000;
+		  
+			$this->load->library('upload',$config);
+			
+			if($this->upload->do_upload($file)){
+				$data = $this->upload->data('file_name');
+				return $data;
+			}
+			print_r($this->upload->display_errors());
+		}
 	}
 	//End of class Approval
 	?>

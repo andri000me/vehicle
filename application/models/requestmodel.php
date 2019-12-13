@@ -15,47 +15,31 @@
 	 
 	 function get_request($id)
 	 {
-	    /*$this->db->where('ID_PEMOHON', $id);
+	    $this->db->where('NID',$id);
 		$this->db->from('REQUEST');
-	    return $this->db->get();*/
-		/*
-			SELECT 
-			  RQ.ID_REQUEST,
-			  RQ.TGL_BERANGKAT,
-			  RQ.JAM_KELUAR,
-			  RQ.TGL_KEMBALI,
-			  RQ.JAM_KEMBALI,
-			  RQ.KETERANGAN_TUJUAN,
-			  RQ.KEPERLUAN,
-			  RQ.ID_STATUS_REQUEST,
-			  SR.STATUS_REQUEST
-			FROM 
-			  REQUEST RQ,
-			  STATUS_REQUEST SR
-			WHERE 
-			  RQ.ID_STATUS_REQUEST = SR.ID_STATUS_REQUEST
-			  AND
-			  RQ.ID_PEMOHON = '$id'
-			ORDER BY 
-			  ID_REQUEST DESC
-		*/
-		
-		return $this->db->query("
-		   SELECT 
-			  RQ.ID_REQUEST,
-			  RQ.TGL_BERANGKAT,
-			  RQ.TGL_KEMBALI,
-			  RQ.TUJUAN,
-			  RQ.KEPERLUAN,
-			  RQ.STATUS
-			FROM 
-			  REQUEST RQ
-			WHERE 
-			  RQ.NID = '$id'
-			ORDER BY 
-			  ID_REQUEST DESC
-		");
+	    return $this->db->get();
 	 }
+	 
+	 function show_operasional_user($id)
+	 {
+		$this->db->from('VIEW_PEMINJAMAN_DETAIL');
+		$this->db->where('NID', $id);
+	    return $this->db->get();
+	 }
+	 
+	function show_voucher_user($id)
+	{
+	  $this->db->from('VIEW_VOUCHER_DETAIL');
+	  $this->db->where('NID', $id);
+	  return $this->db->get();
+	}
+	
+	function show_reimburse_user($id)
+	{
+	  $this->db->from('VIEW_REIMBURSE_DETAIL');
+	  $this->db->where('NID', $id);
+	  return $this->db->get();
+	}
 	 
 	 function show_request($subdit)
 	 {	
