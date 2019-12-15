@@ -9,33 +9,34 @@
                 </div>
                 <div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="opTable">
+					<table class="table table-hover" id="dataTables-id" style="width:100%">
 						<thead class="text-primary">
 							<tr>
 								<th>NO</th>
-								<th>JENIS_REIMBURSE</th>
 								<th>TGL PEMBERIAN</th>
 								<th>PEMOHON</th>
 								<th>WAKTU BERANGKAT</th>
-								<th>TUJUAN</th>
 								<th>KEPERLUAN</th>
+								<th>#</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
-								$no = 1;
 								foreach($reimburse->result() as $row){
 							?>
 							<tr>
-								<td><?php echo $no; ?></td>
-								<td><?php echo $row->JENIS; ?></td>
+								<td><?php echo $row->ID_REIMBURSE; ?></td>
 								<td><?php echo $row->TGL_PEMBERIAN; ?></td>
-								<td><?php echo $row->PEMOHON; ?></td>
+								<td><?php echo $row->NAMA; ?></td>
 								<td><?php echo $row->TGL_BERANGKAT; ?></td>
-								<td><?php echo $row->KETERANGAN_TUJUAN; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
+								<td>
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_REIMBURSE;?>" class="btn btn-danger btn-fab btn-round btn-sm">
+										<i class="material-icons">edit</i>
+									</a>
+								</td>
 							</tr>
-							<?php $no++; } ?>
+							<?php } ?>
 						</tbody>
 					</table>
 				  </div>

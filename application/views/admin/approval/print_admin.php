@@ -27,7 +27,7 @@
 #ataskanan {
    float: right;
    position: relative;
-   margin-top: 10px;
+   margin-top: 20px;
  }
 
 #tengah{
@@ -43,10 +43,9 @@ table#table_atas {
 
 table#table_atas td {
 	border-width: 1px;
-	padding: 0px;
+	padding: 5px;
 	border-style: solid;
-	border-color: #000000;
-	background-color: #ffffff;
+	font-size: 16px;
 }
  
 .style8 {font-size: 14px}
@@ -72,160 +71,93 @@ background-position: 130px 270px;
 	}
 
 </style>
-
-<link rel="stylesheet" href="<?php echo base_url();?>asset/css/print.css" type="text/css" media="print" />
 </head>
 
 <?php
    $row = $surat->row();
 ?>
-
-<body onLoad="window.print(); window.close();" background="<?php echo base_url();?>asset/images/C.jpg">
+<body onLoad="window.print();" background="<?php echo base_url();?>asset/images/C.jpg">
 <div id="main-content">
 
 <div id="ataskiri">
-<p align="left" class="style5 style11 style12">PT PEMBANGKITAN JAWA-BALI SERVICES</p>
-<p><span class="style3"><strong><u>SURAT PERINTAH JALAN</u></strong></span></p>
+	<strong>
+		<p class="style11 style12">PT PEMBANGKITAN JAWA BALI SERVICES</p>
+		<p><u>SURAT PERINTAH JALAN</u></p>
+	</strong>
 </div>
 
 <div id="ataskanan">
-  <table width="251" border="0px" id="table_atas">
+  <table id="table_atas">
     <tr>
-      <td width="72" ><span class="style8">Nomor</span></td>
-      <td width="169" class="style8"><?php echo $row->ID_REQUEST."".$row->ID_OPERASIONAL ?></td>
+      <td width="72" >Nomor</td>
+      <td width="170"><?php echo $row->ID_PEMINJAMAN; ?></td>
     </tr>
     <tr>
-      <td class="style8">Tgl.</td>
-      <td class="style8"><?php echo date("d-m-Y"); ?></td>
-    </tr>
-    <tr>
-      <td class="style8">No. Polisi</td>
-      <td class="style8"><?php echo $row->NO_POLISI; ?></td>
-    </tr>
-    <tr>
-      <td class="style8">Jenis</td>
-      <td class="style8"><?php echo $row->JENIS_KENDARAAN; ?></td>
+      <td>Tgl.</td>
+      <td><?php echo date("d-m-Y"); ?></td>
     </tr>
   </table>
 </div>
 
 <div id="tengah">
-<table width="687" border="0">
-  <tr>
-    <td width="150">Nama Pengemudi</td>
-    <td width="6">:</td>
-    <td colspan="4"><?php echo $row->NAMA_PENGEMUDI; ?></td>
-  </tr>
-  <tr>
-    <td>Tujuan</td>
-    <td>:</td>
-    <td colspan="3"><?php echo $row->TUJUAN; ?></td>
-    <td width="27">Km.</td>
-  </tr>
-  <tr>
-    <td>Lama Perjalanan</td>
-    <td>:</td>
-    <td colspan="4">&nbsp;</td>
-  </tr>
-  <tr>
-    <td>Berangkat Tanggal</td>
-    <td>:</td>
-    <td width="191"><?php echo $row->TGL_BERANGKAT; ?></td>
-    <td width="38">Jam :</td>
-    <td colspan="2"><?php echo $row->JAM_KELUAR; ?></td>
-  </tr>
-  <tr>
-    <td>Kembali Tanggal</td>
-    <td>:</td>
-    <td><?php echo $row->TGL_KEMBALI; ?></td>
-    <td>Jam :</td>
-    <td colspan="2"><?php echo $row->JAM_KEMBALI; ?></td>
-  </tr>
-  <tr>
-    <td>Pengisian BB Prem/Sol</td>
-    <td>:</td>
-    <td>-</td>
-    <td colspan="3">Ltr</td>
-  </tr>
-</table>
-  <br/>
-<table width="593" border="0">
-  <tr>
-    <td width="198"><div align="center">Mengetahui / Menyetujui</div></td>
-    <td width="157">&nbsp;</td>
-    <td width="224"><div align="center">Surabaya, <?php echo date("d-m-Y"); ?></div></td>
-  </tr>
-  <tr>
-    <td><div align="center">Kepala,</div></td>
-    <td>&nbsp;</td>
-    <td><div align="center">Administrator Kendaraan</div></td>
-  </tr>
-  <tr>
-    <td height="60">&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td><div align="center">( <?php echo $row->APPROVED_BY; ?> )</div></td>
-    <td>&nbsp;</td>
-    <td><div align="center">( <?php echo $row->APPROVED_BY_ADMIN; ?> )</div></td>
-  </tr>
-</table>
-
-<div id="bg">    
-<img id="print-image" src="<?php echo base_url();?>asset/images/C.jpg" /></div>
+	<table width="700">
+	  <tr>
+		<td width="150">Nama Pengemudi</td>
+		<td width="6">:</td>
+		<td colspan="4"><?php echo $row->NAMA; ?></td>
+	  </tr>
+	  <tr>
+		<td>No. Polisi</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $row->NO_POLISI; ?></td>
+	  </tr>
+	  <tr>
+		<td>Kendaraan</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $row->NAMA_KENDARAAN; ?></td>
+	  </tr>
+	</table>
 </div>
 
 <div align="center" style="position:absolute; top:430px; left:0px; float:left; z-index:1; width:700px;">
 <hr/>
-<span class="style5">PERMOHONAN PEMAKAIAN KENDARAAN BERMOTOR DINAS </span><br/>
-<b><span class="style5"><u>KEPERLUAN: DINAS / SOSIAL / REKREASI</u></span></b>
+<span class="style5"><u>PERMOHONAN PEMAKAIAN KENDARAAN DINAS</u></span><br/>
 </div>
 
 <br/>
 
 <div style="position:absolute; top:500px; left:0px; z-index:1;">
-<table width="687" border="0">
-  <tr>
-    <td width="173">Nama Pemohon</td>
-    <td width="6">:</td>
-    <td colspan="4"><?php echo $row->NAMA_PEMOHON; ?></td>
-  </tr>
-  
-  <tr>
-    <td>Jumlah Penumpang/Pengikut</td>
-    <td>:</td>
-    <td colspan="4"><?php echo $row->JML_PENUMPANG."&nbsp;Orang"; ?></td>
-  </tr>
-  
-  <tr>
-    <td>Tujuan</td>
-    <td>:</td>
-    <td colspan="3"><?php echo $row->TUJUAN; ?></td>
-    <td width="27">Km.</td>
-  </tr>
-  
-  <tr>
-    <td>Hari/Tanggal yang diinginkan</td>
-    <td>:</td>
-    <td colspan="4"><?php echo $row->TGL_BERANGKAT; ?></td>
-  </tr>
-
-  <tr>
-    <td>Berangkat Tanggal</td>
-    <td>:</td>
-    <td width="164"><?php echo $row->TGL_BERANGKAT; ?></td>
-    <td width="42">Jam :</td>
-    <td colspan="2"><?php echo $row->JAM_KELUAR; ?></td>
-  </tr>
-  <tr>
-    <td>Kembali Tanggal</td>
-    <td>:</td>
-    <td><?php echo $row->TGL_KEMBALI; ?></td>
-    <td>Jam :</td>
-    <td colspan="2"><?php echo $row->JAM_KEMBALI; ?></td>
-  </tr>
-</table>
+	<?php 
+		foreach($surat_detail->result() as $sd){
+	?>
+	<table width="687" border="0">
+	  <tr>
+		<td width="173">Nama Pemohon</td>
+		<td width="6">:</td>
+		<td colspan="4"><?php echo $sd->NAMA; ?></td>
+	  </tr>
+	  <tr>
+		<td>Jumlah Penumpang/Pengikut</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $sd->PENUMPANG."&nbsp;Orang"; ?></td>
+	  </tr>
+	  <tr>
+		<td>Tujuan</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $sd->TUJUAN; ?></td>
+	  </tr>
+	  <tr>
+		<td>Tanggal Berangkat</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $sd->TGL_BERANGKAT; ?></td>
+	  </tr>
+	  <tr>
+		<td>Tanggal Kembali</td>
+		<td>:</td>
+		<td colspan="4"><?php echo $sd->TGL_KEMBALI; ?></td>
+	  </tr>
+	</table>
+	<?php } ?>
 <br/>
 <table width="593" border="0">
   <tr>
@@ -244,12 +176,11 @@ background-position: 130px 270px;
     <td>&nbsp;</td>
   </tr>
   <tr>
-    <td><div align="center">( <?php echo $row->APPROVED_BY; ?> )</div></td>
+    <td><div align="center">( <?php echo $sd->APPROVED_BY; ?> )</div></td>
     <td>&nbsp;</td>
-    <td><div align="center">( <?php echo $row->NAMA_PEMOHON; ?> )</div></td>
+    <td><div align="center">( <?php echo $admin->row()->NAMA; ?> )</div></td>
   </tr>
 </table>
-
 <br/>
 <b><u>Keterangan:</u></b><br/>
 Perubahan / Penyimpangan route SPJ ini menjadi tanggung jawab Pengemudi &amp; Pemakai Utama.

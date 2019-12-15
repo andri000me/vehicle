@@ -220,6 +220,7 @@
 			placeholder: "Select a Data",
 			allowClear: true
 		});
+		$('.selectDisable2').prop("disabled",true);
 	});
   //Sortable Js Initialization
 	$(function  () {
@@ -274,7 +275,8 @@
             today: 'fa fa-screenshot',
             clear: 'fa fa-trash',
             close: 'fa fa-remove'
-        }
+        },
+		format: 'YYYY-MM-DD HH:mm:ss'
     });
   </script>
   <script>

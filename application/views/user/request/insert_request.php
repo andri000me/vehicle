@@ -13,13 +13,13 @@
             <div class="col-md-4">
               <div class="form-group">
                 <label class="bmd-label-floating">Tanggal Berangkat</label>
-                <input type="text" class="form-control berangkatpicker" value="<?php echo date('d-m-Y');?>" name="date">
+                <input type="text" class="form-control berangkatpicker" value="<?php echo date('Y-m-d');?>" name="date">
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
                 <label class="bmd-label-floating">Tanggal Kembali</label>
-                <input type="text" class="form-control kembalipicker" value="<?php echo date('d-m-Y');?>" name="date1">
+                <input type="text" class="form-control kembalipicker" value="<?php echo date('Y-m-d');?>" name="date1">
               </div>
             </div>
             <div class="col-md-2">

@@ -238,7 +238,7 @@ class Report extends CI_Controller {
 		   {
 			 //echo $row->ID_KENDARAAN."<br/>";
 		     $jam_op = $this->reportmodel->hitung_jamop_kendaraan($tgl_awal, $tgl_akhir, $row->NO_POLISI);
-		     array_push($data_op, $row->NO_POLISI."|".$row->JENIS_KENDARAAN."|".$jam_op);
+		     array_push($data_op, $row->NO_POLISI."|".$row->KENDARAAN."|".$jam_op);
 		   }
 		   
 		   $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;

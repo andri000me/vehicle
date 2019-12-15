@@ -56,7 +56,7 @@ function sum(){
 		p += isNaN(cell) ? 0 : cell;
 	}
 	console.log("p :"+p+"cell :"+cell);
-	document.getElementById('penumpang').value = p;
+	document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
 }
 function delRow(a){
 	var i = a.parentNode.parentNode.rowIndex;
@@ -221,12 +221,12 @@ function hideComp(){
 							</div>
 							<div class="form-group">
 							  <label class="bmd-label-floating">Tanggal Pemberian</label>
-							  <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo date('d-m-Y H:i');?>">
+							  <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo date('Y-m-d');?>">
 							</div>
 							<div class="form-group">
 								<label for="lampiran">Lampiran</label>
 								<div class="custom-file">
-								  <input type="file" class="file-input" id="lampiran">
+								  <input type="file" class="file-input" id="lampiran" name="lampiran">
 								</div>
 							</div>
 						</div>

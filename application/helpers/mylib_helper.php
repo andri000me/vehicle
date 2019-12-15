@@ -203,6 +203,18 @@ if ( ! function_exists('generatehtml'))
 		}
 	}
 	
+	function check_trans($data)
+	{
+		switch($data){
+			 case 'K':
+				return "PEMINJAMAN";
+			 break;
+			 case 'R':
+				return "REIMBURSE";
+			 break;
+		 }
+	}
+	
     function selisihTGl($tgl1,$tgl2)
     {
         $pecah1 = explode("-", $tgl1);
@@ -248,34 +260,6 @@ if ( ! function_exists('generatehtml'))
     function ubahtanggal2($tanggal)
     {
         return $newtanggal=substr($tanggal,8,2 ).'/'.  substr($tanggal, 5,2).'/'.  substr($tanggal, 0,4);
-    }
-    
-    function keteranganlulus($keterangan)
-    {
-        if($keterangan=='tidaklulus')
-        {
-            return "TIDAK LULUS";
-        }
-        elseif($keterangan=='lulus')
-        {
-            return "LULUS";
-        }
-        else
-        {
-            return "SEMUA DATA";
-        }
-    }
-        
-        function status_bayar($id)
-    {
-        if($id==0)
-        {
-            return "Lunas";
-        }
-        else
-        {
-            return "Pembayaran Ke $id";
-        }
     }
     
     
@@ -446,25 +430,6 @@ if ( ! function_exists('generatehtml'))
         else
         {
             redirect('auth/login');
-        }
-    }
-    
-    function chek_jadwal_kuliah($konsentrasi,$hari,$tahun_akademik,$semester,$no)
-    {
-        $CI     =   & get_instance();
-        $sql="  SELECT jk.jam_mulai,jk.jam_selesai,ah.hari,mm.nama_makul,ar.nama_ruangan,ad.nama_lengkap
-                FROM akademik_jadwal_kuliah as jk,app_hari as ah,makul_matakuliah as mm,app_ruangan as ar,app_dosen as ad 
-                WHERE jk.hari_id=ah.hari_id and mm.makul_id=jk.makul_id and ar.ruangan_id=jk.ruangan_id and ad.dosen_id=jk.dosen_id 
-                and jk.tahun_akademik_id='$tahun_akademik' and jk.konsentrasi_id='$konsentrasi' and jk.semester='$semester' and jk.hari_id='$hari' limit $no,1";
-        $data=$CI->db->query($sql);
-        if($data->num_rows()>0)
-        {
-            $r=$data->row_array();
-            return $r['nama_makul'].'<br>'.  strtoupper($r['nama_lengkap']).'<br><b>'.  strtoupper($r['hari']).', '.$r['jam_mulai'].' - '.$r['jam_selesai'].'</b><br>RUANGAN '.  strtoupper($r['nama_ruangan']);
-        }
-        else
-        {
-            return '';
         }
     }
 }

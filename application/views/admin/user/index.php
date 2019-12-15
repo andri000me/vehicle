@@ -1,4 +1,4 @@
-<script src="<?php echo base_url();?>asset/js/1.8.2.min.js"></script>
+<script src="<?php echo base_url();?>asset/js/core/jquery.min.js"></script>
 <script type="text/javascript">
 //Mengambil data dari row
 $(function(){

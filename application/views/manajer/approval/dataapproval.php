@@ -34,17 +34,17 @@
 						?>
 							<tr>
 								<td><?php echo $no; ?></td>
-								<td><?php echo $row->NAMA; ?></td>
+								<td><?php echo $row->NID; ?></td>
 								<td><?php echo $row->TGL_BERANGKAT; ?></td>
 								<td><?php echo $row->TGL_KEMBALI; ?></td>
 								<td><?php echo $row->WAKTU_REQUEST; ?></td>
 								<td><?php echo $row->TUJUAN; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
 								<td>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">
 										<i class="material-icons">spellcheck</i>
 									</a>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">
+									<a href="<?php echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">
 										<i class="material-icons">clear</i>
 									</a>
 								</td>

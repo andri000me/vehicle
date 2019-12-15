@@ -69,13 +69,8 @@ class Reportmodel extends CI_Model
 	  
     function get_daftar_kendaraan_op()
 	 {
-		$query = $this->db->query("
-		  SELECT ID_KENDARAAN, NO_POLISI, NAMA_KENDARAAN
-          FROM KENDARAAN
-          WHERE STATUS = '5'
-		");
-		
-		return $query;
+		$this->db->from('KENDARAAN');
+		return $this->db->get();
 	 }
      //end of function get_daftar_kendaraan_op
 	 
@@ -93,13 +88,18 @@ class Reportmodel extends CI_Model
 	 
      function hitung_jamop_kendaraan($tgl_mulai, $tgl_akhir, $nopol)
 	 {
-	    $query = $this->db->query("
-                 SELECT ID_PEMINJAMAN, TGL_BERANGKAT, TGL_KEMBALI
-                 FROM VIEW_OPERASIONAL
-				 WHERE TGL_KEMBALI >= '".$tgl_mulai."'
-				 AND TGL_KEMBALI <= '".$tgl_akhir."'
-				 AND NO_POLISI = '".$nopol."'
-                 ");
+	    $this->db->from('VIEW_PEMINJAMAN');
+		$this->db->where('TGL_KEMBALI >=', $tgl_mulai);
+		$this->db->where('TGL_KEMBALI <=', $tgl_akhir);
+		$this->db->where('NO_POLISI', $nopol);
+		$query = $this->db->get();
+		// $query = $this->db->query("
+                 // SELECT ID_PEMINJAMAN, TGL_BERANGKAT, TGL_KEMBALI
+                 // FROM VIEW_OPERASIONAL
+				 // WHERE TGL_KEMBALI >= '".$tgl_mulai."'
+				 // AND TGL_KEMBALI <= '".$tgl_akhir."'
+				 // AND NO_POLISI = '".$nopol."'
+                 // ");
 		
         $total = 0;
 		

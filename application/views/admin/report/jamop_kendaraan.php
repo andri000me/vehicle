@@ -4,7 +4,7 @@
  		<div class="row">
  			<div class="col-lg-4 col-md-12">
 			  <div class="card">
-				<div class="card-header card-header-danger text-center">
+				<div class="card-header card-header-info text-center">
 					<h4 class="card-title">Report</h4>
 				</div>
 				<div class="card-body">
@@ -19,15 +19,15 @@
 					</div>
 				</div>
 				<div class="card-footer justify-content-center">
-						<button type="submit" class="btn btn-danger btn-round">OK</button>&nbsp;&nbsp;
+						<button type="submit" class="btn btn-info btn-round">OK</button>&nbsp;&nbsp;
 						<button type="reset" class="btn btn-round">Reset</button>
 				</div>
                 <?php echo form_close();?> 
               </div>
 			</div>
-			<div class="col-lg-8 col-md-12" id="table" style="display:none">
+			<div class="col-lg-8 col-md-12" id="table">
 			<div class="card">
-				<div class="card-header card-header-danger text-center">
+				<div class="card-header card-header-info text-center">
 					<h4 class="card-title">List Kendaraan</h4>
 					<?php $tanggal = explode('|', $tgl); ?>
 					<p class="card-category">Data Kendaraan pada
@@ -37,7 +37,7 @@
 				<div class="card-body">
 					<div class="card-body table-responsive">
 						<table class="table table-hover">
-							<thead class="text-warning">
+							<thead class="text-info">
 								<tr>
 									<th>No</th>
 									<th>No Polisi</th>

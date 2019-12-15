@@ -16,7 +16,6 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
-		   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
 		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
 		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
 		   $data['pending'] = $this->appr_admin_model->show_request();
@@ -26,55 +25,67 @@
 		   $this->template->set('title','List Transaksi');
 		   $this->template->load('template_refresh','admin/approval/transaksi',$data);
 		}
-		
-		public function print_form()
-		{
-		   $this->load->model('usermodel');
-		   $this->load->model('requestmodel');
-		   $this->load->model('appr_admin_model');
-		   
-		   $level = $this->session->userdata('level');
-		   $id = $this->session->userdata('nid');
-		   
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   
-		   $this->auth->restrict();
-		   $this->auth->check_menu(2); 
-		   
-		   $id = $this->uri->segment(3);
-		   $data['surat'] = $this->appr_admin_model->get_data_surat($id);
-		   
-		   $level = $this->session->userdata('level');
-		  
-		   $this->load->view('admin/approval/print_admin',$data);
-		}
-		//End of function print_form
-		
+		//-----------Transaksi--------------------
 		function add_trans()
 		{
 		  $this->load->model('appr_admin_model');
 	      $this->auth->restrict();
 		  $this->auth->check_menu(2);
 		  
-		  $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
-		  $data['request'] = $this->appr_admin_model->request();
-		  $data['kode_k'] = 'K'.$this->appr_admin_model->generate_code('k');
-		  $data['kode_r'] = 'R'.$this->appr_admin_model->generate_code('r');
+		  $data = array(
+			'mobil_aktif'	=> $this->appr_admin_model->get_mobil_aktif(),
+			'request'		=> $this->appr_admin_model->show_request(),
+			'kode_k'		=> 'K'.$this->appr_admin_model->generate_code('K'),
+			'kode_r'		=> 'R'.$this->appr_admin_model->generate_code('R')
+		  );
 		  
 		  $this->template->set('title', 'Transaksi Operasional');
 		  $this->template->load('template_refresh','admin/approval/insert_operasional', $data);
 		}
 		
+		function edit_trans()
+		{
+		 $this->load->model('usermodel');
+		 $this->load->model('appr_admin_model');
+		   
+		 $this->auth->restrict();
+		 $this->auth->check_menu(2);
+		 
+		 $id = $this->uri->segment(3);
+		 $ids = substr($id,0,1);
+		 switch($ids){
+			case 'K':
+				$jenis='Kendaraan';
+			break;
+			case 'R':
+				$jenis='Reimburse';
+			break;
+		 }
+		 
+		 $data = array(
+			'jenis'		=> $jenis,
+			'transaksi'	=> $this->appr_admin_model->get_trans($id,$ids),
+			'detail'	=> $this->appr_admin_model->get_detail($id,$ids),
+			'mobil_aktif'=> $this->appr_admin_model->get_mobil_aktif(),
+			'request'	=> $this->appr_admin_model->show_request()
+		 );
+		 
+		 $this->template->set('title', 'Edit Transaksi Operasional');
+		 $this->template->load('template_refresh','admin/approval/edit_operasional', $data);
+		}
+		//-----------End Transaksi--------------------
+		
+		//-----------Transaksi Peminjaman Kendaraan----
 		function insert_op()
 		{
 		  $this->load->model('usermodel');
-		  $level = $this->session->userdata('level');
-		  
 		  $this->load->model('appr_admin_model');
 		  
 	      $this->auth->restrict();
 		  $this->auth->check_menu(2);
 		  $id	= $this->input->post('no_trans');
+		  $id_req = $this->input->post('request');
+		  
 		  $data = array(
 			'ID_PEMINJAMAN' => $id,
 			'NO_POLISI' => $this->input->post('kendaraan'),
@@ -88,23 +99,81 @@
 		  );
 		  
 		  $this->appr_admin_model->insert_operasional($data);
-		  $this->insert_detail($id,'PEMINJAMAN');
-		  $this->update_request();
+		  $this->detail($id,$id_req,'PEMINJAMAN');
+		  $this->update_request('baru',$id_req);
 		  $this->appr_admin_model->update_mobil($data_m,$id_m);
 		  redirect('approval');
 		  
 		}
 		//End of function insert_op
 		
-		//Insert Detail Transaksi
-		function insert_detail($id,$jenis){
-			$no_trans = $this->input->post($id);
-			$id_req = $this->input->post('request');
+		function edit_op()
+		{
+		  $this->load->model('usermodel');
+		  $this->load->model('appr_admin_model');
+		  
+	      $this->auth->restrict();
+		  $this->auth->check_menu(2);
+		  $id	= $this->input->post('no_trans');
+		  $id_ml= $this->input->post('kendaraan_lama');
+		  $id_mb= $this->input->post('kendaraan_baru');
+		  $id_rl = $this->input->post('request_lama');
+		  $id_rb = $this->input->post('request_baru');
+		  
+		  $data = array(
+			'NO_POLISI'		=> $this->input->post('kendaraan'),
+			'KETERANGAN'	=> $this->input->post('keterangan'),
+			'TGL_PEMINJAMAN'=> date('Y-m-d H:i:s')
+			);
+		  $data_baru = array(
+			'STATUS' => '2'
+		  );
+		  $data_lama = array(
+			'STATUS' => '1'
+		  );
+		  
+		  //Update header
+		  $this->appr_admin_model->update_operasional($data,$id);
+		  //Update mobil
+		  $this->appr_admin_model->update_mobil($data_baru,$id_mb);
+		  $this->appr_admin_model->update_mobil($data_lama,$id_ml);
+		  //Update request
+		  $this->update_request('baru',$id_rb);
+		  $this->update_request('lama',$id_rl);
+		  //Update detail
+		  $this->detail($id,$id_rb,'PEMINJAMAN');
+		  $this->delete_detail($id_rl,'PEMINJAMAN');
+		  
+		  redirect('approval');
+		  
+		}
+		//End of function edit_op
+		
+		//-----------End Transaksi Peminjaman Kendaraan----
+		
+		//-----------Detail Transaksi----------------
+		// function insert_detail($id,$jenis){
+			// // $no_trans = $this->input->post($id);
+			// $id_req = $this->input->post('request');
+			// $data = array();
+			// $index = 0;
+			// foreach($id_req as $req){
+				// array_push($data,array(
+					// 'ID_TRANS'	=>$id,
+					// 'ID_REQUEST'=>$req,
+					// 'TIPE'		=>$jenis
+				// ));
+				// $index++;
+			// }
+			// $this->appr_admin_model->insert_detail($data);
+		// }
+		
+		function detail($id,$request,$jenis){
 			$data = array();
 			$index = 0;
-			foreach($id_req as $req){
+			foreach($request as $req){
 				array_push($data,array(
-					'ID_TRANS'	=>$no_trans,
+					'ID_TRANS'	=>$id,
 					'ID_REQUEST'=>$req,
 					'TIPE'		=>$jenis
 				));
@@ -112,203 +181,28 @@
 			}
 			$this->appr_admin_model->insert_detail($data);
 		}
-		//End Insert Detail Transaksi
 		
-		function update_request(){
-			$id_req = $this->input->post('request');
+		function delete_detail($request,$jenis){
+			foreach($request as $req){
+				$this->appr_admin_model->delete_detail($req,$jenis);
+			}
+		}
+		//--------------End Detail Transaksi----------------
+		
+		function update_request($stat,$id){
+			$s = ($stat=="baru"?3:1);
+			// $id_req = $this->input->post('request_baru');
 			$data = array();
 			$i = 0;
-			foreach($id_req as $req){
+			foreach($id as $req){
 				array_push($data,array(
 					'ID_REQUEST'=>$req,
-					'STATUS'=>'3'
+					'STATUS'=>$s
 				));
 				$i++;
 			}
 			$this->appr_admin_model->update_request($data);
 		}
-		
-	   function update_op($id)
-	   {  
-		 $this->auth->restrict();
-		 $this->auth->check_menu(1);
-		 
-		 $this->load->model('appr_admin_model');
-		 
-		 $param = $this->uri->segment(3);
-		 $extension = explode("-", $param);
-		 $id = $extension[0];
-		 $id_s = $extension[1];
-		 $id_m = $extension[2];
-		 
-		 $this->load->model('datemodel');
-		 $tgl_kembali = $this->datemodel->format_tanggal($this->input->post('tgl_kembali')); 
-		 
-		 $tgl_kembali = date('d-M-Y',strtotime($tgl_kembali));
-		 
-		 $data2 = array(
-		     'TGL_KEMBALI' => $tgl_kembali,
-			 'JAM_KEMBALI'=> $this->input->post('jam_kembali'),
-			 'ID_STATUS_OPERASIONAL' => '1'
-			 );
-			 
-		 $data3 = array(
-			 'ID_STATUS_SOPIR' => '1'
-			 );
-			 
-		 $data4 = array(
-			 'ID_STATUS_KENDARAAN' => '1'
-			 );
-			 
-		 $this->appr_admin_model->update_operasional($data2,$id);
-		 $this->appr_admin_model->update_sopir_2($data3,$id_s);
-		 $this->appr_admin_model->update_mobil_2($data4,$id_m);
-		 
-		 //echo $id."-".$id_s."-".$id_m;
-		 
-		 redirect('approval/semua_approval');
-	   }
-	   //End of function semua_approval
-		
-	    function edit_operasional()
-		{
-		 $this->load->model('usermodel');
-		 $this->load->model('appr_admin_model');
-		   
-		 $level = $this->session->userdata('level');
-	       
-		 $this->auth->restrict();
-		 $this->auth->check_menu(2);
-		 
-		 $this->load->library('form_validation');
-		 $this->form_validation->set_rules('id_sopir', 'id_sopir', 'trim|required');
-		 $this->form_validation->set_rules('id_kendaraan', 'id_kendaraan', 'trim|required');
-		  
-		 $this->form_validation->set_error_delimiters('<span style="color:#FF0000">', '</span>');
-		 
-		 $ids = $this->uri->segment(3);
-		 $extension = explode("-", $ids);
-		 $id = $extension[0];
-		 $id_s = $extension[1];
-		 $id_m = $extension[2];
-		 
-		 //echo $extension[1]." ".$extension[2];
-		 
-		 $id_req = $this->appr_admin_model->get_id_request($id);
-         $waktu_kembali = $this->appr_admin_model->get_waktu_kembali($id_req);
-         $waktu_berangkat = $this->appr_admin_model->get_waktu_berangkat($id_req);
-		  
-		  if($this->form_validation->run() == FALSE)
-           {
-		      $data['menu'] = $this->usermodel->get_menu_for_level($level);
-	          $data['op'] = $this->appr_admin_model->get_operasional_by_id($id);
-			  //$data['status'] = $this->appr_admin_model->get_status_operasional();
-			  
-			  $data['current_sopir'] = $this->appr_admin_model->get_current_sopir($id_s);
-			  $data['current_mobil'] = $this->appr_admin_model->get_current_mobil($id_m);
-			  
-              $data['driver_aktif'] = $this->appr_admin_model->get_driver_aktif();
-              $data['mobil_aktif'] = $this->appr_admin_model->get_mobil_aktif();
-
-              $data['mobil'] = $this->appr_admin_model->get_mobil_booked2($waktu_kembali);
-              $data['sopir'] = $this->appr_admin_model->get_sopir_booked2($waktu_kembali);
-			 
-              $data['mobil2'] = $this->appr_admin_model->get_mobil_booked3($waktu_berangkat);
-              $data['sopir2'] = $this->appr_admin_model->get_sopir_booked3($waktu_berangkat);
-			  
-		      $this->template->set('title', 'Form Edit Operasional | Aplikasi Monitoring Kendaraan Dinas');
-			  $this->template->load('template','admin/approval/edit_operasional', $data);
-		   } //End of if
-           else
-           {
-		      //$status_op = $this->input->post('ID_STATUS_OPERASIONAL');
-			  $id_sopir = $this->input->post('id_sopir');
-			  $id_kendaraan = $this->input->post('id_kendaraan');
-			  
-			  /*if($status_op == 3)
-			    $status_op = 1;*/
-		 
-			  $data2 = array(
-				 'ID_SOPIR' => $id_sopir,
-			     'ID_KENDARAAN' => $id_kendaraan
-			  );
-		  
-			/*--------------------------------------------------------------------------*/
-			//Mengubah status sopir dan kendaraan (lama) yang diganti
-		    $cek_sopir = $this->appr_admin_model->check_sopir_booked($id_s, $id);
-					 
-		    if($cek_sopir) //Jika sopir masih dipesan pada operasional lain yg msh blum berangkat
-			{
-			   $data3 = array(
-				  'ID_STATUS_SOPIR' => '5' //Mengupdate status Sopir dari 'Sedang Bertugas' ke 'Dipesan'
-				);
-			}
-			else
-			{
-			   $data3 = array(
-				  'ID_STATUS_SOPIR' => '1'  //Mengupdate status Sopir dari 'Sedang Bertugas' ke 'Tersedia'
-			   );
-			}		
-					 
-		    $cek_kendaraan = $this->appr_admin_model->check_kendaraan_booked($id_m,$id);
-					 
-			if($cek_kendaraan) //Jika kendaraan masih dipesan pada operasional lain yg msh blum berangkat
-		    {
-			    $data4 = array(
-					'ID_STATUS_KENDARAAN' => '5'  //Mengupdate status Kendaraan dari 'Sedang digunakan' ke 'Dipesan'
-				 );
-		     }
-			else
-			{
-			    $data4 = array(
-				   'ID_STATUS_KENDARAAN' => '1'  //Mengupdate status Kendaraan dari 'Sedang digunakan' ke 'Tersedia'
-				 );
-			 } 
-			 
-			 if($id_s == 0)
-			 {
-			     $data3 = array(
-			       'ID_STATUS_SOPIR' => '1'
-			      );
-			 }
-			
-			/*--------------------------------------------------------------------------*/
-			
-			//Mengubah status sopir dan kendaraan (baru) yang diganti
-			 //Mengupdate status Sopir menjadi 'Stand by' 
-			  $data5 = array(
-				   'ID_STATUS_SOPIR' => '5'
-			  );
-			  
-			  //Mengupdate status Kendaraan menjadi 'Stand by'
-			  $data6 = array(
-				  'ID_STATUS_KENDARAAN' => '5'
-			  );		
-
-				if($id_sopir == 0)
-				 {
-					 $data5 = array(
-					   'ID_STATUS_SOPIR' => '1'
-					  );
-				 }		  
-			
-			/*--------------------------------------------------------------------------*/
-			
-			//echo "ID_SOPIR: ".$id_s." -> ".$id_sopir."<br/>";
-			//echo "ID_KENDARAAN: ".$id_m." -> ".$id_kendaraan."<br/>";
-				 
-			$this->appr_admin_model->update_operasional($data2,$id);
-			$this->appr_admin_model->update_sopir_2($data3,$id_s);
-			$this->appr_admin_model->update_mobil_2($data4,$id_m);
-			$this->appr_admin_model->update_sopir_2($data5,$id_sopir);
-			$this->appr_admin_model->update_mobil_2($data6,$id_kendaraan);
-				 
-			redirect('approval/lihat_operasional');
-			   
-		   } //End of else		    	
-		 
-		}
-		// End of function edit_operasional
 		
 	   function berangkat()
 	   {
@@ -455,7 +349,7 @@
 		// End of function kembali
 		
 		
-		//-------------- Tambahan fungsi Reimburse -----------------------
+		//-------------- Transaksi Reimburse -----------------------
 		
 		function insert_reimburse()
 		{
@@ -465,23 +359,51 @@
 			$this->auth->restrict();
 			$this->auth->check_menu(2);
 			  
-			$tgl_pemberian = $this->input->post('tgl_pemberian');
-			$tgl_pemberian = date('Y-m-d H:i:s',strtotime($tgl_pemberian));
-			$id	= $this->input->post('no_reimburse');
+			$id				= $this->input->post('no_reimburse');
+			$id_req			= $this->input->post('request');
 			$data = array(
 				'ID_REIMBURSE'	=> $id,
 				'KETERANGAN'	=> $this->input->post('keterangan'),
 				'NOMINAL'		=> $this->input->post('nominal'),
-			 	'TGL_PEMBERIAN' => $tgl_pemberian,
+			 	'TGL_PEMBERIAN' => $this->input->post('tgl_pemberian'),
 				'LAMPIRAN'		=> $this->upload_file('lampiran')
 			);
 			
 			$this->appr_admin_model->insert_reimburse($data);
-			$this->insert_detail($id,'REIMBURSE');
-			$this->update_request();
+			$this->detail($id,$id_req,'REIMBURSE');
+			$this->update_request('baru',$id_req);
 			redirect('approval');
 		}
-		//End of function insert_reimburse
+		
+		function edit_reimburse()
+		{
+			$this->load->model('usermodel');
+			$this->load->model('appr_admin_model');
+			
+			$this->auth->restrict();
+			$this->auth->check_menu(2);
+			  
+			$id		= $this->input->post('no_reimburse');
+			$id_rl	= $this->input->post('request_lama');
+			$id_rb	= $this->input->post('request_baru');
+			
+			$data = array(
+				'KETERANGAN'	=> $this->input->post('keterangan'),
+				'NOMINAL'		=> $this->input->post('nominal'),
+			 	'TGL_PEMBERIAN' => $this->input->post('tgl_pemberian'),
+				'LAMPIRAN'		=> $this->upload_file('lampiran')
+			);
+			
+			//Update header
+			$this->appr_admin_model->update_reimburse($data,$id);
+			//Update detail
+			$this->detail($id,$id_rb,'REIMBURSE');
+			$this->delete_detail($id_rl,'REIMBURSE');
+			//Update request
+			$this->update_request('baru',$id_rb);
+			$this->update_request('lama',$id_rl);
+			redirect('approval');
+		}
 		
 		function lihat_reimburse()
 		{
@@ -495,9 +417,7 @@
 		   $this->template->set('title','Daftar Reimburse');
 		   $this->template->load('template_refresh','admin/approval/data_reimburse',$data);
 		}
-		// End of function lihat_reimburse
 		
-		//Upload File
 		private function upload_file($file){
 			$config['upload_path']		= './upload/reimburse';
 			$config['allowed_types']	= 'gif|jpg|png|jpeg';
@@ -505,13 +425,14 @@
 			$config['max_size']			= 10000;
 		  
 			$this->load->library('upload',$config);
-			
-			if($this->upload->do_upload($file)){
-				$data = $this->upload->data('file_name');
-				return $data;
+			$upload = $this->upload->do_upload($file);
+			if(!$upload){
+				print_r($this->upload->display_errors());
+			}else{
+				$data = $this->upload->data();
+				return $data['file_name'];
 			}
-			print_r($this->upload->display_errors());
 		}
+		//-------------- End Transaksi Reimburse -----------------------
 	}
-	//End of class Approval
 	?>

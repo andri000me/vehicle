@@ -72,8 +72,8 @@
 			  //konversi 03 ke Mar
 			  // $tgl_berangkat = date('d-M-Y',strtotime($tgl_berangkat));
 			  // $tgl_kembali = date('d-M-Y',strtotime($tgl_kembali));
-			  $tgl_berangkat = date('Y-m-d H:i:s',strtotime($tgl_berangkat));
-			  $tgl_kembali = date('Y-m-d H:i:s',strtotime($tgl_kembali));
+			  // $tgl_berangkat = date('Y-m-d H:i:s',strtotime($tgl_berangkat));
+			  // $tgl_kembali = date('Y-m-d H:i:s',strtotime($tgl_kembali));
 			  
 			  
 			  $data_req = array(

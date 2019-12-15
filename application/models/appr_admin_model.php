@@ -10,25 +10,11 @@
 	 {
 	    $this->db->from('REQUEST');
 	    return $this->db->get();
-	 }	
-	 
-	 function request()
-	 {
-		$this->db->from('VIEW_REQUEST');
-		$this->db->where('STATUS', 1);
-	    return $this->db->get();
 	 }
 	 
 	 function generate_code($cek)
 	 {
-		 switch($cek){
-			 case 'k':
-				$table = 'PEMINJAMAN';
-			 break;
-			 case 'r':
-				$table = 'REIMBURSE';
-			 break;
-		 }
+		 $table = check_trans($cek);
 		 $this->db->select("RIGHT(ID_$table,2) as kode", FALSE);
 		 $this->db->order_by("ID_$table",'DESC');    
 		 $this->db->limit(1);    
@@ -47,15 +33,13 @@
 		 $kodefix = $m.''.$y.''.$kodemax;
 		 return $kodefix;
 	 }
-//-----------------------------------------------
-	 function show_request1($id)
+	 
+	 function get_request_detail($id)
 	 {
 		$this->db->from('VIEW_REQUEST');
-		// $this->db->where('ID_REQUEST', $id);
-		$this->db->where('NID', $id);
+		$this->db->where('ID_REQUEST', $id);
 	    return $this->db->get();
 	 }
-	 
 	 
 	 function show_request()
 	 {
@@ -87,19 +71,6 @@
 	    return $this->db->get();
 	 }
 	 
-	 function show_operasional1($id)
-	 {
-		$this->db->from('VIEW_OPERASIONAL');
-		$this->db->where('ID_REQUEST', $id);
-	    return $this->db->get();
-	 }
-	 
-//-----------------------------------------------	 
-	 function approval($data)
-	 {
-	   $this->db->where('ID_REQUEST', $data);
-	   return $this->db->get('VIEW_REQUEST_ASS');
-	 }
 //-----------------insert dan ubah status request jadi selesai------------------------------	 
 	 function insert_operasional($data)
 	 {
@@ -115,62 +86,21 @@
 	   $this->db->where('NO_POLISI',$id);
 	   $this->db->update('KENDARAAN',$data);
 	 }
-	 function update_operasional($data2,$id)
+	 function update_operasional($data,$id)
 	 {
-	   $this->db->where('ID_OPERASIONAL',$id);
-	   $this->db->update('OPERASIONAL',$data2);
+	   $this->db->where('ID_PEMINJAMANa',$id);
+	   $this->db->update('PEMINJAMAN',$data);
 	 }
 	 
 	 function get_mobil_aktif()
 	 {
-	   // $this->db->from('VIEW_MOBIL_AKTIF');
 	   $this->db->from('KENDARAAN');
 	   $this->db->where('STATUS', 1);
 	   return $this->db->get();
 	 }
 	 
-	 function get_daftar_sopir_op()
-	 {
-	   $this->db->from('VIEW_DAFTAR_SOPIR_OP');
-	   return $this->db->get();
-	 }
-	 
-	 function get_daftar_kendaraan_op()
-	 {
-	   $this->db->from('VIEW_DAFTAR_KENDARAAN_OP');
-	   return $this->db->get();
-	 }
-	
 	//------------
 	
-	//get daftar status operasional
-    function get_all_status_op()  
-	{
-       $this->db->from('STATUS_OPERASIONAL');
-       return $this->db->get();		
-	}
-	
-	function get_operasional_by_id($id)
-	{
-	  $this->db->from('OPERASIONAL');
-	  $this->db->where('ID_OPERASIONAL',$id);
-	  return $this->db->get();
-	}
-	
-	function get_status_operasional()
-	 {
-	    $this->	db->from('STATUS_OPERASIONAL');
-	    return $this->db->get();
-	 }	
-	
-	 /*function show_operasional()
-	 {
-		$this->db->from('VIEW_OPERASIONAL');
-		$this->db->where('ID_STATUS_OPERASIONAL', 3);
-	    return $this->db->get();
-	 }*/
-	 
-	 //--------------------
 	 
   function get_mobil_booked($tgl_kembali)
   {
@@ -613,69 +543,59 @@
 	}
 	//End of function insert_data_reimburse
 	
+	function update_reimburse($data,$id)
+	{
+	   $this->db->where('ID_REIMBURSE',$id);
+	   $this->db->update('REIMBURSE',$data);
+	}
+	//End of function insert_data_reimburse
+	
 	function show_all_reimburse()
 	{
-	  //$this->db->from('VIEW_REIMBURSE');
-	  $this->db->from('REIMBURSE');
+	  $this->db->from('VIEW_REIMBURSE_DETAIL');
 	  return $this->db->get();
 	}
 	//End of function show_all_reimburse
 	
-	 //----------------- Untuk Print Form --------------------
+	 //----------------- Untuk Approval --------------------
 	 
-	 function get_data_surat($id)
+	 function admin($nid)
 	 {
-	   $this->db->from('VIEW_SURAT');
-	   $this->db->where('ID_OPERASIONAL', $id);
+	   // $this->db->from('VIEW_SURAT');
+	   $this->db->from('KARYAWAN');
+	   $this->db->where('NID', $nid);
 	   return $this->db->get();
 	 }
 	 //End of function get_data_surat
 	 
 	  //------------- Untuk Edit Operasional -----------------
 	 
-	 function get_id_request($id)
+	 function get_trans($id,$j)
 	 {
-	     $this->db->select('ID_REQUEST');
-	     $this->db->from('OPERASIONAL');
-		 $this->db->where('ID_OPERASIONAL', $id);
-	     $query = $this->db->get();
-		 
-		$id_req = "";
-		
-		if($query->num_rows() > 0)
-		{
-		   foreach($query->result() as $row)
-			 $id_req = $row->ID_REQUEST;
-		}
-		
-		//echo $id_req."<br/>";
-		return $id_req;
+	    $table = check_trans($j);
+		$this->db->from("VIEW_$table");
+		$this->db->where("ID_$table", $id);
+	    return $this->db->get();
 	 }
-	 //End of function get_id_request
 	 
-	 function get_current_mobil($id)
-	 {
-	    $this->db->from('VIEW_KENDARAAN');
-		$this->db->where('ID_KENDARAAN', $id);
-	    $query = $this->db->get();
-		
-		$data_kendaraan = "";
-		
-		if($query->num_rows() > 0)
-		{
-		   foreach($query->result() as $row)
-			 $data_kendaraan = $row->ID_KENDARAAN."-".$row->JENIS_KENDARAAN."-".$row->NO_POLISI;
-		}
-		
-		//echo $data_kendaraan."<br/>";
-		return $data_kendaraan;
-	 }
-	 //End of function get_current_mobil
-	 
-	//Insert Detail Transaksi
+	//--------------Detail Transaksi--------------------------
 	function insert_detail($data)
 	 {
 	    $this->db->insert_batch('TRANS_DETAIL',$data);
 	 }
 	
+	function delete_detail($data,$j)
+	 {
+	   $this->db->where('ID_REQUEST',$data);
+	   $this->db->where('TIPE',$j);
+	   $this->db->delete('TRANS_DETAIL');
+	 }
+	
+	function get_detail($id,$j){
+		$table = check_trans($j);
+		$this->db->from('VIEW_DETAIL');
+		$this->db->where("ID_TRANS", $id);
+		$this->db->where('TIPE', $table);
+		return $this->db->get();
+	}
   }
