@@ -80,7 +80,8 @@ $autoload['helper'] = array('url','form','html','mylib');
 |
 */
 
-$autoload['config'] = array();
+// $autoload['config'] = array();
+$autoload['config'] = array('telegram');
 
 
 /*

@@ -188,7 +188,8 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+// $config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------
@@ -336,6 +337,7 @@ $config['compress_output'] = FALSE;
 | regarding date handling.
 |
 */
+date_default_timezone_set("Asia/Jakarta");
 $config['time_reference'] = 'local';
 
 

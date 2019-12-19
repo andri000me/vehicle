@@ -57,10 +57,28 @@ function delRow(a){
 	var i = a.parentNode.parentNode.rowIndex;
 	document.getElementById('ztable').deleteRow(i);
 }
+function hideComp(){
+	var o = document.getElementById("jenis").value;
+	if(o==1){
+		$('#operasional').fadeIn(500);
+		$('#reimburse').hide();
+	}else{
+		$('#operasional').hide();
+		$('#reimburse').fadeIn(500);
+	}
+}
+window.onload(console.log(document.getElementById("jenis").value));
 </script>
 <?php 
 	$t = $transaksi->row();
-	$j = ($jenis=="Kendaraan"?1:2);
+	// $j = ($jenis=="Kendaraan"?1:2);
+	if($jenis=="Kendaraan"){
+		$j = 1;
+		$d = "display:inherit";
+	}else{
+		$j = 2;
+		$d = "display:none";
+	}
 ?>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <div class="content">	
@@ -87,7 +105,7 @@ function delRow(a){
 			</div>
 			<div class="col-md-7">
 			  <!------------------- EDIT OPERASIONAL -------------------->
-			  <div class="card" id="operasional" style="display:none">
+			  <div class="card" id="operasional" style="<?php echo $d;?>">
 			    <div class="card-header card-header">
                   <h4 class="card-title">Operasional Kendaraan</h4>
                 </div>
@@ -194,7 +212,7 @@ function delRow(a){
 			  </div>
 			  
 			  <!-------------------------------- EDIT REIMBURSE  --------------------------------->
-			  <div class="card" id="reimburse" style="display:none">
+			  <div class="card" id="reimburse" style="<?php echo $d;?>">
 			    <div class="card-header card-header">
                   <h4 class="card-title">Operasional Reimburse</h4>
                 </div>

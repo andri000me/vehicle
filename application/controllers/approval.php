@@ -434,5 +434,27 @@
 			}
 		}
 		//-------------- End Transaksi Reimburse -----------------------
+		
+		//--------------- Telegram --------------------
+		public function telegramx($id){
+			$this->load->model('telegram');
+			$this->load->model('appr_admin_model');
+			
+			$peminjaman = $this->appr_admin_model->get_peminjaman($id)->row();
+			// $chat_id = '403119565';
+			$sopir = $peminjaman->NAMA;
+			$chat_id = $peminjaman->CHAT_ID;
+			$tgl = $peminjaman->TGL_PEMINJAMAN;
+			$text = "Hi ,\nPeminjaman Kendaraan Dinas \n";
+			$text .= "<b>nomor</b> : $sopir, \n";
+			$text .= "<b>tanggal</b> : $tgl \n";
+			$text .= "telah dibuat/diupdate!! \n";
+			$text .= "Dengan detail penumpang sebagai berikut : \n";
+			$text .= "Mohon bantuan untuk mengantarkan karyawan sampai tujuan \n";
+			$text .= "Terima kasih";
+			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			$data['d'] = $send;
+			$this->load->view('api_telegram',$data);
+		}
 	}
 	?>

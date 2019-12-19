@@ -88,7 +88,7 @@
 	 }
 	 function update_operasional($data,$id)
 	 {
-	   $this->db->where('ID_PEMINJAMANa',$id);
+	   $this->db->where('ID_PEMINJAMAN',$id);
 	   $this->db->update('PEMINJAMAN',$data);
 	 }
 	 
@@ -598,4 +598,13 @@
 		$this->db->where('TIPE', $table);
 		return $this->db->get();
 	}
+	
+	//------------ For Telegram ------------------
+	function get_peminjaman($id)
+	 {
+		$this->db->from('VIEW_PEMINJAMAN');
+		$this->db->where("ID_PEMINJAMAN", $id);
+		$this->db->where("STATUS", 5);
+	    return $this->db->get();
+	 }
   }

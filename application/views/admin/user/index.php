@@ -123,7 +123,7 @@ function hideEdit(){
 						<i class="material-icons">how_to_reg</i>
 					  </span>
 					</div>
-					<select name="nid" class="select2 form-control" id="nid">
+					<select name="nid" class="select2 form-control" id="nid" required>
 						<option></option>
 					<?php
 						foreach($id_jab->result() as $row){
@@ -154,7 +154,7 @@ function hideEdit(){
 						<i class="material-icons">supervisor_account</i>
 					  </span>
 					</div>
-					<select name="tipe_user" class="select2 form-control">
+					<select name="tipe_user" class="select2 form-control" required>
 						<option></option>
 					  <?php 
 					  for($i=1;$i<6;$i++){
