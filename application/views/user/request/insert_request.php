@@ -1,3 +1,21 @@
+<script src="<?php echo base_url();?>asset/js/core/jquery.min.js"></script>
+<script type="text/javascript">
+function check_p(){
+	var val = document.getElementById('penumpang');
+	if(val.value>7){
+		Swal.fire({
+			icon: 'info',
+			title: 'Oops...',
+			html: 'Penumpang melebihi batas!!',
+			closeModal: false
+		}).then(function(){
+			Swal.close();
+			val.focus();
+			val.select();
+		});
+	}
+}
+</script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
  <!---------------------------------------------------------------------------------------------------- -->
 <div class="content">
@@ -25,7 +43,7 @@
             <div class="col-md-2">
               <div class="form-group">
                 <label class="bmd-label-floating">Jumlah Penumpang</label>
-                <input type="text" class="form-control" name="jml_penumpang" maxlength="1" value="1" required/>
+                <input type="text" class="form-control" name="jml_penumpang" maxlength="1" value="1" id="penumpang" onchange="check_p();"required>
               </div>
             </div>
             <div class="col-md-4">

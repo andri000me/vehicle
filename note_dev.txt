@@ -1,8 +1,0 @@
-Catatan
-1. Data Master (Placeholder Select2 belum)
-- Divisi (Done)
-- Supir (Done)
-- Jabatan (Done)
-- User (Done) -> Cek User Aktif
-- Karyawan (Done)
-- Kendaraan (Done)

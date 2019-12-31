@@ -16,7 +16,8 @@
 	 function get_request($id)
 	 {
 	    $this->db->where('NID',$id);
-		$this->db->from('REQUEST');
+		// $this->db->from('REQUEST');
+		$this->db->from('VIEW_REQUEST');
 	    return $this->db->get();
 	 }
 	 

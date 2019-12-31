@@ -1,3 +1,9 @@
+<script src="<?php echo base_url();?>asset/js/core/jquery.min.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 			  <div class="card">
 				<div class="card-header card-header-primary card-header-icon">
@@ -18,13 +24,13 @@
 								<th>Kendaraan</th>
 								<th>Waktu Berangkat</th>
 								<th>Status</th>
-								<th>#</th>
+								<th>Opsi</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php
 								$no = 1;
-								foreach($approval->result() as $row){
+								foreach($ops->result() as $row){
 							?>
 							<tr>
 								<td></td>
@@ -35,9 +41,23 @@
 								<td><?php echo $row->TGL_PEMINJAMAN; ?></td>
 								<td><?php echo oprStat($row->STATUS); ?></td>
 								<td>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_PEMINJAMAN;?>" class="btn btn-danger btn-fab btn-round btn-sm">
-										<i class="material-icons">edit</i>
-									</a>
+									<?php if($row->STATUS<>3){ ?>
+										<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_PEMINJAMAN;?>" class="btn btn-warning btn-fab btn-round btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Task">
+											<i class="material-icons">edit</i>
+										</a>
+										<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/kembali/'.$row->ID_PEMINJAMAN;?>" class="btn btn-success btn-fab btn-round btn-sm" data-toggle="tooltip" data-placement="top" title="End Task">
+											<i class="material-icons">flight_land</i>
+										</a>
+									<?php }else{ ?>
+										  <div class="form-check text-center">
+											<label class="form-check-label">
+											  <input class="form-check-input" type="checkbox" value="" checked disabled>
+											  <span class="form-check-sign">
+												<span class="check"></span>
+											  </span>
+											</label>
+										  </div>
+									<?php } ?>
 								</td>
 							</tr>
 							<?php $no++; } ?>

@@ -11,7 +11,7 @@ $(function(){
 			ref = document.getElementById('zdrop');
 			var t = document.getElementById('penumpang').value;
 			var check = t+a[3];
-			if(check>=5){
+			if(check>7){
 				Swal.fire({
 				  icon: 'error',
 				  title: 'Oops...',

@@ -8,10 +8,30 @@ class Monitoring_model extends CI_Model {
         return $this->db->get();        
     } */
 	
-	function tampil_kendaraan()
+	function kendaraan()
     {
-		// $this->db->from('VIEW_DASHBOARD');
-		$this->db->from('KENDARAAN');
+		return $this->db->from('KENDARAAN')->count_all_results();
+    }
+	
+	function sopir()
+    {
+		return $this->db->from('SOPIR')->count_all_results();
+    }
+	
+	function reimburse()
+    {
+		return $this->db->from('REIMBURSE')->count_all_results();
+    }
+	
+	function request()
+    {
+		return $this->db->from('REQUEST')->count_all_results();
+    }
+	
+	function pending($stat)
+    {
+		$this->db->where('STATUS', $stat);
+		$this->db->from('VIEW_REQUEST');
         return $this->db->get();        
     }
 	
@@ -21,11 +41,12 @@ class Monitoring_model extends CI_Model {
 		$this->db->from('USERS');
         return $this->db->get();        
     }
-	// function tampil_kendaraan_jkt()
-    // {	       
-		// $this->db->from('VIEW_DASHBOARD');
-		// $this->db->where('ID_LOKASI',6);
-        // return $this->db->get();
-    // }
+	
+	function kendaraan_chart($stat)
+    {
+		$this->db->where('STATUS', $stat);
+		return $this->db->from('KENDARAAN')->count_all_results();        
+    }
+	
 }
 ?>

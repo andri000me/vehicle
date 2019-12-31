@@ -250,6 +250,12 @@ class __Module_Telegram_Sender extends CI_Model{
 		return $this;
 	}
 	
+	//Added by SFS
+	function update(){
+		$url = $this->_url() .'getUpdate?offset=0';
+		return $url;
+	}
+	
 	function keyboard(){ return $this->_keyboard; }
 	function inline_keyboard(){ return $this->_inline; }
 

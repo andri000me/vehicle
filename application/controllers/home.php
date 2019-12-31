@@ -20,11 +20,6 @@
 	   
 	   public function index()
 	   {
-	     //$this->load->model('slidermodel');
-	     $this->load->model('monitoring_model');
-		 
-		 //$data['dataslider'] = $this->slidermodel->get_all_slider();
-	     
 	     if($this->auth->is_logged_in() == false){
 			//echo "Test";
 		   $this->login();
@@ -32,45 +27,38 @@
 		 else
 		 {
 		    //Load model 'usermodel'
+			$this->load->model('monitoring_model');
+			$this->load->model('appr_admin_model');
 			$this->load->model('usermodel');
+			$this->load->model('requestmodel');
 			//Level untuk user ini
+			$nid = $this->session->userdata('nid');
 			$level = $this->session->userdata('level');
 			$id_subdit = $this->session->userdata('subdit_id');
-			//echo $this->session->userdata('level');
-			//Ambil menu dari database sesuai dengan level
-			$data['menu'] = $this->usermodel->get_menu_for_level($level);
-			//$data['subdit'] = $this->usermodel->get_user_subdit($id_subdit);
-			
-			//$this->load->model('appr_admin_model');
-			
-			/*if($level==6)
-			{$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan_jkt();
-			 $data['driver_aktif'] = $this->appr_admin_model->get_status_sopir_op_jkt();}else
-			{$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan();
-			 $data['driver_aktif'] = $this->appr_admin_model->get_status_sopir_op();}
-			*/
-			
-			$data['kendaraan'] = $this->monitoring_model->tampil_kendaraan();
-			$data['class1'] = 'alert alert-success';
-			$data['title1'] = 'Kritik & Saran';
-			$data['alert1'] = 'Data sudah tersimpan';
-			$data['notif']  = $this->uri->segment(3);
-			
+			$data = array(
+				'kendaraan' => $this->monitoring_model->kendaraan(),
+				'sopir'		=> $this->monitoring_model->sopir(),
+				'reimburse'	=> $this->monitoring_model->reimburse(),
+				'requestx'	=> $this->monitoring_model->request(),
+				'approval'	=> $this->monitoring_model->pending(0),
+				'transaksi'	=> $this->monitoring_model->pending(1),
+				'pending' 	=> $this->appr_admin_model->show_approval($nid),
+				'request'	=> $this->requestmodel->get_request($nid),
+				'peminjaman'=> $this->requestmodel->show_operasional_user($nid),
+				'terpakai'	=> $this->monitoring_model->kendaraan_chart(2),
+				'tersedia'	=> $this->monitoring_model->kendaraan_chart(1)
+			);
 		    //Set variabel $title
 		    $this->template->set('title', 'Sistem Informasi Pengelolaan Kendaraan Dinas');
-			//$this->template->load('template_refresh', 'admin/index', $data);
-		    //Load file view 'index.php'
 			//Sementara Hide
 			if($level == 1)
 		      $this->template->load('template_refresh', 'admin/index', $data);
 			else if($level == 2)
-			  // $this->template->load('template_refresh', 'manajer/index', $data);
-			  $this->template->load('template_refresh', 'admin/index', $data);
-			//else if($level == 3 || $level == 6)
+			  $this->template->load('template_refresh', 'manajer/index', $data);
 			else if($level == 3)
-			  $this->template->load('template_refresh', 'user/index', $data);
+			  $this->template->load('template_refresh', 'manajer/index', $data);
 			else
-			  $this->template->load('template_refresh', 'operator/index', $data);  
+			  $this->template->load('template_refresh', 'admin/index', $data);  
 			 //$this->load->view('admin/sukses');
 		 } //End of else
 	      

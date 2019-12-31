@@ -114,18 +114,25 @@ if ( ! function_exists('generatehtml'))
 	function oprStat($stat)
 	{
 		switch($stat){
-			case 0:
-				return "-";
+			// case 0:
+				// return "-";
+			// case 1:
+				// return "Kembali";
+			// case 2:
+				// return "Dibatalkan";
+			// case 3:
+				// return "Selesai";
+			// case 4:
+				// return "Berangkat";
+			// case 5:
+				// return "Stand By";
+			// break;
 			case 1:
-				return "Kembali";
+				return "Stand By"; //Belum dipakai
 			case 2:
-				return "Dibatalkan";
+				return "Berangkat";
 			case 3:
 				return "Selesai";
-			case 4:
-				return "Berangkat";
-			case 5:
-				return "Stand By";
 			break;
 		}
 	}

@@ -10,34 +10,38 @@
  
 class Reportmodel extends CI_Model 
 {
-    function lihat_data_operasional($tgl_mulai, $tgl_akhir)
+    //---------------------Report Web----------------
+	function hitung_kendaraan($tgl_mulai, $tgl_akhir)
 	{
-	   $query = $this->db->query("
-	      SELECT *
-          FROM VIEW_OPERASIONAL
-          WHERE TGL_KEMBALI >= '".$tgl_mulai."'
-          AND TGL_KEMBALI <= '".$tgl_akhir."'
-          AND STATUS = 1
-	   ");
-	   
-	   return $query;
+	   $this->db->from('VIEW_PEMINJAMAN');
+		$this->db->where('TGL_PEMINJAMAN >=', $tgl_mulai);
+		$this->db->where('TGL_PEMINJAMAN <=', $tgl_akhir);
+		$this->db->where('STATUS', 3);
+		return $this->db->get();
 	}
-	//End of function lihat_data_operasional
+	//End of function
 
-    function hitung_jml_operasional_user($tgl_mulai, $tgl_akhir)
+    function hitung_request($tgl_mulai, $tgl_akhir)
     {
-	   $query = $this->db->query("
-	       SELECT ID_PEMOHON, PEMOHON, COUNT(ID_PEMOHON) AS JML_OPERASIONAL
-           FROM VIEW_OPERASIONAL
-           WHERE TGL_KEMBALI >= TO_DATE('".$tgl_mulai."','DD-MM-YYYY')
-           AND TGL_KEMBALI <= TO_DATE('".$tgl_akhir."','DD-MM-YYYY')
-		   AND ID_STATUS_OPERASIONAL = 1
-           GROUP BY ID_PEMOHON, PEMOHON
-	   ");
-	   
-	   return $query;
+		$this->db->from('VIEW_REQUEST');
+		// $this->db->where('WAKTU_REQUEST >=', $tgl_mulai);
+		// $this->db->where('WAKTU_REQUEST <=', $tgl_akhir);
+		$this->db->where('TGL_BERANGKAT >=', $tgl_mulai);
+		$this->db->where('TGL_BERANGKAT <=', $tgl_akhir);
+		$this->db->where('STATUS <>', 2);
+		return $this->db->get();
 	}
      //end of function hitung_jml_operasional_user	
+	 
+	function hitung_reimburse($tgl_mulai, $tgl_akhir)
+    {
+		$this->db->from('VIEW_REIMBURSE');
+		$this->db->where('TGL_PEMBERIAN >=', $tgl_mulai);
+		$this->db->where('TGL_PEMBERIAN <=', $tgl_akhir);
+		return $this->db->get();
+	}
+	
+	//-------------------End Report Web----------------
 	 
 	 function get_daftar_user($tgl_mulai, $tgl_akhir)
 	 {
@@ -93,14 +97,7 @@ class Reportmodel extends CI_Model
 		$this->db->where('TGL_KEMBALI <=', $tgl_akhir);
 		$this->db->where('NO_POLISI', $nopol);
 		$query = $this->db->get();
-		// $query = $this->db->query("
-                 // SELECT ID_PEMINJAMAN, TGL_BERANGKAT, TGL_KEMBALI
-                 // FROM VIEW_OPERASIONAL
-				 // WHERE TGL_KEMBALI >= '".$tgl_mulai."'
-				 // AND TGL_KEMBALI <= '".$tgl_akhir."'
-				 // AND NO_POLISI = '".$nopol."'
-                 // ");
-		
+
         $total = 0;
 		
 		if($query->num_rows() > 0)
@@ -266,7 +263,7 @@ class Reportmodel extends CI_Model
 	//-------------------------------------------------------------------------------------
     function get_driver()
     {
-		$this->db->from('VIEW_STATUS_SOPIR');
+		$this->db->from('VIEW_REQUEST');
 		//$this->db->where('ID_STATUS_SOPIR');
         return $this->db->get();        
     }      

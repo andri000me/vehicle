@@ -67,10 +67,10 @@
 	 {
 		//$this->db->from('VIEW_OPERASIONAL');
 		$this->db->from('PEMINJAMAN');
-		$this->db->where('STATUS', 5);
+		// $this->db->where('STATUS', 5);
+		$this->db->where('STATUS', 2);
 	    return $this->db->get();
 	 }
-	 
 //-----------------insert dan ubah status request jadi selesai------------------------------	 
 	 function insert_operasional($data)
 	 {
@@ -468,27 +468,6 @@
      return false;
   } //End of function check_kendaraan_booked
   
-  function check_kendaraan_berangkat($id_kendaraan)
-  { 
-	 $query = $this->db->query("
-	     SELECT
-		  KD.ID_KENDARAAN AS ID_KENDARAAN,
-		  KD.NO_POLISI    AS NO_POLISI
-		FROM 
-		  KENDARAAN KD,
-		  DETAIL_KENDARAAN_DINAS DK
-		WHERE 
-		  KD.ID_KENDARAAN = DK.ID_KENDARAAN
-		  AND DK.ID_TIPE_KENDARAAN_DINAS = '5'
-		  AND KD.ID_STATUS_KENDARAAN = '2'
-		  AND KD.ID_KENDARAAN = ".$id_kendaraan."
-	 ");
-	 
-	 if($query->num_rows() > 0)
-	   return true;
-	 
-     return false;
-  } //End of function check_kendaraan_berangkat
 	
   function check_sopir_booked($id_sopir, $id_operasional)
   {
@@ -594,9 +573,10 @@
 	function get_detail($id,$j){
 		$table = check_trans($j);
 		$this->db->from('VIEW_DETAIL');
-		$this->db->where("ID_TRANS", $id);
+		$this->db->where('ID_TRANS', $id);
 		$this->db->where('TIPE', $table);
 		return $this->db->get();
+		
 	}
 	
 	//------------ For Telegram ------------------
@@ -604,7 +584,8 @@
 	 {
 		$this->db->from('VIEW_PEMINJAMAN');
 		$this->db->where("ID_PEMINJAMAN", $id);
-		$this->db->where("STATUS", 5);
+		// $this->db->where("STATUS", 5);
+		$this->db->where("STATUS", 2);
 	    return $this->db->get();
 	 }
   }

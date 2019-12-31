@@ -16,7 +16,8 @@
 		{
 		   $this->load->model('usermodel');
 		   $this->load->model('appr_admin_model');
-		   $data['approval'] = $this->appr_admin_model->show_all_operasional();
+		   $data['ops'] = $this->appr_admin_model->show_all_operasional();
+		   $data['check_op'] = $this->appr_admin_model->show_all_operasional();
 		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
 		   $data['pending'] = $this->appr_admin_model->show_request();
 		   
@@ -89,7 +90,8 @@
 		  $data = array(
 			'ID_PEMINJAMAN' => $id,
 			'NO_POLISI' => $this->input->post('kendaraan'),
-			'STATUS' => '5',
+			// 'STATUS' => '5',
+			'STATUS' => '2',
 			'KETERANGAN' => $this->input->post('keterangan')
 			);
 		  
@@ -102,6 +104,7 @@
 		  $this->detail($id,$id_req,'PEMINJAMAN');
 		  $this->update_request('baru',$id_req);
 		  $this->appr_admin_model->update_mobil($data_m,$id_m);
+		  $this->telegramx($id);
 		  redirect('approval');
 		  
 		}
@@ -143,7 +146,7 @@
 		  //Update detail
 		  $this->detail($id,$id_rb,'PEMINJAMAN');
 		  $this->delete_detail($id_rl,'PEMINJAMAN');
-		  
+		  $this->telegramx($id);
 		  redirect('approval');
 		  
 		}
@@ -441,18 +444,35 @@
 			$this->load->model('appr_admin_model');
 			
 			$peminjaman = $this->appr_admin_model->get_peminjaman($id)->row();
-			// $chat_id = '403119565';
-			$sopir = $peminjaman->NAMA;
-			$chat_id = $peminjaman->CHAT_ID;
-			$tgl = $peminjaman->TGL_PEMINJAMAN;
-			$text = "Hi ,\nPeminjaman Kendaraan Dinas \n";
-			$text .= "<b>nomor</b> : $sopir, \n";
-			$text .= "<b>tanggal</b> : $tgl \n";
+			$detail		= $this->appr_admin_model->get_detail($id,'K')->result();
+			
+			$chat_id	= $peminjaman->CHAT_ID;
+			
+			$text = "Hi $peminjaman->NAMA, Peminjaman Kendaraan Dinas \n";
+			$text .= "<b>nomor</b> : $id, \n";
+			$text .= "<b>keterangan</b> : $peminjaman->KETERANGAN, \n";
+			$text .= "<b>tanggal</b> : $peminjaman->TGL_PEMINJAMAN \n";
 			$text .= "telah dibuat/diupdate!! \n";
 			$text .= "Dengan detail penumpang sebagai berikut : \n";
+			$text .= "<pre>";
+			$no=1;
+			foreach($detail as $z){
+				$text .= "No | Nama          | Tujuan | Penumpang | Berangkat \n";
+				$text .= "$no  | $z->NAMA | $z->TUJUAN | $z->PENUMPANG Orang | $z->TGL_BERANGKAT";
+				$no++;
+			}
+			$text .= "</pre>";
 			$text .= "Mohon bantuan untuk mengantarkan karyawan sampai tujuan \n";
 			$text .= "Terima kasih";
-			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			// $send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->inline_keyboard()->row()->button('BERANGKAT','start')->end_row()->show()->send();
+			$data['d'] = $send;
+			$this->load->view('api_telegram',$data);
+		}
+		
+		public function testx(){
+			$this->load->model('telegram');
+			$send = $this->telegram->send->update();
 			$data['d'] = $send;
 			$this->load->view('api_telegram',$data);
 		}

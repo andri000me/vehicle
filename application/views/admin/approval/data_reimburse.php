@@ -17,7 +17,7 @@
 								<th>PEMOHON</th>
 								<th>WAKTU BERANGKAT</th>
 								<th>KEPERLUAN</th>
-								<th>#</th>
+								<!--<th>#</th>-->
 							</tr>
 						</thead>
 						<tbody>
@@ -30,11 +30,11 @@
 								<td><?php echo $row->NAMA; ?></td>
 								<td><?php echo $row->TGL_BERANGKAT; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
-								<td>
+								<!--<td>
 									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_REIMBURSE;?>" class="btn btn-danger btn-fab btn-round btn-sm">
 										<i class="material-icons">edit</i>
 									</a>
-								</td>
+								</td>-->
 							</tr>
 							<?php } ?>
 						</tbody>

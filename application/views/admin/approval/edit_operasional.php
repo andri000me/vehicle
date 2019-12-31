@@ -57,28 +57,10 @@ function delRow(a){
 	var i = a.parentNode.parentNode.rowIndex;
 	document.getElementById('ztable').deleteRow(i);
 }
-function hideComp(){
-	var o = document.getElementById("jenis").value;
-	if(o==1){
-		$('#operasional').fadeIn(500);
-		$('#reimburse').hide();
-	}else{
-		$('#operasional').hide();
-		$('#reimburse').fadeIn(500);
-	}
-}
-window.onload(console.log(document.getElementById("jenis").value));
 </script>
 <?php 
 	$t = $transaksi->row();
-	// $j = ($jenis=="Kendaraan"?1:2);
-	if($jenis=="Kendaraan"){
-		$j = 1;
-		$d = "display:inherit";
-	}else{
-		$j = 2;
-		$d = "display:none";
-	}
+	$j = ($jenis=='Kendaraan'?1:2);
 ?>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <div class="content">	
@@ -105,7 +87,7 @@ window.onload(console.log(document.getElementById("jenis").value));
 			</div>
 			<div class="col-md-7">
 			  <!------------------- EDIT OPERASIONAL -------------------->
-			  <div class="card" id="operasional" style="<?php echo $d;?>">
+			  <div class="card" id="operasional">
 			    <div class="card-header card-header">
                   <h4 class="card-title">Operasional Kendaraan</h4>
                 </div>
@@ -198,110 +180,6 @@ window.onload(console.log(document.getElementById("jenis").value));
 							  Update
 						  </button>
 						  <a href="<?php echo base_url()."approval/#operasional";?>" class="btn btn-default">
-							<span class="btn-label">
-								<i class="material-icons">reply_all</i>
-							</span>Cancel
-						  </a>
-						 </div>
-						</div>
-					  </div>
-					</div>
-				 </div>
-				<?php echo form_close();?>
-				</div>
-			  </div>
-			  
-			  <!-------------------------------- EDIT REIMBURSE  --------------------------------->
-			  <div class="card" id="reimburse" style="<?php echo $d;?>">
-			    <div class="card-header card-header">
-                  <h4 class="card-title">Operasional Reimburse</h4>
-                </div>
-				<div class="card-body">
-				<?php echo form_open_multipart('approval/edit_reimburse/'); ?>
-				 <div class="row">
-                    <div class="col-lg-3 col-md-4">
-                      <ul class="nav nav-pills nav-pills-warning flex-column" role="tablist">
-						<li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#link_r" role="tablist">Reimburse</a>
-                        </li>
-						<li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link_d2" role="tablist">Details</a>
-                        </li>
-                      </ul>
-                    </div>
-					<div class="col-md-8">
-                      <div class="tab-content">
-                        <div class="tab-pane active" id="link_r">
-							<div class="form-group">
-							  <input type="text" class="form-control" name="no_reimburse" value="<?php echo $t->ID_REIMBURSE;?>" readonly>
-							</div>
-							<div class="form-group">
-							  <label for="keterangan">Keterangan</label>
-							  <input type="text" class="form-control" name="keterangan" value="<?php echo $t->KETERANGAN;?>" required="true">
-							</div>
-							<div class="form-group">
-							  <label for="nominal">Nominal</label>
-							  <input type="text" class="form-control" name="nominal" value="<?php echo $t->NOMINAL;?>" required>
-							</div>
-							<div class="form-group">
-							  <label class="bmd-label-floating">Tanggal Pemberian</label>
-							  <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo $t->TGL_PEMBERIAN;?>">
-							</div>
-							<div class="form-group">
-								<label for="lampiran">Lampiran</label>
-								<div class="custom-file">
-								  <input type="file" class="file-input" id="lampiran" name="lampiran" <?php echo $t->LAMPIRAN;?>>
-								</div>
-							</div>
-						</div>
-						<div class="tab-pane" id="link_d2">
-						 <div class="table-responsive">
-							<table class="table table-active" id="zdrop2">
-							 <thead>
-							  <tr>
-							   <th>#</th>
-							   <th>Pemohon</th>
-							   <th>Tujuan</th>
-							   <th>Penumpang</th>
-							  </tr>
-							 </thead>
-							 <tbody>
-							  <!--- Detail Lama-->
-							  <?php foreach($detail->result() as $l){ ?>
-							  <tr style="display:none">
-								<td>
-									<input type="hidden" name="request_lama[]" value="<?php echo $l->ID_REQUEST;?>"></a>
-								</td>
-								<td><?php echo $l->NAMA;?></td>
-								<td><?php echo $l->TUJUAN;?></td>
-								<td><?php echo $l->PENUMPANG;?></td>
-							  </tr>
-							  <?php } ?>
-							  <!-- End Detail Lama---->
-							  
-							  <!-- Detail Baru---->
-							  <?php foreach($detail->result() as $d){ ?>
-							  <tr>
-								<td>
-									<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request_baru[]" value="<?php echo $d->ID_REQUEST;?>"></a>
-								</td>
-								<td><?php echo $d->NAMA;?></td>
-								<td><?php echo $d->TUJUAN;?></td>
-								<td><?php echo $d->PENUMPANG;?></td>
-							  </tr>
-							  <?php } ?>
-							  <!-- End Detail Baru-->
-							 </tbody>
-							</table>
-						 </div>
-						 <div class="form-group">
-						  <button class="btn btn-warning" type="submit">
-							  <span class="btn-label">
-								<i class="material-icons">done_all</i>
-							  </span>
-							  Update
-						  </button>
-						  <a href="<?php echo base_url()."approval";?>" class="btn btn-default">
 							<span class="btn-label">
 								<i class="material-icons">reply_all</i>
 							</span>Cancel

@@ -12,10 +12,7 @@ $nama = $this->session->userdata('nama');
 //$this->fpdf->Cell(9.5, 0.5, 'Print : '.date('d/m/Y H:i').' | Petugas : '.$nama,0,'LR','L');
 $this->fpdf->Ln();
 $this->fpdf->SetFont('helvetica','B',14);
-$this->fpdf->Cell(19,0.5,'PT PJB Services - Applikasi Eformc',0,0,'C');
-
-$this->fpdf->SetFont('helvetica','B',12);
-$this->fpdf->Cell(19,0.7,'PEMBANGKITAN JAWA BALI Services',0,0,'C');
+$this->fpdf->Cell(19,0.5,'PT PJB Services',0,0,'C');
  
 $this->fpdf->Ln();
 $this->fpdf->SetFont('helvetica','',10);
@@ -42,13 +39,13 @@ foreach($driver->result() as $data)
 {
     $this->fpdf->Ln();
     $this->fpdf->SetFont('helvetica','',9);
-    $this->fpdf->Cell(6 , 0.6, $data->ID_SOPIR  , 1, 'LR', 'L');
+    $this->fpdf->Cell(6 , 0.6, $data->NID  , 1, 'LR', 'L');
     $this->fpdf->Cell(7 , 0.6, $data->NAMA , 1, 'LR', 'L');
-	$this->fpdf->Cell(6 , 0.6, $data->STATUS_SOPIR  , 1, 'LR', 'L');
+	$this->fpdf->Cell(6 , 0.6, reqStat($data->STATUS)  , 1, 'LR', 'L');
 }
 /* setting posisi footer 3 cm dari bawah */
 $this->fpdf->Ln(2);
-$this->fpdf->Image(base_url() . "asset/images/grafik/contoh.png", 1);
+// $this->fpdf->Image(base_url() . "asset/images/grafik/contoh.png", 1);
 
 
 $this->fpdf->SetY(-3);
