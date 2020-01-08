@@ -1,7 +1,7 @@
 <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
-	$('.zadd').click(function(){
+	$(document).on('click','.zadd',function(){ //Dynamic Span Event Click
 		var add=$(this).closest('td').children('span').attr('id');
 		var a=add.split("^");
 		// Tambahan Penyesuaian dari Select Option
@@ -18,35 +18,60 @@ $(function(){
 				  text: 'Kendaraan sudah penuh!'
 				});
 			}else{
-				detail(ref,a);
+				detail(ref,a,'zadd');
 				$(this).fadeOut(500,function(){
-					delRow(this);
+					delRow(this,'ztable');
 				});
 				sum();
 			}
 		}else if(j==2){
 			ref = document.getElementById('zdrop2');
-			detail(ref,a);
+			detail(ref,a,'zadd');
 			$(this).fadeOut(500,function(){
-					delRow(this);
+					delRow(this,'ztable');
 			});
 		}else{
 			console.log(j);
 		}
 		// End Tambahan
 	});
+	$(document).on('click','.zdel',function(){ //Dynamic Span Event Click
+		var add=$(this).closest('td').children('span').attr('id');
+		var a=add.split("^");
+		var ref = document.getElementById('ztable');
+		detail(ref,a);
+		$(this).fadeOut(500,function(){
+			delRow(this,'zdrop');
+		});
+	});
 });
-function detail(ref,a){
+// function detail(ref,a){
+	// var row = ref.insertRow(-1);
+	// var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
+	// row.insertCell(0).innerHTML = html+''+a[0]+'>';
+	// row.insertCell(1).innerHTML = a[1];
+	// row.insertCell(2).innerHTML = a[2];
+	// row.insertCell(3).innerHTML = a[3];
+// }
+function detail(ref,a,z){
 	var row = ref.insertRow(-1);
-	var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
-	row.insertCell(0).innerHTML = html+''+a[0]+'>';
+	var spin, spout, icon, input, html;
+	spout = '</span>';
+	if(z=='zadd'){
+		icon='delete_forever';
+		spin = '<span class="zdel" id="'+a[0]+'^'+a[1]+'^'+a[2]+'^'+a[3]+'">';
+		input='<input type="hidden" name="request_baru[]" value="'+a[0]+'">';
+		html = '<a href="" onclick="return false;"><i class="material-icons">'+icon+'</i></a>';
+		row.insertCell(0).innerHTML = spin+html+input+spout;
+	}else{
+		icon='add_circle';
+		spin = '<span class="zadd" id="'+a[0]+'^'+a[1]+'^'+a[2]+'^'+a[3]+'">';
+		html = '<a href="" onclick="return false;"><i class="material-icons">'+icon+'</i></a>';
+		row.insertCell(0).innerHTML = spin+html+spout;
+	}
 	row.insertCell(1).innerHTML = a[1];
 	row.insertCell(2).innerHTML = a[2];
 	row.insertCell(3).innerHTML = a[3];
-	// Execute Delete Table
-	// $(this).fadeOut(500,function(){
-		// delRow(this);
-	// });
 }
 function sum(){
 	var ref = document.getElementById('zdrop');
@@ -58,9 +83,9 @@ function sum(){
 	console.log("p :"+p+"cell :"+cell);
 	document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
 }
-function delRow(a){
+function delRow(a,table){
 	var i = a.parentNode.parentNode.rowIndex;
-	document.getElementById('ztable').deleteRow(i);
+	document.getElementById(table).deleteRow(i);
 }
 function hideComp(){
 	var o = document.getElementById("jenis").value;
@@ -273,7 +298,8 @@ function hideComp(){
 				  <table class="table table-striped table-sm" id="ztable">
 					<thead>
 						<tr>
-						 <th class="text-center">Pemohon</th>
+						 <th>#</th>
+						 <th>Pemohon</th>
 						 <th>Tujuan</th>
 						 <th>Penumpang</th>
 						</tr>
@@ -284,11 +310,11 @@ function hideComp(){
 						 <td>
 							<span class="zadd" id="<?php echo $r->ID_REQUEST;?>^<?php echo $r->NAMA;?>^<?php echo $r->TUJUAN;?>^<?php echo $r->PENUMPANG;?>">
 								<?php
-									echo "<a href='' onclick='return false;'> <i class='material-icons'>add_circle</i></a>&nbsp;";
-									echo $r->NAMA;
+									echo "<a href='' onclick='return false;'> <i class='material-icons'>add_circle</i></a>";
 								?>
 							</span>
 						 </td>
+						 <td><?php echo $r->NAMA;?></td>
 						 <td><?php echo $r->TUJUAN;?></td>
 						 <td><?php echo $r->PENUMPANG;?></td>
 						</tr>

@@ -2,7 +2,7 @@
  
 
 date_default_timezone_set('Asia/Jakarta');
-$this->fpdf->FPDF("P","cm","A4");
+$this->fpdf->FPDF("L","cm","A4");
 $this->fpdf->SetMargins(1,1,1);
 $this->fpdf->AliasNbPages();
 $this->fpdf->AddPage();
@@ -12,36 +12,40 @@ $nama = $this->session->userdata('nama');
 //$this->fpdf->Cell(9.5, 0.5, 'Print : '.date('d/m/Y H:i').' | Petugas : '.$nama,0,'LR','L');
 $this->fpdf->Ln();
 $this->fpdf->SetFont('helvetica','B',14);
-$this->fpdf->Cell(19,0.5,'PT PJB Services',0,0,'C');
+$this->fpdf->Cell(30,0.5,'PT PJB Services',0,0,'C');
  
 $this->fpdf->Ln();
 $this->fpdf->SetFont('helvetica','',10);
-$this->fpdf->Cell(19,0.5,'Juanda Bussiness Center - Jawa Timur 1234 Telp : 1234-875847 Fax : 1234-875123',0,0,'C');
+$this->fpdf->Cell(30,0.5,'Jalan Juanda No. 17 Sidoarjo, Jawa Timur Telp : 1234-875847 Fax : 1234-875123',0,0,'C');
  
 $this->fpdf->Ln();
-$this->fpdf->Cell(19,0.5,'Homepage : www.pjbservices.com  email : mail@pjbservices.com',0,0,'C');
-$this->fpdf->Line(1,3,20,3); 
+$this->fpdf->Cell(30,0.5,'Homepage : www.pjbservices.com  email : mail@ptpjbs.com',0,0,'C');
+$this->fpdf->Line(1,3,29,3); 
 /* -------------- Header Halaman selesai ------------------------------------------------*/
 
 $this->fpdf->Ln(1);
 $this->fpdf->SetFont('helvetica','B',12);
-$this->fpdf->Cell(18,1,'LAPORAN DATA DRIVER');
+$this->fpdf->Cell(30,1,'LAPORAN PEMINJAMAN KENDARAAN DINAS');
  
 /* setting header tr table */
 $this->fpdf->Ln(1);
 $this->fpdf->SetFont('helvetica','B',10);
-$this->fpdf->Cell(6  , 0.8, 'ID Driver'   , 1, 'LR', 'L');
-$this->fpdf->Cell(7 , 0.8, 'Nama Driver' , 1, 'LR', 'L');
-$this->fpdf->Cell(6 , 0.8, 'Status' , 1, 'LR', 'L');
+$this->fpdf->Cell(5  , 0.8, 'Nomor Transaksi'   , 1, 'LR', 'L');
+$this->fpdf->Cell(6 , 0.8, 'Sopir' , 1, 'LR', 'L');
+$this->fpdf->Cell(6 , 0.8, 'Kendaraan' , 1, 'LR', 'L');
+$this->fpdf->Cell(5 , 0.8, 'Keterangan' , 1, 'LR', 'L');
+$this->fpdf->Cell(6 , 0.8, 'Waktu Operasional' , 1, 'LR', 'L');
  
 /* generate hasil td query disini */
-foreach($driver->result() as $data)
+foreach($request->result() as $data)
 {
     $this->fpdf->Ln();
     $this->fpdf->SetFont('helvetica','',9);
-    $this->fpdf->Cell(6 , 0.6, $data->NID  , 1, 'LR', 'L');
-    $this->fpdf->Cell(7 , 0.6, $data->NAMA , 1, 'LR', 'L');
-	$this->fpdf->Cell(6 , 0.6, reqStat($data->STATUS)  , 1, 'LR', 'L');
+    $this->fpdf->Cell(5 , 0.6, $data->ID_PEMINJAMAN  , 1, 'LR', 'L');
+	$this->fpdf->Cell(6 , 0.6, $data->NAMA , 1, 'LR', 'L');
+	$this->fpdf->Cell(6 , 0.6, $data->NAMA_KENDARAAN , 1, 'LR', 'L');
+	$this->fpdf->Cell(5 , 0.6, $data->KETERANGAN , 1, 'LR', 'L');
+	$this->fpdf->Cell(6 , 0.6, $data->TGL_PEMINJAMAN  , 1, 'LR', 'L');
 }
 /* setting posisi footer 3 cm dari bawah */
 $this->fpdf->Ln(2);
@@ -54,7 +58,7 @@ $this->fpdf->SetFont('helvetica','',8);
 /* setting cell untuk waktu pencetakan */ //;
 $this->fpdf->Cell(9.5, 0.5, 'Print : '.date('d/m/Y H:i').' | Petugas : '.$nama,0,'LR','L');
 /* setting cell untuk page number */
-$this->fpdf->Cell(9.5, 0.5, 'Page '.$this->fpdf->PageNo().'/{nb}',0,0,'R');
+$this->fpdf->Cell(18, 0.5, 'Page '.$this->fpdf->PageNo().'/{nb}',0,0,'R');
 /* generate pdf jika semua konstruktor, data yang akan ditampilkan, dll sudah selesai */
 $this->fpdf->Output("data_karyawan.pdf","I");
 ?>

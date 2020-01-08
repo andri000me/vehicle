@@ -222,6 +222,13 @@ if ( ! function_exists('generatehtml'))
 		 }
 	}
 	
+	function detailX($id,$type){
+		$CI =& get_instance();
+		$CI->load->model('appr_admin_model');
+		$CI->appr_admin_model->delete_detail($id,$type);
+		$CI->appr_admin_model->update_request($id);
+	}
+	
     function selisihTGl($tgl1,$tgl2)
     {
         $pecah1 = explode("-", $tgl1);

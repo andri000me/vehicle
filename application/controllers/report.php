@@ -11,56 +11,8 @@ class Report extends CI_Controller {
 		  $this->auth->restrict();
 		  $this->auth->check_menu(4);
 		  $this->load->library('form_validation');
+		  define('FPDF_FONTPATH',$this->config->item('fonts_path'));
 	   }
-	   
-	   
-	public function index()
-	{
-	   //slider-------------
-	//    $this->load->model('slidermodel');
-	//    $data['dataslider'] = $this->slidermodel->get_all_slider();
-		 
-	   $this->load->model('usermodel');
-	   // $level = $this->session->userdata('level');
-	   // $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		 
-	   $this->auth->restrict();
-	   $this->auth->check_menu(1);
-		 
-	   $this->template->set('title','Report');
-	//    $this->template->load('template', 'admin/report/report_index', $data);
-		$this->template->load('template_refresh', 'admin/report/report_index', $data);
-	 }
-	 //End of function index  
-	 
-	 public function print_form_report_operasional()
-		{
-			//slider-------------
-		   $this->load->model('slidermodel');
-		   $data['dataslider'] = $this->slidermodel->get_all_slider();
-		   
-		   $this->load->model('usermodel');
-		   $this->load->model('reportmodel');
-		   
-		   $level = $this->session->userdata('level');
-		   //$id = $this->session->userdata('nid');
-		   
-		   $data['menu'] = $this->usermodel->get_menu_for_level($level);
-		   
-		   $this->auth->restrict();
-		   $this->auth->check_menu(5); 
-		   
-		   $tgl1 = $this->uri->segment(3);
-		   $tgl2 = $this->uri->segment(4);
-		   
-		   $data['user'] = $this->reportmodel->lihat_data_operasional($tgl1, $tgl2);
-		   $data['tgl'] = $tgl1.'|'.$tgl2;
-		   
-		   $level = $this->session->userdata('level');
-		  
-		   $this->load->view('admin/report/print_report_operasional',$data);
-		}
-		//End of function print_form
 	 
 	  public function reimburse()
 	  {
@@ -76,6 +28,13 @@ class Report extends CI_Controller {
 		  foreach($reimburse->result() as $k){
 			  array_push($data_op,$k->ID_REIMBURSE."^".$k->KETERANGAN."^".$k->TGL_PEMBERIAN."^".$k->NOMINAL);
 		  }
+		  
+		  if(isset($_POST['submit2'])){
+			  $this->load->library('fpdf');
+			  $data['request'] = $reimburse;
+			  $this->load->view('admin/report/report_reimburse', $data);
+		  }
+		  
 		  $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		  $data['op'] = $data_op;
 		  $this->template->set('title','Report Transaksi Reimburse');
@@ -97,8 +56,16 @@ class Report extends CI_Controller {
 		  foreach($requestx->result() as $k){
 			  array_push($data_op,$k->NAMA."^".$k->TGL_BERANGKAT."^".$k->KEPERLUAN."^".$k->TUJUAN."^".$k->STATUS);
 		  }
+		  
+		  if(isset($_POST['submit2'])){
+			  $this->load->library('fpdf');
+			  $data['request'] = $requestx;
+			  $this->load->view('admin/report/report_request', $data);
+		  }
+		  
 		  $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		  $data['op'] = $data_op;
+		  
 		  $this->template->set('title','Report Permintaan Peminjaman Kendaraan');
 		  $this->template->load('template_refresh','admin/report/request', $data);
 		  
@@ -139,46 +106,17 @@ class Report extends CI_Controller {
 		  foreach($kendaraan->result() as $k){
 			  array_push($data_op,$k->ID_PEMINJAMAN."^".$k->NAMA."^".$k->NAMA_KENDARAAN."^".$k->KETERANGAN."^".$k->TGL_PEMINJAMAN);
 		  }
+		  
+		  if(isset($_POST['submit2'])){
+			  $this->load->library('fpdf');
+			  $data['request'] = $kendaraan;
+			  $this->load->view('admin/report/report_kendaraan', $data);
+		  }
+		  
 		  $data['tgl'] = $tgl_awal.'|'.$tgl_akhir;
 		  $data['op'] = $data_op;
 		  $this->template->set('title','Report Transaksi Kendaraan');
 		  $this->template->load('template_refresh','admin/report/kendaraan', $data);
 	   }
 	   //End of function kendaraan
-	 //------------------------------------------------------------------------------------------------------------------------------------
-	 
-    public function request_print()
-    {
-        // Load library FPDF
-        $this->load->library('fpdf');
-         
-        // Load Database
-        $this->load->database();
-         
-        /* buat konstanta dengan nama FPDF_FONTPATH, kemudian kita isi value-nya
-           dengan alamat penyimpanan FONTS yang sudah kita definisikan sebelumnya.
-           perhatikan baris $config['fonts_path']= 'system/fonts/';
-           didalam file application/config/config.php
-        */           
-        define('FPDF_FONTPATH',$this->config->item('fonts_path'));
-         
-        // Load model "karyawan_model"
-        $this->load->model('reportmodel');
-         
-        /* Kita akses function get_all didalam karyawan_model
-           function get_all merupakan fungsi yang dibuat untuk mengambil
-           seluruh data karyawan didalam database.
-        */
-        // $data['driver'] = $this->reportmodel->get_driver();
-		$awal	= $this->input->post('date');
-		$akhir	= $this->input->post('date1');
-		$data['request'] = $this->reportmodel->hitung_request($awal,$akhir);
-         
-        // Load view "pdf_report" untuk menampilkan hasilnya       
-        // $this->load->view('admin/report_all_driver', $data);
-		$this->load->view('admin/report_request', $data);
-		
-    }
-	//End of function all_driver
-
 }

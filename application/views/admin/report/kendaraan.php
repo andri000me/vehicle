@@ -20,7 +20,7 @@
 				</div>
 				<div class="card-footer justify-content-center">
 						<button type="submit" class="btn btn-info btn-round">OK</button>&nbsp;&nbsp;
-						<button type="reset" class="btn btn-round">Reset</button>
+						<button type="submit" name="submit2" class="btn btn-round" formtarget="_blank">Print</button>
 				</div>
                 <?php echo form_close();?> 
               </div>

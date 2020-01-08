@@ -2,6 +2,35 @@
 <script type="text/javascript">
 $(function(){
 	$('[data-toggle="tooltip"]').tooltip();
+	$('#editx').click(function(){
+		var edit=$(this).data('edit').split("^");
+		const zswal = Swal.mixin({
+			customClass: {
+				confirmButtonColor: 'btn btn-success',
+				cancelButtonColor: 'btn btn-danger',
+			}
+		});
+		zswal.fire({
+			title: 'Are you sure?',
+			text: 'Peminjaman Kendaraan Selesai!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'Selesai'
+		}).then((result)=>{
+			if(result.value){
+				zswal.fire(
+					'OK',
+					'Transaksi Selesai.',
+					'success'
+				).then(function(){
+					var url = window.location.origin;
+					var path = window.location.pathname;
+					var redirect = url+''+path+'/kembali/'+edit[0]+'/'+edit[1];
+					window.location = redirect;
+				});
+			}
+		});
+	});
 });
 </script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
@@ -45,9 +74,9 @@ $(function(){
 										<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_PEMINJAMAN;?>" class="btn btn-warning btn-fab btn-round btn-sm" data-toggle="tooltip" data-placement="top" title="Edit Task">
 											<i class="material-icons">edit</i>
 										</a>
-										<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/kembali/'.$row->ID_PEMINJAMAN;?>" class="btn btn-success btn-fab btn-round btn-sm" data-toggle="tooltip" data-placement="top" title="End Task">
+										<button id="editx" class="btn btn-success btn-fab btn-round btn-sm" rel="tooltip" data-placement="top" title="End Task" data-edit="<?php echo $row->ID_PEMINJAMAN;?>^<?php echo $row->NO_POLISI;?>">
 											<i class="material-icons">flight_land</i>
-										</a>
+										</button>
 									<?php }else{ ?>
 										  <div class="form-check text-center">
 											<label class="form-check-label">

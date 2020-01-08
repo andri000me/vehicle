@@ -17,6 +17,7 @@
 								<th>PEMOHON</th>
 								<th>WAKTU BERANGKAT</th>
 								<th>KEPERLUAN</th>
+								<th>LAMPIRAN</th>
 								<!--<th>#</th>-->
 							</tr>
 						</thead>
@@ -30,6 +31,7 @@
 								<td><?php echo $row->NAMA; ?></td>
 								<td><?php echo $row->TGL_BERANGKAT; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
+								<td><?php echo anchor('./upload/reimburse/'.$row->LAMPIRAN,$row->LAMPIRAN,array('target'=>'blank'));?></td>
 								<!--<td>
 									<a href="<?php echo base_url().''.$this->uri->segment(0).'approval/edit_trans/'.$row->ID_REIMBURSE;?>" class="btn btn-danger btn-fab btn-round btn-sm">
 										<i class="material-icons">edit</i>

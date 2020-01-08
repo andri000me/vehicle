@@ -27,7 +27,7 @@ $(function(){
 				</div>
 				<div class="card-footer justify-content-center">
 						<button type="submit" class="btn btn-info btn-round">OK</button>&nbsp;&nbsp;
-						<?php echo anchor('report/request_print','Print',array('class'=>'btn btn-round','target'=>'blank'));?>
+						<button type="submit" name="submit2" class="btn btn-round" formtarget="_blank">Print</button>
 				</div>
                 <?php echo form_close();?> 
               </div>

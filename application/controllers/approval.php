@@ -11,28 +11,25 @@
 	   public function __construct()
 	   {
 	      parent::__construct();
+		  $this->load->model('usermodel');
+		  $this->load->model('appr_admin_model');
+	      $this->auth->restrict();
+		  $this->auth->check_menu(2);
 	   }
 		public function index()
 		{
-		   $this->load->model('usermodel');
-		   $this->load->model('appr_admin_model');
-		   $data['ops'] = $this->appr_admin_model->show_all_operasional();
-		   $data['check_op'] = $this->appr_admin_model->show_all_operasional();
-		   $data['reimburse'] = $this->appr_admin_model->show_all_reimburse();
-		   $data['pending'] = $this->appr_admin_model->show_request();
+		   $data['ops']			= $this->appr_admin_model->show_all_operasional();
+		   $data['reimburse']	= $this->appr_admin_model->show_all_reimburse();
+		   $data['pending']		= $this->appr_admin_model->show_request();
+		   // $data['opsdetail']	= $this->appr_admin_model->get_detail($id,'K');
+		   // $data['remdetail']	= $this->appr_admin_model->get_detail($id,'R');
 		   
-		   $this->auth->restrict();
-		   $this->auth->check_menu(2); 
 		   $this->template->set('title','List Transaksi');
 		   $this->template->load('template_refresh','admin/approval/transaksi',$data);
 		}
 		//-----------Transaksi--------------------
 		function add_trans()
 		{
-		  $this->load->model('appr_admin_model');
-	      $this->auth->restrict();
-		  $this->auth->check_menu(2);
-		  
 		  $data = array(
 			'mobil_aktif'	=> $this->appr_admin_model->get_mobil_aktif(),
 			'request'		=> $this->appr_admin_model->show_request(),
@@ -46,12 +43,6 @@
 		
 		function edit_trans()
 		{
-		 $this->load->model('usermodel');
-		 $this->load->model('appr_admin_model');
-		   
-		 $this->auth->restrict();
-		 $this->auth->check_menu(2);
-		 
 		 $id = $this->uri->segment(3);
 		 $ids = substr($id,0,1);
 		 switch($ids){
@@ -79,11 +70,6 @@
 		//-----------Transaksi Peminjaman Kendaraan----
 		function insert_op()
 		{
-		  $this->load->model('usermodel');
-		  $this->load->model('appr_admin_model');
-		  
-	      $this->auth->restrict();
-		  $this->auth->check_menu(2);
 		  $id	= $this->input->post('no_trans');
 		  $id_req = $this->input->post('request');
 		  
@@ -104,7 +90,7 @@
 		  $this->detail($id,$id_req,'PEMINJAMAN');
 		  $this->update_request('baru',$id_req);
 		  $this->appr_admin_model->update_mobil($data_m,$id_m);
-		  $this->telegramx($id);
+		  $this->telegram($id);
 		  redirect('approval');
 		  
 		}
@@ -112,11 +98,6 @@
 		
 		function edit_op()
 		{
-		  $this->load->model('usermodel');
-		  $this->load->model('appr_admin_model');
-		  
-	      $this->auth->restrict();
-		  $this->auth->check_menu(2);
 		  $id	= $this->input->post('no_trans');
 		  $id_ml= $this->input->post('kendaraan_lama');
 		  $id_mb= $this->input->post('kendaraan_baru');
@@ -124,7 +105,7 @@
 		  $id_rb = $this->input->post('request_baru');
 		  
 		  $data = array(
-			'NO_POLISI'		=> $this->input->post('kendaraan'),
+			'NO_POLISI'		=> $id_mb,
 			'KETERANGAN'	=> $this->input->post('keterangan'),
 			'TGL_PEMINJAMAN'=> date('Y-m-d H:i:s')
 			);
@@ -138,38 +119,20 @@
 		  //Update header
 		  $this->appr_admin_model->update_operasional($data,$id);
 		  //Update mobil
-		  $this->appr_admin_model->update_mobil($data_baru,$id_mb);
 		  $this->appr_admin_model->update_mobil($data_lama,$id_ml);
+		  $this->appr_admin_model->update_mobil($data_baru,$id_mb);
 		  //Update request
+		  if($id_rl<>0){
+			$this->update_request('lama',$id_rl);  
+		  }
 		  $this->update_request('baru',$id_rb);
-		  $this->update_request('lama',$id_rl);
 		  //Update detail
-		  $this->detail($id,$id_rb,'PEMINJAMAN');
 		  $this->delete_detail($id_rl,'PEMINJAMAN');
-		  $this->telegramx($id);
+		  $this->detail($id,$id_rb,'PEMINJAMAN');
+		  // $this->telegram($id);
 		  redirect('approval');
 		  
 		}
-		//End of function edit_op
-		
-		//-----------End Transaksi Peminjaman Kendaraan----
-		
-		//-----------Detail Transaksi----------------
-		// function insert_detail($id,$jenis){
-			// // $no_trans = $this->input->post($id);
-			// $id_req = $this->input->post('request');
-			// $data = array();
-			// $index = 0;
-			// foreach($id_req as $req){
-				// array_push($data,array(
-					// 'ID_TRANS'	=>$id,
-					// 'ID_REQUEST'=>$req,
-					// 'TIPE'		=>$jenis
-				// ));
-				// $index++;
-			// }
-			// $this->appr_admin_model->insert_detail($data);
-		// }
 		
 		function detail($id,$request,$jenis){
 			$data = array();
@@ -190,6 +153,13 @@
 				$this->appr_admin_model->delete_detail($req,$jenis);
 			}
 		}
+		
+		function del(){
+			$req	= $_GET['id'];
+			$jenis	= $_GET['type'];
+			$this->appr_admin_model->delete_detail($req,$jenis);
+			$this->appr_admin_model->update_request($req);
+		}
 		//--------------End Detail Transaksi----------------
 		
 		function update_request($stat,$id){
@@ -207,147 +177,24 @@
 			$this->appr_admin_model->update_request($data);
 		}
 		
-	   function berangkat()
-	   {
-		 $this->load->model('usermodel');
-		 $this->load->model('appr_admin_model');
-		   
-		 $level = $this->session->userdata('level');
-	       
-		 $this->auth->restrict();
-		 $this->auth->check_menu(2);
-		 
-		 $ids = $this->uri->segment(3);
-		 $extension = explode("-", $ids);
-		 $id = $extension[0];
-		 $id_s = $extension[1];
-		 $id_m = $extension[2];
-		
-		//Cek apakah kendaraan dan sopir telah kembali apa belum
-		$cek_kendaraan = $this->appr_admin_model->check_kendaraan_berangkat($id_m);
-		$cek_sopir = $this->appr_admin_model->check_sopir_berangkat($id_s);
-
-        //Jika kendaraan dan sopir sama2 telah kembali
-        if(!$cek_kendaraan && !$cek_sopir)
-        {
-			  //Mendapatkan waktu saat ini
-			  date_default_timezone_set('Asia/Bangkok');
-			  $tgl_berangkat = date('d-m-Y');
-			  $jam_keluar = date('H:i:s');
-			  
-			  $tgl_berangkat = date('d-M-Y',strtotime($tgl_berangkat));
-			
-			  //Mengupdate status operasional dari 'Stand by' ke 'Berangkat'
-			  $data2 = array(
-				  'ID_STATUS_OPERASIONAL' => '4',
-				  'TGL_BERANGKAT' => $tgl_berangkat,
-				  'JAM_KELUAR' => $jam_keluar
-			  );
-			  
-			  //Mengupdate status Sopir dari 'Stand by' ke 'Sedang Bertugas'
-			  $data3 = array(
-				   'ID_STATUS_SOPIR' => '2'
-			  );
-			  
-			  //Mengupdate status Kendaraan dari 'Stand by' ke 'Sedang Digunakan'
-			  $data4 = array(
-				  'ID_STATUS_KENDARAAN' => '2'
-			  );		
-
-				if($id_s == 0)
-				 {
-					 $data3 = array(
-					   'ID_STATUS_SOPIR' => '1'
-					  );
-				 }		  
-					   
-			   $this->appr_admin_model->update_operasional($data2,$id);
-			   $this->appr_admin_model->update_sopir_2($data3,$id_s);
-			   $this->appr_admin_model->update_mobil_2($data4,$id_m);
-     
-        }
-		else
-		  echo '<script type="text/javascript">alert("Sopir/Kendaraan masih belum kembali pada Operasional lainnya!");</script>'; 
-		  
-		  //End of if cek_kendaraan && cek_sopir
-		  
-		  redirect('approval/lihat_operasional');	   		
-		}
-		// End of function berangkat
-		
 	   function kembali()
 	   {
-		 $this->load->model('usermodel');
-		 $this->load->model('appr_admin_model');
-		   
-		 $level = $this->session->userdata('level');
-	       
-		 $this->auth->restrict();
-		 $this->auth->check_menu(2);
-		 
-		 $ids = $this->uri->segment(3);
-		 $extension = explode("-", $ids);
-		 $id = $extension[0];
-		 $id_s = $extension[1];
-		 $id_m = $extension[2];
-		
-		  //Mendapatkan waktu saat ini
-		  date_default_timezone_set('Asia/Bangkok');
-          $tgl_kembali = date('d-m-Y');
-          $jam_kembali = date('H:i:s');
-		  
-		  $tgl_kembali = date('d-M-Y',strtotime($tgl_kembali));
-		
-		  //Mengupdate status operasional dari 'Berangkat' ke 'Kembali'
-		  $data2 = array(
-			  'ID_STATUS_OPERASIONAL' => '1',
-			  'TGL_KEMBALI' => $tgl_kembali,
-              'JAM_KEMBALI' => $jam_kembali
-		  );
-		  
-		   $cek_sopir = $this->appr_admin_model->check_sopir_booked($id_s, $id);
-					 
-		    if($cek_sopir) //Jika sopir masih dipesan pada operasional lain yg msh blum berangkat
-			{
-			   $data3 = array(
-				  'ID_STATUS_SOPIR' => '5' //Mengupdate status Sopir dari 'Sedang Bertugas' ke 'Dipesan'
-				);
-			}
-			else
-			{
-			   $data3 = array(
-				  'ID_STATUS_SOPIR' => '1'  //Mengupdate status Sopir dari 'Sedang Bertugas' ke 'Tersedia'
-			   );
-			}		
-					 
-		    $cek_kendaraan = $this->appr_admin_model->check_kendaraan_booked($id_m,$id);
-					 
-			if($cek_kendaraan) //Jika kendaraan masih dipesan pada operasional lain yg msh blum berangkat
-		    {
-			    $data4 = array(
-					'ID_STATUS_KENDARAAN' => '5'  //Mengupdate status Kendaraan dari 'Sedang digunakan' ke 'Dipesan'
-				 );
-		     }
-			else
-			{
-			    $data4 = array(
-				   'ID_STATUS_KENDARAAN' => '1'  //Mengupdate status Kendaraan dari 'Sedang digunakan' ke 'Tersedia'
-				 );
-			 } 
-			 
-			 if($id_s == 0)
-			 {
-			     $data3 = array(
-			       'ID_STATUS_SOPIR' => '1'
-			      );
-			 }
-				   
-		   $this->appr_admin_model->update_operasional($data2,$id);
-		   $this->appr_admin_model->update_sopir_2($data3,$id_s);
-		   $this->appr_admin_model->update_mobil_2($data4,$id_m);
-				 
-		   redirect('approval/lihat_operasional');
-			   		
+		   $id = $this->uri->segment(3);
+		   date_default_timezone_set('Asia/Jakarta');
+		   $tgl_kembali = date('Y-m-d H:i:s');
+		   $data = array(
+			  'STATUS' => '3',
+			  'S_KEMBALI' => $tgl_kembali
+			);
+			
+			$id_m	= $this->uri->segment(4);
+			$data_m = array(
+				'STATUS' => '1' //Update Mobil Digunakan
+			);
+			
+			$this->appr_admin_model->update_operasional($data,$id);
+			$this->appr_admin_model->update_mobil($data_m,$id_m);
+		   redirect('approval');
 		}
 		// End of function kembali
 		
@@ -400,11 +247,11 @@
 			//Update header
 			$this->appr_admin_model->update_reimburse($data,$id);
 			//Update detail
-			$this->detail($id,$id_rb,'REIMBURSE');
 			$this->delete_detail($id_rl,'REIMBURSE');
+			$this->detail($id,$id_rb,'REIMBURSE');
 			//Update request
-			$this->update_request('baru',$id_rb);
 			$this->update_request('lama',$id_rl);
+			$this->update_request('baru',$id_rb);
 			redirect('approval');
 		}
 		
@@ -439,7 +286,7 @@
 		//-------------- End Transaksi Reimburse -----------------------
 		
 		//--------------- Telegram --------------------
-		public function telegramx($id){
+		public function telegram($id){
 			$this->load->model('telegram');
 			$this->load->model('appr_admin_model');
 			
@@ -464,8 +311,8 @@
 			$text .= "</pre>";
 			$text .= "Mohon bantuan untuk mengantarkan karyawan sampai tujuan \n";
 			$text .= "Terima kasih";
-			// $send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
-			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->inline_keyboard()->row()->button('BERANGKAT','start')->end_row()->show()->send();
+			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			// $send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->inline_keyboard()->row()->button('BERANGKAT','start')->end_row()->show()->send();
 			$data['d'] = $send;
 			$this->load->view('api_telegram',$data);
 		}
