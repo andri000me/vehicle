@@ -9,9 +9,9 @@ $(function(){
 		var ref;
 		if(j==1){
 			ref = document.getElementById('zdrop');
-			var t = document.getElementById('penumpang').value;
-			var check = t+a[3];
-			if(check>7){
+			var t = parseInt(document.getElementById('penumpang').value);
+			var check = t+parseInt(a[3]);
+			if(check>8){
 				Swal.fire({
 				  icon: 'error',
 				  title: 'Oops...',
@@ -81,7 +81,8 @@ function sum(){
 		p += isNaN(cell) ? 0 : cell;
 	}
 	console.log("p :"+p+"cell :"+cell);
-	document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
+	// document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
+	document.getElementById('penumpang').value = p;
 }
 function delRow(a,table){
 	var i = a.parentNode.parentNode.rowIndex;

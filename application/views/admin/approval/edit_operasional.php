@@ -3,16 +3,17 @@
 $(function(){
 	// $('.zadd').click(function(){
 	$(document).on('click','.zadd',function(){ //Dynamic Span Event Click
-		var add=$(this).closest('td').children('span').attr('id');
-		var a=add.split("^");
+		// var add=$(this).closest('td').children('span').attr('id');
+		// var a=add.split("^");
+		var a=this.id.split("^");
 		// Tambahan Penyesuaian dari Select Option
 		var j = document.getElementById("jenis").value;
 		var ref;
 		if(j==1){
 			ref = document.getElementById('zdrop');
-			var t = document.getElementById('penumpang').value;
-			var check = t+a[3];
-			if(check>=5){
+			var t = parseInt(document.getElementById('penumpang').value);
+			var check = t+parseInt(a[3]);
+			if(check>8){
 				Swal.fire({
 				  icon: 'error',
 				  title: 'Oops...',
@@ -36,16 +37,14 @@ $(function(){
 		}
 		// End Tambahan
 	});
-	$(document).on('click','.zdel',function(){ //Dynamic Span Event Click
-		var add=$(this).closest('td').children('span').attr('id');
-		var a=add.split("^");
+	$(document).on('click','.zdel',function(){
+		var a=this.id.split("^");
 		var ref = document.getElementById('ztable');
 		detail(ref,a);
 		$(this).fadeOut(500,function(){
 			delRow(this,'zdrop');
 		});
-		var x =  $('#zdrop tr').length;
-		console.log(x);
+		sum();
 	});
 });
 function detail(ref,a,z){
@@ -67,7 +66,6 @@ function detail(ref,a,z){
 	row.insertCell(1).innerHTML = a[1];
 	row.insertCell(2).innerHTML = a[2];
 	row.insertCell(3).innerHTML = a[3];
-	// console.log(spin+html+input);
 }
 function sum(){
 	var ref = document.getElementById('zdrop');
@@ -76,7 +74,8 @@ function sum(){
 		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
 		p += isNaN(cell) ? 0 : cell;
 	}
-	document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
+	// document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
+	document.getElementById('penumpang').value = p;
 	console.log(ref.rows.length);
 }
 function delRow(a,table){
