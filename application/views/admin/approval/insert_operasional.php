@@ -162,23 +162,36 @@ function hideComp(){
 					<div class="col-md-8">
                       <div class="tab-content">
                         <div class="tab-pane active" id="link_k">
-							<div class="form-group">
-							  <input type="text" class="form-control" name="no_trans" id="no_trans" readonly>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Nomor</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="no_trans" id="no_trans" readonly>
+								</div>
+							  </div>
 							</div>
-							<div class="form-group">
-							  <label class="bmd-label-floating">Kendaraan</label>
-							  <select name="kendaraan" class="select2" style="width:80%" required>
-								<option></option>
-								<?php 
-								foreach($mobil_aktif->result() as $m){
-									echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
-								}
-								?>
-							  </select>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Kendaraan</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								  <select name="kendaraan" class="select2" style="width:100%" required>
+									<option></option>
+									<?php 
+									foreach($mobil_aktif->result() as $m){
+										echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
+									}
+									?>
+								  </select>
+								</div>
+							  </div>
 							</div>
-							<div class="form-group">
-							  <label for="keterangan">Keterangan</label>
-							  <input type="text" class="form-control" name="keterangan" id="keterangan">
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Keterangan</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="keterangan" id="keterangan">
+								</div>
+							  </div>
 							</div>
 						</div>
 						<div class="tab-pane" id="link_d1">
@@ -194,8 +207,13 @@ function hideComp(){
 							 </thead>
 							</table>
 						 </div>
-						 <div class="form-group">
-						  <input type="text" class="form-control" name="penumpang" id="penumpang" placeholder="Jumlah Penumpang" readonly>
+						 <div class="row">
+							<label class="col-sm-3 col-form-label">Penumpang</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="penumpang" id="penumpang" placeholder="Jumlah Penumpang" readonly>
+								</div>
+							  </div>
 						 </div>
 						 <div class="form-group">
 						  <button class="btn btn-primary" type="submit">
@@ -234,26 +252,46 @@ function hideComp(){
 					<div class="col-md-8">
                       <div class="tab-content">
                         <div class="tab-pane active" id="link_r">
-							<div class="form-group">
-							  <input type="text" class="form-control" name="no_reimburse" id="no_r" readonly>
-							</div>
-							<div class="form-group">
-							  <label for="keterangan">Keterangan</label>
-							  <input type="text" class="form-control" name="keterangan" required="true">
-							</div>
-							<div class="form-group">
-							  <label for="nominal">Nominal</label>
-							  <input type="text" class="form-control" name="nominal" number="true" required="true">
-							</div>
-							<div class="form-group">
-							  <label class="bmd-label-floating">Tanggal Pemberian</label>
-							  <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo date('Y-m-d');?>">
-							</div>
-							<div class="form-group">
-								<label for="lampiran">Lampiran</label>
-								<div class="custom-file">
-								  <input type="file" class="file-input" id="lampiran" name="lampiran">
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Nomor</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="no_reimburse" id="no_r" readonly>
 								</div>
+							  </div>
+							</div>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Keterangan</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="keterangan" required="true">
+								</div>
+							  </div>
+							</div>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Nominal</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control" name="nominal" number="true" required="true">
+								</div>
+							  </div>
+							</div>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Tgl Pemberian</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								 <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo date('Y-m-d');?>">
+								</div>
+							  </div>
+							</div>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Lampiran</label>
+							  <div class="col-sm-9">
+								<div class="custom-file">
+								<!--<div class="form-group">-->
+								 <input type="file" class="file-input" id="lampiran" name="lampiran">
+								</div>
+							  </div>
 							</div>
 						</div>
 						<div class="tab-pane" id="link_d2">

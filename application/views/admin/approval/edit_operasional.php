@@ -43,8 +43,8 @@ $(function(){
 		detail(ref,a);
 		$(this).fadeOut(500,function(){
 			delRow(this,'zdrop');
+			sum();
 		});
-		sum();
 	});
 });
 function detail(ref,a,z){
@@ -68,15 +68,15 @@ function detail(ref,a,z){
 	row.insertCell(3).innerHTML = a[3];
 }
 function sum(){
-	var ref = document.getElementById('zdrop');
+	var ref = document.getElementById('zdrop').rows;
 	var p = 0;
-	for(var r = 0; r<ref.rows.length; r++){
-		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
-		p += isNaN(cell) ? 0 : cell;
+	for(var r = 0; r<ref.length; r++){
+		if(ref[r].id!='hidden'){
+			var cell = parseInt(ref[r].cells[3].innerHTML);
+			p += isNaN(cell) ? 0 : cell;
+		}
 	}
-	// document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
 	document.getElementById('penumpang').value = p;
-	console.log(ref.rows.length);
 }
 function delRow(a,table){
 	var i = a.parentNode.parentNode.rowIndex;
@@ -134,24 +134,37 @@ function delRow(a,table){
 					<div class="col-md-8">
                       <div class="tab-content">
                         <div class="tab-pane active" id="link_k">
-							<div class="form-group">
-							  <input type="text" class="form-control" name="no_trans" value="<?php echo $t->ID_PEMINJAMAN;?>"readonly>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Nomor</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								  <input type="text" class="form-control" name="no_trans" value="<?php echo $t->ID_PEMINJAMAN;?>" readonly>
+								</div>
+							  </div>
 							</div>
-							<div class="form-group">
-							  <label class="bmd-label-floating">Kendaraan</label>
-							  <input type="hidden" name="kendaraan_lama" value="<?php echo $t->NO_POLISI;?>">
-							  <select name="kendaraan_baru" class="select2" style="width:80%" required>
-								<option value="<?php echo $t->NO_POLISI;?>" selected><?php echo $t->NO_POLISI." - ".$t->NAMA_KENDARAAN;?></option>
-								<?php 
-								foreach($mobil_aktif->result() as $m){
-									echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
-								}
-								?>
-							  </select>
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Kendaraan</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								  <input type="hidden" name="kendaraan_lama" value="<?php echo $t->NO_POLISI;?>">
+								  <select name="kendaraan_baru" class="select2" style="width:100%" required>
+									<option value="<?php echo $t->NO_POLISI;?>" selected><?php echo $t->NO_POLISI." - ".$t->NAMA_KENDARAAN;?></option>
+									<?php 
+									foreach($mobil_aktif->result() as $m){
+										echo"<option value='".$m->NO_POLISI."'>".$m->NO_POLISI." - ".$m->NAMA_KENDARAAN."</option>";
+									}
+									?>
+								  </select>
+								</div>
+							  </div>
 							</div>
-							<div class="form-group">
-							  <label for="keterangan">Keterangan</label>
-							  <input type="text" class="form-control" name="keterangan" value="<?php echo $t->KETERANGAN;?>">
+							<div class="row">
+							  <label class="col-sm-3 col-form-label">Keterangan</label>
+							  <div class="col-sm-9">
+								<div class="form-group">
+								  <input type="text" class="form-control" name="keterangan" value="<?php echo $t->KETERANGAN;?>">
+								</div>
+							  </div>
 							</div>
 						</div>
 						<div class="tab-pane" id="link_d1">
@@ -168,7 +181,7 @@ function delRow(a,table){
 							 <tbody>
 							  <!--- Detail Lama-->
 							  <?php foreach($detail->result() as $l){ ?>
-							  <tr style="display:none">
+							  <tr style="display:none" id="hidden">
 								<td>
 									<input type="hidden" name="request_lama[]" value="<?php echo $l->ID_REQUEST;?>"></a>
 								</td>
@@ -199,8 +212,13 @@ function delRow(a,table){
 							 </tbody>
 							</table>
 						 </div>
-						 <div class="form-group">
-						  <input type="text" class="form-control" id="penumpang" readonly>
+						 <div class="row">
+						  <label class="col-sm-3 col-form-label">Penumpang</label>
+						  <div class="col-sm-9">
+							<div class="form-group">
+							  <input type="text" class="form-control" id="penumpang" disabled>
+							</div>
+						  </div>
 						 </div>
 						 <div class="form-group">
 						  <button class="btn btn-warning" type="submit">
