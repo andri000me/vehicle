@@ -129,7 +129,7 @@
 		  //Update detail
 		  $this->delete_detail($id_rl,'PEMINJAMAN');
 		  $this->detail($id,$id_rb,'PEMINJAMAN');
-		  // $this->telegram($id);
+		  $this->telegram($id);
 		  redirect('approval');
 		  
 		}

@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 	<div class="content">
         <div class="container-fluid">
@@ -41,10 +40,10 @@
               <div class="card card-stats">
                 <div class="card-header card-header-danger card-header-icon">
                   <div class="card-icon">
-                    <i class="material-icons">menu_book</i>
+                    <i class="material-icons">archive</i>
                   </div>
                   <p class="card-category">Reimburse</p>
-                  <h3 class="card-title"><?php echo $reimburse;?></h3>
+                  <h3 class="card-title">Rp<?php echo $reimburse;?></h3>
                 </div>
                 <div class="card-footer">
                   <div class="stats">
@@ -188,7 +187,7 @@
             </div>
 		  </div>
         </div>
-    </div>
+    
 <script src="<?php echo base_url();?>asset/js/plugins/chartist.min.js"></script>
 <script type="text/javascript">
 var data = {

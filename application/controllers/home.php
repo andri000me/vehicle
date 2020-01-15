@@ -91,7 +91,7 @@
 			 {
 			    $this->template->set('title', 'Welcome!!');
 			    //$data['login_info'] = 'Maaf, username dan password salah ';
-				echo "<nav class='navbar navbar-transparent navbar-color-on-scroll fixed-top' id='sectionsNav'>";
+				echo "<nav class='navbar navbar-transparent navbar-color-on-scroll fixed-top'>";
 				echo "<div class='alert alert-danger'>";
 				echo "<div class='container'>";
 				echo "<b>Error Alert, Username dan Password Salah!</b>";
@@ -119,41 +119,6 @@
 		  redirect('home'); //Larikan ke halaman utama
 	   }
 	   //End of function logout
-	   
-	   public function assigning()
-	   {
-	     $this->load->model('usermodel');
-		 //$level = $this->session->userdata('level');
-		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
-
-		 $this->auth->restrict();
-		 $this->auth->check_menu(1);
-		 
-		 $this->load->model('sopirmodel');
-		 $this->load->model('kendaraanmodel');
-		 //$this->load->model('linkedlist');
-		 
-		 $data['list_sopir'] = $this->sopirmodel->get_available_sopir();
-		 $data['list_kendaraan'] = $this->kendaraanmodel->get_available_kendaraan();
-		 
-		 $this->template->set('title','Assigning | Aplikasi Monitoring Kendaraan Dinas');
-		 $this->template->load('template', 'admin/assigning', $data);
-	   }
-	   //End of function assigning
-	   
-	   /*public function master()
-	   {
-		 $this->load->model('usermodel');
-		 //$level = $this->session->userdata('level');
-		 $data['menu'] = $this->usermodel->get_menu_for_level($level);
-
-		 $this->auth->restrict();
-		 $this->auth->check_menu(1);
-
-		 $this->template->set('title','Manajemen Master Data | Aplikasi Monitoring Kendaraan Dinas');
-		 $this->template->load('template', 'admin/master', $data);
-	   }*/
-	   //End of function master
 	   
 	}
 	//End of class Home

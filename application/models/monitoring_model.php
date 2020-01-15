@@ -20,7 +20,12 @@ class Monitoring_model extends CI_Model {
 	
 	function reimburse()
     {
-		return $this->db->from('REIMBURSE')->count_all_results();
+		$Y = date('Y');
+		$this->db->select_sum('NOMINAL');
+		// $this->db->where(date('Y',strtotime('TGL_PEMBERIAN')), $Y);
+		$query = $this->db->get('REIMBURSE')->row();
+		return number_format($query->NOMINAL);
+		//return $this->db->from('REIMBURSE')->count_all_results();
     }
 	
 	function request()

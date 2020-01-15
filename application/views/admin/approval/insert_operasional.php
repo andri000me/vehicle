@@ -288,7 +288,6 @@ function hideComp(){
 							  <label class="col-sm-3 col-form-label">Lampiran</label>
 							  <div class="col-sm-9">
 								<div class="custom-file">
-								<!--<div class="form-group">-->
 								 <input type="file" class="file-input" id="lampiran" name="lampiran">
 								</div>
 							  </div>

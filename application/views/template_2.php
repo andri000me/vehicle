@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="<?php echo base_url();?>asset/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="<?php echo base_url();?>asset/css/material-kit.css?v=2.0.5" rel="stylesheet" />
+  <!--<link href="<?php echo base_url();?>asset/css/material-dashboard-pro.min.css?v=2.1.0" rel="stylesheet" />-->
   
   <!--   Core JS Files   -->
   <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
@@ -29,7 +30,8 @@
   <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
   <script src="<?php echo base_url();?>asset/js/plugins/nouislider.min.js" type="text/javascript"></script>
   <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
-  <script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>
+  <!--<script src="<?php echo base_url();?>asset/js/material-kit.js?v=2.0.5" type="text/javascript"></script>-->
+  <script src="<?php echo base_url();?>asset/js/material-dashboard-pro.min.js?v=2.1.0" type="text/javascript"></script>
    
    </head>
    
