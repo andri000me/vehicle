@@ -213,7 +213,7 @@ class Auth
       $allowed_level = $this->CI->usermodel->get_array_menu($idmenu);
       
       if(!in_array($status_user, $allowed_level))	 
-        die("Maaf, Anda tidak berhak untuk mengakses halaman ini.");	  
+        die("Maaf, Anda tidak berhak untuk mengakses halaman ini.".$status_user);	  
    }
    //End of function check_menu
    

@@ -227,12 +227,6 @@
 		
 		function edit_reimburse()
 		{
-			$this->load->model('usermodel');
-			$this->load->model('appr_admin_model');
-			
-			$this->auth->restrict();
-			$this->auth->check_menu(2);
-			  
 			$id		= $this->input->post('no_reimburse');
 			$id_rl	= $this->input->post('request_lama');
 			$id_rb	= $this->input->post('request_baru');
@@ -302,19 +296,20 @@
 			$text .= "telah dibuat/diupdate!! \n";
 			$text .= "Dengan detail penumpang sebagai berikut : \n";
 			$text .= "<pre>";
+			$text .= "No | Nama          | Tujuan | Penumpang | Berangkat \n";
 			$no=1;
 			foreach($detail as $z){
-				$text .= "No | Nama          | Tujuan | Penumpang | Berangkat \n";
-				$text .= "$no  | $z->NAMA | $z->TUJUAN | $z->PENUMPANG Orang | $z->TGL_BERANGKAT";
+				$text .= "$no  | $z->NAMA | $z->TUJUAN | $z->PENUMPANG Orang | $z->TGL_BERANGKAT \n";
 				$no++;
 			}
 			$text .= "</pre>";
 			$text .= "Mohon bantuan untuk mengantarkan karyawan sampai tujuan \n";
 			$text .= "Terima kasih";
-			$send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			$this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
+			// $send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->send();
 			// $send = $this->telegram->send->chat($chat_id)->text($text,"HTML")->inline_keyboard()->row()->button('BERANGKAT','start')->end_row()->show()->send();
-			$data['d'] = $send;
-			$this->load->view('api_telegram',$data);
+			// $data['d'] = $send;
+			// $this->load->view('api_telegram',$data);
 		}
 		
 		public function testx(){

@@ -9,7 +9,8 @@ class Report extends CI_Controller {
 		  $this->load->model('reportmodel');
 		   
 		  $this->auth->restrict();
-		  $this->auth->check_menu(4);
+		  // $this->auth->check_menu(4);
+		  $this->auth->check_menu(5);
 		  $this->load->library('form_validation');
 		  define('FPDF_FONTPATH',$this->config->item('fonts_path'));
 	   }

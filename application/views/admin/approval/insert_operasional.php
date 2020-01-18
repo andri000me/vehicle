@@ -1,11 +1,11 @@
 <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
+	var j;
 	$(document).on('click','.zadd',function(){ //Dynamic Span Event Click
-		var add=$(this).closest('td').children('span').attr('id');
-		var a=add.split("^");
+		j = document.getElementById("jenis").value;
+		var a=this.id.split("^");
 		// Tambahan Penyesuaian dari Select Option
-		var j = document.getElementById("jenis").value;
 		var ref;
 		if(j==1){
 			ref = document.getElementById('zdrop');
@@ -15,34 +15,49 @@ $(function(){
 				Swal.fire({
 				  icon: 'error',
 				  title: 'Oops...',
-				  text: 'Kendaraan sudah penuh!'
+				  html: 'Kendaraan sudah <b>penuh</b>!'
 				});
 			}else{
 				detail(ref,a,'zadd');
-				$(this).fadeOut(500,function(){
+				$(this).fadeOut(100,function(){
 					delRow(this,'ztable');
 				});
 				sum();
 			}
 		}else if(j==2){
 			ref = document.getElementById('zdrop2');
-			detail(ref,a,'zadd');
-			$(this).fadeOut(500,function(){
-					delRow(this,'ztable');
-			});
+			if(ref.rows.length>2){
+				Swal.fire({
+				  icon: 'error',
+				  title: 'Oops...',
+				  html: '<b>Pemohon</b> tidak boleh <b>lebih dari 1</b>!'
+				});
+			}else{
+				detail(ref,a,'zadd');
+				$(this).fadeOut(500,function(){
+						delRow(this,'ztable');
+				});
+			}
 		}else{
 			console.log(j);
 		}
 		// End Tambahan
 	});
 	$(document).on('click','.zdel',function(){ //Dynamic Span Event Click
-		var add=$(this).closest('td').children('span').attr('id');
-		var a=add.split("^");
+		j = document.getElementById("jenis").value;
+		var a=this.id.split("^");
 		var ref = document.getElementById('ztable');
 		detail(ref,a);
-		$(this).fadeOut(500,function(){
-			delRow(this,'zdrop');
-		});
+		if(j==1){
+			$(this).fadeOut(100,function(){
+				delRow(this,'zdrop');
+				sum();
+			});
+		}else{
+			$(this).fadeOut(100,function(){
+				delRow(this,'zdrop2');
+			});
+		}
 	});
 });
 // function detail(ref,a){
@@ -80,8 +95,6 @@ function sum(){
 		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
 		p += isNaN(cell) ? 0 : cell;
 	}
-	console.log("p :"+p+"cell :"+cell);
-	// document.getElementById('penumpang').value = "Jumlah Penumpang: "+p+" Orang";
 	document.getElementById('penumpang').value = p;
 }
 function delRow(a,table){
@@ -264,7 +277,7 @@ function hideComp(){
 							  <label class="col-sm-3 col-form-label">Keterangan</label>
 							  <div class="col-sm-9">
 								<div class="form-group">
-								 <input type="text" class="form-control" name="keterangan" required="true">
+								 <input type="text" class="form-control" name="keterangan" required>
 								</div>
 							  </div>
 							</div>
@@ -272,7 +285,7 @@ function hideComp(){
 							  <label class="col-sm-3 col-form-label">Nominal</label>
 							  <div class="col-sm-9">
 								<div class="form-group">
-								 <input type="text" class="form-control" name="nominal" number="true" required="true">
+								 <input type="text" class="form-control" name="nominal" number="true" required>
 								</div>
 							  </div>
 							</div>
@@ -288,7 +301,7 @@ function hideComp(){
 							  <label class="col-sm-3 col-form-label">Lampiran</label>
 							  <div class="col-sm-9">
 								<div class="custom-file">
-								 <input type="file" class="file-input" id="lampiran" name="lampiran">
+								 <input type="file" class="file-input" id="lampiran" name="lampiran" required>
 								</div>
 							  </div>
 							</div>

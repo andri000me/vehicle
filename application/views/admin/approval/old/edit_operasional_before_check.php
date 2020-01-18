@@ -17,7 +17,7 @@ $(function(){
 				Swal.fire({
 				  icon: 'error',
 				  title: 'Oops...',
-				  html: 'Kendaraan sudah <b>penuh</b>!'
+				  text: 'Kendaraan sudah penuh!'
 				});
 			}else{
 				detail(ref,a,'zadd');
@@ -28,53 +28,23 @@ $(function(){
 			}
 		}else if(j==2){
 			ref = document.getElementById('zdrop2');
-			if(ref.rows.length>2){
-				Swal.fire({
-				  icon: 'error',
-				  title: 'Oops...',
-				  html: '<b>Pemohon</b> tidak boleh <b>lebih dari 1</b>!'
-				});
-			}else{
-				detail(ref,a,'zadd');
-				$(this).fadeOut(500,function(){
-						delRow(this,'ztable');
-				});
-			}
-			
+			detail(ref,a,'zadd');
+			$(this).fadeOut(500,function(){
+					delRow(this,'ztable');
+			});
 		}else{
 			console.log(j);
 		}
 		// End Tambahan
 	});
 	$(document).on('click','.zdel',function(){
-		var j = document.getElementById("jenis").value;
 		var a=this.id.split("^");
 		var ref = document.getElementById('ztable');
 		detail(ref,a);
-		if(j==1){
-			$(this).fadeOut(100,function(){
-				delRow(this,'zdrop');
-				sum();
-			});
-		}else{
-			$(this).fadeOut(100,function(){
-				delRow(this,'zdrop2');
-			});
-		}
-	});
-	// onclick="return check_p('form',event)"
-	$('button[type=submit]').click(function(e){
-		var p = document.getElementById('penumpang').value;
-		if(p==0){
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				html: 'Data tidak bisa <b>disimpan</b>, <br> Harus ada <b>penumpang</b> pada transaksi!',
-				showConfirmButton: false,
-				timer: 5000
-			});
-			e.preventDefault();
-		}
+		$(this).fadeOut(500,function(){
+			delRow(this,'zdrop');
+			sum();
+		});
 	});
 });
 function detail(ref,a,z){
@@ -141,9 +111,8 @@ function delRow(a,table){
 			  </div>
 			</div>
 			<div class="col-md-7">
-			<?php if($j==1){?>
 			  <!------------------- EDIT OPERASIONAL -------------------->
-			  <div class="card">
+			  <div class="card" id="operasional">
 			    <div class="card-header card-header">
                   <h4 class="card-title">Operasional Kendaraan</h4>
                 </div>
@@ -271,135 +240,6 @@ function delRow(a,table){
 				<?php echo form_close();?>
 				</div>
 			  </div>
-			<?php }else{ ?>
-			<!-------------------------------- EDIT REIMBURSE  --------------------------------->
-			  <div class="card">
-			    <div class="card-header card-header">
-                  <h4 class="card-title">Operasional Reimburse</h4>
-                </div>
-				<div class="card-body">
-				<?php echo form_open_multipart('approval/edit_reimburse/'); ?>
-				 <div class="row">
-                    <div class="col-lg-3 col-md-4">
-                      <ul class="nav nav-pills nav-pills-warning flex-column" role="tablist">
-						<li class="nav-item">
-                          <a class="nav-link active" data-toggle="tab" href="#link_r" role="tablist">Reimburse</a>
-                        </li>
-						<li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link_d2" role="tablist">Details</a>
-                        </li>
-                      </ul>
-                    </div>
-					<div class="col-md-8">
-                      <div class="tab-content">
-                        <div class="tab-pane active" id="link_r">
-							<div class="row">
-							  <label class="col-sm-3 col-form-label">Nomor</label>
-							  <div class="col-sm-9">
-								<div class="form-group">
-								 <input type="text" class="form-control" name="no_reimburse" value="<?php echo $t->ID_REIMBURSE;?>" readonly>
-								</div>
-							  </div>
-							</div>
-							<div class="row">
-							  <label class="col-sm-3 col-form-label">Keterangan</label>
-							  <div class="col-sm-9">
-								<div class="form-group">
-								 <input type="text" class="form-control" name="keterangan" value="<?php echo $t->KETERANGAN;?>" required>
-								</div>
-							  </div>
-							</div>
-							<div class="row">
-							  <label class="col-sm-3 col-form-label">Nominal</label>
-							  <div class="col-sm-9">
-								<div class="form-group">
-								 <input type="text" class="form-control" name="nominal" value="<?php echo $t->NOMINAL;?>" required>
-								</div>
-							  </div>
-							</div>
-							<div class="row">
-							  <label class="col-sm-3 col-form-label">Tgl Pemberian</label>
-							  <div class="col-sm-9">
-								<div class="form-group">
-								 <input type="text" class="form-control berangkatpicker" name="tgl_pemberian" value="<?php echo $t->TGL_PEMBERIAN;?>">
-								</div>
-							  </div>
-							</div>
-							<div class="row">
-							  <label class="col-sm-3 col-form-label">Lampiran</label>
-							  <div class="col-sm-9">
-								<div class="custom-file">
-								 <input type="file" class="file-input" id="lampiran" name="lampiran" value="<?php echo $t->LAMPIRAN?>" required>
-								</div>
-							  </div>
-							</div>
-						</div>
-						<div class="tab-pane" id="link_d2">
-						 <div class="table-responsive">
-							<table class="table table-active" id="zdrop2">
-							 <thead>
-							  <tr>
-							   <th>#</th>
-							   <th>Pemohon</th>
-							   <th>Tujuan</th>
-							   <th>Penumpang</th>
-							  </tr>
-							 </thead>
-							 <tbody>
-							  <!--- Detail Lama-->
-							  <?php foreach($detail->result() as $l){ ?>
-							  <tr style="display:none" id="hidden">
-								<td>
-									<input type="hidden" name="request_lama[]" value="<?php echo $l->ID_REQUEST;?>"></a>
-								</td>
-								<td><?php echo $l->NAMA;?></td>
-								<td><?php echo $l->TUJUAN;?></td>
-								<td><?php echo $l->PENUMPANG;?></td>
-							  </tr>
-							  <?php } ?>
-							  <!-- End Detail Lama---->
-							  
-							  <!-- Detail Baru---->
-							  <?php foreach($detail->result() as $d){ ?>
-							  <tr>
-								<td>
-									<span class="zdel" id="<?php echo $d->ID_REQUEST;?>^<?php echo $d->NAMA;?>^<?php echo $d->TUJUAN;?>^<?php echo $d->PENUMPANG;?>">
-										<?php
-											echo "<a href='' onclick='return false;'> <i class='material-icons'>delete_forever</i></a>";
-										?>
-										<input type="hidden" name="request_baru[]" value="<?php echo $d->ID_REQUEST;?>">
-									</span>
-								</td>
-								<td><?php echo $d->NAMA;?></td>
-								<td><?php echo $d->TUJUAN;?></td>
-								<td><?php echo $d->PENUMPANG;?></td>
-							  </tr>
-							  <?php } ?>
-							  <!-- End Detail Baru-->
-							 </tbody>
-							</table>
-						 </div>
-						 <div class="form-group">
-						  <button class="btn btn-warning" type="submit">
-							  <span class="btn-label">
-								<i class="material-icons">done_all</i>
-							  </span>
-							  Update
-						  </button>
-						  <a href="<?php echo base_url()."approval";?>" class="btn btn-default">
-							<span class="btn-label">
-								<i class="material-icons">reply_all</i>
-							</span>Cancel
-						  </a>
-						 </div>
-						</div>
-					  </div>
-					</div>
-				 </div>
-				<?php echo form_close();?>
-				</div>
-			  </div>
-			<?php } ?>
 			</div>
 			
 			  <!-------------------------------- DETAILS  --------------------------------->

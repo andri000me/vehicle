@@ -11,15 +11,6 @@ $(function(){
 		document.getElementById('telegram').value = a[2];
 		$('#sEdit').val(a[3]).trigger('change');
 		document.getElementById('id').value = a[4];
-		// var opText = a[4], opVal = a[3];
-		// var f=$('#sEdit').find('option').length;
-		// if(f<=5){
-			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		// }else{
-			// $('#sEdit').find('option').get(0).remove();
-			// $('#sEdit').prepend('<option value='+opVal+' selected="selected">'+opText+'</option>');
-		// }
-		// console.log(opVal);
 	});
 });
 $(function(){
@@ -202,8 +193,10 @@ function hideEdit(){
 		  <div class="modal-content">
 		  <div class="card card-signup card-plain">
 			<div class="modal-header">
-			  <div class="card-header card-header-danger text-center">
-			    <i class="material-icons">clear</i>
+			  <div class="card-header card-header-danger card-header-icon">
+				<div class="card-icon">
+				 <i class="material-icons">clear</i>
+				</div>
 			  </div>
 			</div>
 			<div class="modal-body">
