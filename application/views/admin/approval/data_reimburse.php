@@ -1,15 +1,7 @@
 <script src="<?php echo base_url();?>asset/js/core/jquery.min.js"></script>
 <script type="text/javascript">
-$(function(){
-	$('#revise').click(function(){
-		var revisi=$(this).data('edit');
-		const zswal = Swal.mixin({
-			customClass: {
-				confirmButtonColor: 'btn btn-success',
-				cancelButtonColor: 'btn btn-danger',
-			}
-		});
-		zswal.fire({
+function pop(id){
+		Swal.fire({
 			title: 'Are you sure?',
 			// text: 'Transaksi reimburse akan direvisi',
 			text: 'Transaksi reimburse akan diedit',
@@ -18,7 +10,7 @@ $(function(){
 			confirmButtonText: 'Yes'
 		}).then((result)=>{
 			if(result.value){
-				zswal.fire(
+				Swal.fire(
 					// 'Revised',
 					'Edited',
 					// 'Transaksi sukses direvisi!',
@@ -27,13 +19,12 @@ $(function(){
 				).then(function(){
 					var url = window.location.origin;
 					var path = window.location.pathname;
-					var redirect = url+''+path+'/edit_trans/'+revisi;
+					var redirect = url+''+path+'/edit_trans/'+id;
 					window.location = redirect;
 				});
 			}
 		});
-	});
-});
+	}
 </script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 			<div class="card">
@@ -69,7 +60,7 @@ $(function(){
 								<td><?php echo $row->KEPERLUAN; ?></td>
 								<td><?php echo anchor('./upload/reimburse/'.$row->LAMPIRAN,$row->LAMPIRAN,array('target'=>'blank'));?></td>
 								<td>
-									<button id="revise" class="btn btn-warning btn-fab btn-round btn-sm" rel="tooltip" data-placement="top" title="Revise" data-edit="<?php echo $row->ID_REIMBURSE;?>">
+									<button class="btn btn-warning btn-fab btn-round btn-sm" rel="tooltip" data-placement="top" title="Edit" onclick="return pop('<?= $row->ID_REIMBURSE;?>');">
 										<i class="material-icons">update</i>
 									</button>
 								</td>

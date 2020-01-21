@@ -1,3 +1,42 @@
+<script src="<?php echo base_url();?>asset/js/core/jquery.min.js"></script>
+<script type="text/javascript">
+function pop(action,id){
+	var text, title, act;
+	switch (action){
+		case 'setuju':
+			text = 'Disetujui';
+			title = 'Approved';
+			act = 1;
+			break;
+		case 'tolak':
+			text = 'Ditolak';
+			title = 'Rejected';
+			act = 2;
+			break;
+	}
+	Swal.fire({
+		title: 'Are you sure?',
+		html: 'Permohonan E-FORM C akan <b>'+text+'</b>',
+		icon: 'info',
+		showCancelButton: true,
+		confirmButtonText: 'Yes'
+	}).then((result)=>{
+		if(result.value){
+			Swal.fire(
+				title,
+				'Permohonan E-FORM C sukses '+text,
+				'success'
+			).then(function(){
+				var url = window.location.origin;
+				var path = window.location.pathname;
+				var redirect = url+''+path+'/edit_approval/'+id+'/'+act;
+				window.location = redirect;
+				console.log(redirect);
+			});
+		}
+	});
+}
+</script>
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
 <!---------------------------------------------------------------------------------------------------------------------------->
 <div class="content">	
@@ -41,12 +80,14 @@
 								<td><?php echo $row->TUJUAN; ?></td>
 								<td><?php echo $row->KEPERLUAN; ?></td>
 								<td>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">
+									<!--<a href="<?php //echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/1';?>" class="btn btn-success btn-fab btn-round btn-sm">-->
+									<button class="btn btn-success btn-fab btn-round btn-sm" rel="tooltip" data-placement="top" title="Setujui" onclick="return pop('setuju','<?= $row->ID_REQUEST;?>');">
 										<i class="material-icons">spellcheck</i>
-									</a>
-									<a href="<?php echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">
+									</button>
+									<!--<a href="<?php //echo base_url().''.$this->uri->segment(0).'koreksi/edit_approval/'.$row->ID_REQUEST.'/2';?>" class="btn btn-danger btn-fab btn-round btn-sm">-->
+									<button class="btn btn-danger btn-fab btn-round btn-sm" rel="tooltip" data-placement="top" title="Tolak" onclick="return pop('tolak','<?= $row->ID_REQUEST;?>');">
 										<i class="material-icons">clear</i>
-									</a>
+									</button>
 								</td>
 							</tr>
 							<?php 

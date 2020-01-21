@@ -231,11 +231,18 @@
 			$id_rl	= $this->input->post('request_lama');
 			$id_rb	= $this->input->post('request_baru');
 			
+			if(!empty($_FILES['lampiran']['name'])){
+				$lampiran = $this->upload_file('lampiran');
+			}else{
+				$lampiran = $this->input->post('old_lampiran');
+			}
+			
 			$data = array(
 				'KETERANGAN'	=> $this->input->post('keterangan'),
 				'NOMINAL'		=> $this->input->post('nominal'),
 			 	'TGL_PEMBERIAN' => $this->input->post('tgl_pemberian'),
-				'LAMPIRAN'		=> $this->upload_file('lampiran')
+				// 'LAMPIRAN'		=> $this->upload_file('lampiran')
+				'LAMPIRAN'		=> $lampiran
 			);
 			
 			//Update header

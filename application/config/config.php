@@ -16,7 +16,7 @@
 */
 //$config['base_url']	= "http://".$_SERVER['SERVER_NAME'];
 //$config['base_url']	= "http://www.pjbservices.com:8449";
-//$config['base_url']	= 'http://localhost/kendaraan';
+// $config['base_url']	= 'http://localhost/kendaraan';
 
 //$root=(isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['HTTP_HOST'];
 //$root.= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);

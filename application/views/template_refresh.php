@@ -225,7 +225,7 @@
 	});
   //DataTables Js Initialization
     $(function() {
-        $('#dataTables-id').DataTable({
+        $('#dataTables-id,#ops').DataTable({
 			"pagingType": "full_numbers",
 			"lengthMenu": [
 			  [10, 25, 50, -1],

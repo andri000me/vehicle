@@ -40,13 +40,13 @@
                       <span class="nav-tabs-title">Tasks:</span>
                       <ul class="nav nav-tabs" data-tabs="tabs">
                         <li class="nav-item">
-                          <a class="nav-link active" href="#profile" data-toggle="tab">
+                          <a class="nav-link" href="#profile" data-toggle="tab">
                             <i class="material-icons">spellcheck</i> Request
                             <div class="ripple-container"></div>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#messages" data-toggle="tab">
+                          <a class="nav-link active" href="#messages" data-toggle="tab">
                             <i class="material-icons">chat</i> Peminjaman
                             <div class="ripple-container"></div>
                           </a>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="card-body">
                   <div class="tab-content">
-                    <div class="tab-pane active" id="profile">
+                    <div class="tab-pane" id="profile">
                       <table class="table">
                         <thead class="text-rose">
 						  <th>#</th>
@@ -88,14 +88,14 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="tab-pane" id="messages">
+                    <div class="tab-pane active" id="messages">
                       <table class="table">
                         <thead class="text-rose">
 						  <th>#</th>
-						  <th>Nama</th>
-						  <th>Keperluan</th>
 						  <th>Tujuan</th>
 						  <th>Berangkat</th>
+						  <th>Supir</th>
+						  <th>Kendaraan</th>
 						</thead>
 						<tbody>
 						<?php foreach($peminjaman->result() as $t){?>
@@ -110,10 +110,10 @@
                                 </label>
                               </div>
                             </td>
-                            <td><?php echo $t->NAMA;?></td>
-							<td><?php echo $t->KEPERLUAN;?></td>
 							<td><?php echo $t->TUJUAN;?></td>
 							<td><?php echo date('d-M-Y',strtotime($t->TGL_BERANGKAT));?></td>
+                            <td><?php echo $t->SUPIR;?></td>
+							<td><?php echo $t->KENDARAAN;?></td>
                           </tr>
                         <?php }?>
                         </tbody>

@@ -16,7 +16,7 @@
 	 {
 		 $table = check_trans($cek);
 		 $this->db->select("RIGHT(ID_$table,2) as kode", FALSE);
-		 $this->db->order_by("ID_$table",'ASC');    
+		 $this->db->order_by("ID_$table",'DESC');    
 		 $this->db->limit(1);    
 		 $query = $this->db->get($table);      //cek dulu apakah ada sudah ada kode di tabel.    
 		 if($query->num_rows() <> 0){      

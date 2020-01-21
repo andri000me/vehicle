@@ -22,7 +22,8 @@ $(function(){
 				$(this).fadeOut(100,function(){
 					delRow(this,'ztable');
 				});
-				sum();
+				// sum();
+				document.getElementById("penumpang").value = countx('zdrop');
 			}
 		}else if(j==2){
 			ref = document.getElementById('zdrop2');
@@ -35,7 +36,7 @@ $(function(){
 			}else{
 				detail(ref,a,'zadd');
 				$(this).fadeOut(500,function(){
-						delRow(this,'ztable');
+					delRow(this,'ztable');
 				});
 			}
 		}else{
@@ -51,7 +52,8 @@ $(function(){
 		if(j==1){
 			$(this).fadeOut(100,function(){
 				delRow(this,'zdrop');
-				sum();
+				// sum();
+				document.getElementById("penumpang").value = countx('zdrop');
 			});
 		}else{
 			$(this).fadeOut(100,function(){
@@ -59,7 +61,41 @@ $(function(){
 			});
 		}
 	});
+	// Penumpang Request Baru = 0
+	$('button[type=submit]').click(function(e){
+		j = document.getElementById("jenis").value;
+		var count;
+		if(j==1){
+			count = countx('zdrop');
+		}else{
+			count = countx('zdrop2');
+		}
+		prevent(count,e);
+	});
 });
+function prevent(c,e){
+	if(c==0){
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			html: 'Data tidak bisa <b>disimpan</b>, <br> Harus ada <b>penumpang</b> pada transaksi!',
+			showConfirmButton: false,
+			timer: 5000
+		});
+		e.preventDefault();
+	}
+}
+function countx(table){
+	var ref = document.getElementById(table).rows;
+	var p = 0;
+	for(var r = 0; r<ref.length; r++){
+		if(ref[r].id!='hidden'){
+			var cell = parseInt(ref[r].cells[3].innerHTML);
+			p += isNaN(cell) ? 0 : cell;
+		}
+	}
+	return p;
+}
 // function detail(ref,a){
 	// var row = ref.insertRow(-1);
 	// var html = '<a href="" onclick="return false;"><i class="material-icons">delete_forever</i></a><input type="hidden" name="request[]" value=';
@@ -75,7 +111,7 @@ function detail(ref,a,z){
 	if(z=='zadd'){
 		icon='delete_forever';
 		spin = '<span class="zdel" id="'+a[0]+'^'+a[1]+'^'+a[2]+'^'+a[3]+'">';
-		input='<input type="hidden" name="request_baru[]" value="'+a[0]+'">';
+		input='<input type="hidden" name="request[]" value="'+a[0]+'">';
 		html = '<a href="" onclick="return false;"><i class="material-icons">'+icon+'</i></a>';
 		row.insertCell(0).innerHTML = spin+html+input+spout;
 	}else{
@@ -88,15 +124,15 @@ function detail(ref,a,z){
 	row.insertCell(2).innerHTML = a[2];
 	row.insertCell(3).innerHTML = a[3];
 }
-function sum(){
-	var ref = document.getElementById('zdrop');
-	var p = 0;
-	for(var r = 0; r<ref.rows.length; r++){
-		var cell = parseInt(ref.rows[r].cells[3].innerHTML);
-		p += isNaN(cell) ? 0 : cell;
-	}
-	document.getElementById('penumpang').value = p;
-}
+// function sum(){
+	// var ref = document.getElementById('zdrop');
+	// var p = 0;
+	// for(var r = 0; r<ref.rows.length; r++){
+		// var cell = parseInt(ref.rows[r].cells[3].innerHTML);
+		// p += isNaN(cell) ? 0 : cell;
+	// }
+	// document.getElementById('penumpang').value = p;
+// }
 function delRow(a,table){
 	var i = a.parentNode.parentNode.rowIndex;
 	document.getElementById(table).deleteRow(i);
@@ -285,7 +321,7 @@ function hideComp(){
 							  <label class="col-sm-3 col-form-label">Nominal</label>
 							  <div class="col-sm-9">
 								<div class="form-group">
-								 <input type="text" class="form-control" name="nominal" number="true" required>
+								 <input type="number" class="form-control" name="nominal" required>
 								</div>
 							  </div>
 							</div>

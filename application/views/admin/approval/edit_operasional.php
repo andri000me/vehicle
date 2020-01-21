@@ -1,10 +1,7 @@
 <script src="<?php echo base_url();?>asset/js/core/jquery.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 $(function(){
-	// $('.zadd').click(function(){
 	$(document).on('click','.zadd',function(){ //Dynamic Span Event Click
-		// var add=$(this).closest('td').children('span').attr('id');
-		// var a=add.split("^");
 		var a=this.id.split("^");
 		// Tambahan Penyesuaian dari Select Option
 		var j = document.getElementById("jenis").value;
@@ -24,7 +21,7 @@ $(function(){
 				$(this).fadeOut(500,function(){
 					delRow(this,'ztable');
 				});
-				sum();
+				document.getElementById("penumpang").value = countx('zdrop');
 			}
 		}else if(j==2){
 			ref = document.getElementById('zdrop2');
@@ -37,7 +34,7 @@ $(function(){
 			}else{
 				detail(ref,a,'zadd');
 				$(this).fadeOut(500,function(){
-						delRow(this,'ztable');
+					delRow(this,'ztable');
 				});
 			}
 			
@@ -48,13 +45,14 @@ $(function(){
 	});
 	$(document).on('click','.zdel',function(){
 		var j = document.getElementById("jenis").value;
+		// var p = document.getElementById("penumpang").value;
 		var a=this.id.split("^");
 		var ref = document.getElementById('ztable');
 		detail(ref,a);
 		if(j==1){
 			$(this).fadeOut(100,function(){
 				delRow(this,'zdrop');
-				sum();
+				document.getElementById("penumpang").value = countx('zdrop');
 			});
 		}else{
 			$(this).fadeOut(100,function(){
@@ -62,21 +60,33 @@ $(function(){
 			});
 		}
 	});
-	// onclick="return check_p('form',event)"
+	// Penumpang Request Baru = 0
 	$('button[type=submit]').click(function(e){
-		var p = document.getElementById('penumpang').value;
-		if(p==0){
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				html: 'Data tidak bisa <b>disimpan</b>, <br> Harus ada <b>penumpang</b> pada transaksi!',
-				showConfirmButton: false,
-				timer: 5000
-			});
-			e.preventDefault();
+		var j = document.getElementById("jenis").value;
+		var count;
+		if(j==1){
+			count = countx('zdrop');
+		}else{
+			count = countx('zdrop2');
 		}
+		prevent(count,e);
 	});
 });
+function loadP(){
+	document.getElementById('penumpang').value = countx('zdrop');
+}
+function prevent(c,e){
+	if(c==0){
+		Swal.fire({
+			icon: 'error',
+			title: 'Oops...',
+			html: 'Data tidak bisa <b>disimpan</b>, <br> Harus ada <b>penumpang</b> pada transaksi!',
+			showConfirmButton: false,
+			timer: 5000
+		});
+		e.preventDefault();
+	}
+}
 function detail(ref,a,z){
 	var row = ref.insertRow(-1);
 	var spin, spout, icon, input, html;
@@ -97,8 +107,8 @@ function detail(ref,a,z){
 	row.insertCell(2).innerHTML = a[2];
 	row.insertCell(3).innerHTML = a[3];
 }
-function sum(){
-	var ref = document.getElementById('zdrop').rows;
+function countx(table){
+	var ref = document.getElementById(table).rows;
 	var p = 0;
 	for(var r = 0; r<ref.length; r++){
 		if(ref[r].id!='hidden'){
@@ -106,7 +116,7 @@ function sum(){
 			p += isNaN(cell) ? 0 : cell;
 		}
 	}
-	document.getElementById('penumpang').value = p;
+	return p;
 }
 function delRow(a,table){
 	var i = a.parentNode.parentNode.rowIndex;
@@ -158,7 +168,7 @@ function delRow(a,table){
                           <a class="nav-link active" data-toggle="tab" href="#link_k" role="tablist">Kendaraan</a>
                         </li>
 						<li class="nav-item">
-                          <a class="nav-link" data-toggle="tab" href="#link_d1" role="tablist" onclick="sum();">Details</a>
+                          <a class="nav-link" data-toggle="tab" href="#link_d1" role="tablist" onclick="return loadP();">Details</a>
                         </li>
                       </ul>
                     </div>
@@ -313,7 +323,7 @@ function delRow(a,table){
 							  <label class="col-sm-3 col-form-label">Nominal</label>
 							  <div class="col-sm-9">
 								<div class="form-group">
-								 <input type="text" class="form-control" name="nominal" value="<?php echo $t->NOMINAL;?>" required>
+								 <input type="number" class="form-control" name="nominal" value="<?php echo $t->NOMINAL;?>" required>
 								</div>
 							  </div>
 							</div>
@@ -329,7 +339,8 @@ function delRow(a,table){
 							  <label class="col-sm-3 col-form-label">Lampiran</label>
 							  <div class="col-sm-9">
 								<div class="custom-file">
-								 <input type="file" class="file-input" id="lampiran" name="lampiran" value="<?php echo $t->LAMPIRAN?>" required>
+								 <input type="hidden" name="old_lampiran" value="<?= $t->LAMPIRAN;?>"/>
+								 <input type="file" class="file-input" id="lampiran" name="lampiran"/>
 								</div>
 							  </div>
 							</div>

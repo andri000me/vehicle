@@ -53,5 +53,13 @@ class Monitoring_model extends CI_Model {
 		return $this->db->from('KENDARAAN')->count_all_results();        
     }
 	
+	function info($nid)
+    {
+		$stat = array(0,3);
+		$this->db->where('NID',$nid);
+		$this->db->where_not_in('STATUS',$stat);
+		$this->db->from('VIEW_REQUEST');
+        return $this->db->get();        
+    }
 }
 ?>

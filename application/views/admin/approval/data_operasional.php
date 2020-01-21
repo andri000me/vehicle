@@ -43,10 +43,9 @@ $(function(){
                 </div>
                 <div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-hover" id="opTable" style="width:100%">
+					<table class="table table-hover" id="ops" style="width:100%">
 						<thead class="text-primary">
 							<tr>
-								<th></th>
 								<th>No</th>
 								<th>Keterangan</th>
 								<th>Supir</th>
@@ -62,8 +61,7 @@ $(function(){
 								foreach($ops->result() as $row){
 							?>
 							<tr>
-								<td></td>
-								<td><?php echo $row->ID_PEMINJAMAN; ?></td>
+								<td><?= $row->ID_PEMINJAMAN; ?></td>
 								<td><?php echo $row->KETERANGAN; ?></td>
 								<td><?php echo $row->NAMA; ?></td>
 								<td><?php echo $row->NO_POLISI."- ".$row->NAMA_KENDARAAN; ?></td>

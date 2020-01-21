@@ -46,7 +46,8 @@
 				'request'	=> $this->requestmodel->get_request($nid),
 				'peminjaman'=> $this->requestmodel->show_operasional_user($nid),
 				'terpakai'	=> $this->monitoring_model->kendaraan_chart(2),
-				'tersedia'	=> $this->monitoring_model->kendaraan_chart(1)
+				'tersedia'	=> $this->monitoring_model->kendaraan_chart(1),
+				'info'		=> $this->monitoring_model->info($nid)
 			);
 		    //Set variabel $title
 		    $this->template->set('title', 'Sistem Informasi Pengelolaan Kendaraan Dinas');
@@ -56,7 +57,8 @@
 			else if($level == 2)
 			  $this->template->load('template_refresh', 'manajer/index', $data);
 			else if($level == 3)
-			  $this->template->load('template_refresh', 'manajer/index', $data);
+			  // $this->template->load('template_refresh', 'manajer/index', $data);
+			  $this->template->load('template_refresh', 'user/index', $data);
 			else
 			  $this->template->load('template_refresh', 'admin/index', $data);  
 			 //$this->load->view('admin/sukses');
